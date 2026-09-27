@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MSK Q Bank — Test 4 (Pharmacology)</title>
+<style>
+:root{
+  --bg:#f7f5f2; --card:#ffffff; --ink:#1f2328; --sub:#5b6168;
+  --accent:#6a4c93; --line:#e6e1da; --correct:#2f7d4f; --correct-bg:#e6f4ea;
+  --wrong:#b3382c; --wrong-bg:#fbeae7; --explain-bg:#f4f2ef;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171513; --card:#211e1b; --ink:#eee8e0; --sub:#aba296;
+    --accent:#c3a6f0; --line:#332e29; --correct:#7fd89e; --correct-bg:#183324;
+    --wrong:#f0a091; --wrong-bg:#3a201c; --explain-bg:#262220;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171513; --card:#211e1b; --ink:#eee8e0; --sub:#aba296;
+  --accent:#c3a6f0; --line:#332e29; --correct:#7fd89e; --correct-bg:#183324;
+  --wrong:#f0a091; --wrong-bg:#3a201c; --explain-bg:#262220;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:Georgia,'Iowan Old Style',ui-serif,serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+header{position:sticky; top:0; top:env(safe-area-inset-top,0px); background:var(--bg); border-bottom:1px solid var(--line);
+  padding:14px 20px 12px; z-index:5;}
+h1{margin:0; font-size:1.2rem;}
+.sub{color:var(--sub); font-size:.82rem; margin-top:3px; font-family:-apple-system,system-ui,sans-serif;}
+.scorebar{display:flex; align-items:center; gap:12px; margin-top:10px; font-family:-apple-system,system-ui,sans-serif; font-size:.82rem;}
+.scorebar .pill{border:1px solid var(--line); border-radius:20px; padding:4px 12px; background:var(--card);}
+.progress-track{flex:1; height:6px; background:var(--line); border-radius:4px; overflow:hidden;}
+.progress-fill{height:100%; background:var(--accent); width:0%; transition:width .2s;}
+button.ctrl{font-family:-apple-system,system-ui,sans-serif; font-size:.78rem; border:1px solid var(--line);
+  background:var(--card); color:var(--ink); padding:5px 12px; border-radius:20px; cursor:pointer;}
+main{max-width:720px; margin:0 auto; padding:16px 16px 60px;}
+.card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:12px;}
+.qnum{font-family:-apple-system,system-ui,sans-serif; font-size:.7rem; color:var(--sub); margin-bottom:6px;}
+.qtext{font-size:1rem; line-height:1.5; margin-bottom:12px;}
+.optwrap{margin-bottom:10px;}
+.opt{
+  display:block; width:100%; text-align:left; font-family:-apple-system,system-ui,sans-serif;
+  font-size:.92rem; padding:9px 12px; border-radius:8px 8px 0 0;
+  border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer;
+}
+.opt:active{transform:scale(.995);}
+.opt.correct{border-color:var(--correct); background:var(--correct-bg); color:var(--correct); font-weight:600;}
+.opt.wrong{border-color:var(--wrong); background:var(--wrong-bg); color:var(--wrong); font-weight:600;}
+.opt.disabled{cursor:default;}
+.explain{
+  display:none; font-family:-apple-system,system-ui,sans-serif; font-size:.82rem; line-height:1.45;
+  padding:8px 12px; border:1px solid var(--line); border-top:none; border-radius:0 0 8px 8px;
+  background:var(--explain-bg); color:var(--sub); margin-bottom:7px;
+}
+.explain.show{display:block;}
+.explain.ex-correct{color:var(--correct);}
+.result-tag{font-family:-apple-system,system-ui,sans-serif; font-size:.78rem; margin-top:2px; font-weight:600;}
+.result-tag.correct{color:var(--correct);}
+.result-tag.wrong{color:var(--wrong);}
+#finalCard{display:none; text-align:center; padding:28px 20px; margin:6px 0 24px;}
+#finalCard h2{margin:0 0 6px; font-size:1.6rem;}
+#finalCard .big{font-size:2.6rem; font-weight:700; color:var(--accent); margin:8px 0;}
+#finalCard .msg{font-family:-apple-system,system-ui,sans-serif; color:var(--sub); font-size:.9rem;}
+footer{text-align:center; color:var(--sub); font-family:-apple-system,system-ui,sans-serif; font-size:.75rem; padding:10px 0 30px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>MSK Q Bank — Test 4 (Pharmacology)</h1>
+  <div class="sub">Tap an option to answer. Every option — right and wrong — gets a one-line explanation. Score tallies at the bottom.</div>
+  <div class="scorebar">
+    <span class="pill" id="progressLabel">0 / 61 answered</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <button class="ctrl" onclick="resetQuiz()">Reset</button>
+  </div>
+</header>
+<main id="main"></main>
+<footer>61 unique questions · deduplicated from your pasted pharmacology set (9 exact repeats removed)</footer>
+
+<script>
+const items = [
+{q:"A 52-year-old man with acute gout is started on probenecid. Which transporter does this drug inhibit?",
+ o:["OAT1","URAT-1","OAT3","GLUT1","SGLT2"], a:1,
+ ex:["Not the primary target; probenecid's uricosuric action works via URAT-1, not OAT1.",
+     "Correct — probenecid blocks URAT-1, inhibiting uric acid reabsorption in the proximal tubule.",
+     "Not the specific mechanism tested; URAT-1 is the key uricosuric target here.",
+     "A glucose transporter, unrelated to uric acid handling.",
+     "A renal glucose cotransporter targeted by diabetes drugs, not urate transport."]},
+{q:"Which anti-TNF agent lacks the Fc portion?",
+ o:["Infliximab","Adalimumab","Golimumab","Certolizumab","Etanercept"], a:3,
+ ex:["A chimeric monoclonal antibody; it does have an Fc portion.",
+     "A fully human monoclonal antibody with an intact Fc portion.",
+     "A human monoclonal antibody with an Fc portion.",
+     "Correct — certolizumab is a PEGylated Fab' fragment and lacks the Fc region.",
+     "A fusion protein containing an Fc portion fused to a TNF receptor."]},
+{q:"A patient on cyclosporine for RA develops gingival hyperplasia. What is the mechanism of cyclosporine?",
+ o:["Binds cyclophilin and inhibits calcineurin","Inhibits dihydroorotate dehydrogenase","Blocks URAT-1 transporter","Inhibits xanthine oxidase","Blocks TNF-alpha receptor"], a:0,
+ ex:["Correct — cyclosporine binds cyclophilin, and this complex inhibits calcineurin, blocking T-cell activation.",
+     "This is leflunomide's mechanism, not cyclosporine's.",
+     "This is probenecid's mechanism for gout, unrelated to cyclosporine.",
+     "This is allopurinol/febuxostat's mechanism.",
+     "This describes etanercept, not cyclosporine."]},
+{q:"A 67-year-old female with osteoporosis is prescribed alendronate. What is the correct administration instruction?",
+ o:["Take with food at bedtime","Take on empty stomach and remain upright","Take with milk in the morning","Take with calcium supplement","Take with grapefruit juice"], a:1,
+ ex:["Food impairs bisphosphonate absorption, and lying down risks esophageal irritation.",
+     "Correct — must be taken on an empty stomach with water, staying upright for 30+ minutes to prevent esophagitis.",
+     "Calcium in milk binds bisphosphonates and blocks absorption.",
+     "Calcium significantly reduces alendronate absorption when taken together.",
+     "Grapefruit juice can alter drug metabolism and doesn't solve the absorption problem."]},
+{q:"Which medication is a prodrug converted to penciclovir?",
+ o:["Acyclovir","Valacyclovir","Famciclovir","Cidofovir","Foscarnet"], a:2,
+ ex:["The active drug itself, not a prodrug of penciclovir.",
+     "A prodrug of acyclovir, not penciclovir.",
+     "Correct — famciclovir is metabolized to its active form, penciclovir.",
+     "An active nucleotide analog, not a prodrug of penciclovir.",
+     "A pyrophosphate analog, unrelated to penciclovir metabolism."]},
+{q:"A 17-year-old with head lice is prescribed permethrin shampoo. How long should the shampoo be left on the scalp?",
+ o:["1 minute","5 minutes","10 minutes","20 minutes","30 minutes"], a:2,
+ ex:["Too short for adequate pediculicidal effect.",
+     "Shorter than the recommended contact time.",
+     "Correct — permethrin shampoo is left on for 10 minutes before rinsing.",
+     "Longer than the standard recommended duration.",
+     "Exceeds the recommended application time."]},
+{q:"A 6-year-old boy with cerebral palsy has spasticity. Which drug is a GABA-B receptor agonist?",
+ o:["Diazepam","Baclofen","Tizanidine","Dantrolene","Succinylcholine"], a:1,
+ ex:["A benzodiazepine that enhances GABA-A receptor activity, not GABA-B.",
+     "Correct — baclofen is a GABA-B receptor agonist that reduces the hyperactive stretch reflex.",
+     "An alpha-2 adrenergic agonist, not a GABA-B agonist.",
+     "Acts directly on skeletal muscle via ryanodine receptors, not GABA receptors.",
+     "A depolarizing neuromuscular blocker, unrelated to GABA receptors."]},
+{q:"A patient is started on succinylcholine for rapid endotracheal intubation. Which adverse effect is most concerning in a burn patient?",
+ o:["Hyperkalemia","Hypokalemia","Hypernatremia","Hypocalcemia","Hypercalcemia"], a:0,
+ ex:["Correct — succinylcholine triggers massive potassium release from upregulated extrajunctional receptors in burn patients, risking cardiac arrest.",
+     "The opposite occurs; succinylcholine causes potassium efflux, not depletion.",
+     "Not a recognized effect of succinylcholine.",
+     "Not associated with succinylcholine use.",
+     "Not a known succinylcholine effect."]},
+{q:"Which NSAID irreversibly inhibits COX by acetylating the enzyme?",
+ o:["Ibuprofen","Indomethacin","Aspirin","Celecoxib","Diclofenac"], a:2,
+ ex:["A reversible, competitive COX inhibitor.",
+     "A reversible, non-selective COX inhibitor.",
+     "Correct — aspirin irreversibly acetylates COX, permanently inactivating it for the platelet's lifespan.",
+     "A reversible, selective COX-2 inhibitor.",
+     "A reversible, non-selective COX inhibitor."]},
+{q:"A 26-year-old female with vaginal candidiasis is prescribed clotrimazole suppository. What is the mechanism of action?",
+ o:["Inhibition of DNA synthesis","Inhibition of ergosterol synthesis","Inhibition of protein synthesis","Inhibition of cell wall synthesis","Disruption of folate metabolism"], a:1,
+ ex:["Describes antivirals/antimetabolites, not azole antifungals.",
+     "Correct — clotrimazole inhibits fungal ergosterol synthesis, disrupting the cell membrane.",
+     "Describes antibiotics like macrolides/aminoglycosides.",
+     "Describes antibacterial beta-lactams; fungi are targeted differently by azoles.",
+     "Describes sulfonamides/trimethoprim, not azoles."]},
+{q:"A 50-year-old man with chronic gout is started on allopurinol. Which medication should be given concurrently to prevent an acute attack?",
+ o:["Probenecid","Colchicine","Rasburicase","Pegloticase","Febuxostat"], a:1,
+ ex:["A uricosuric, not typically co-started to prevent flares from urate-lowering therapy initiation.",
+     "Correct — colchicine (or an NSAID) is co-administered when starting urate-lowering therapy to prevent flare-ups.",
+     "Used for tumor lysis syndrome, not flare prophylaxis with allopurinol.",
+     "A separate urate-lowering biologic, not flare prophylaxis.",
+     "Another urate-lowering drug; wouldn't be added simply for flare prevention."]},
+{q:"A patient with myasthenia gravis should avoid which class of drugs?",
+ o:["Beta-blockers","Skeletal muscle relaxants","Calcium channel blockers","ACE inhibitors","Statins"], a:1,
+ ex:["Not specifically contraindicated in myasthenia gravis.",
+     "Correct — skeletal muscle relaxants worsen neuromuscular weakness and are contraindicated in myasthenia gravis.",
+     "Not a primary contraindication in myasthenia gravis.",
+     "Not associated with worsening myasthenia gravis.",
+     "Not classically contraindicated in myasthenia gravis."]},
+{q:"A 24-year-old with impetigo is prescribed mupirocin ointment. What is the application frequency?",
+ o:["Once daily for 3 days","Twice daily for 5 days","Three times a day for 7 days","Four times a day for 10 days","Once daily for 10 days"], a:2,
+ ex:["Under-dosed compared to the recommended regimen.",
+     "Less frequent/shorter than recommended.",
+     "Correct — mupirocin 2% ointment is applied three times daily for 7 days for impetigo.",
+     "More frequent/longer than the standard regimen.",
+     "Under-dosed frequency compared to standard."]},
+{q:"A 40-year-old male with tinea versicolor is infected with which organism?",
+ o:["Trichophyton rubrum","Malassezia globosa","Candida albicans","Microsporum canis","Epidermophyton floccosum"], a:1,
+ ex:["A dermatophyte causing tinea corporis/pedis, not tinea versicolor.",
+     "Correct — Malassezia globosa (a yeast) causes tinea (pityriasis) versicolor.",
+     "Causes candidiasis, not tinea versicolor.",
+     "A dermatophyte causing tinea capitis/corporis, not versicolor.",
+     "A dermatophyte causing tinea cruris/pedis, not versicolor."]},
+{q:"A 21-year-old with herpes zoster is prescribed acyclovir. What is the dosing regimen?",
+ o:["400 mg PO three times daily for 7 days","800 mg PO five times daily for 7-10 days","200 mg PO five times daily for 5 days","1 g PO twice daily for 10 days","500 mg PO four times daily for 7 days"], a:1,
+ ex:["This dose is used for HSV suppression/genital herpes, not the standard zoster regimen.",
+     "Correct — 800 mg five times daily for 7-10 days is the standard oral acyclovir regimen for herpes zoster.",
+     "This lower dose/duration is used for primary genital HSV, not zoster.",
+     "Not the standard acyclovir regimen for zoster.",
+     "Not the standard acyclovir zoster regimen."]},
+{q:"A 15-year-old with scabies is prescribed permethrin cream. How should it be applied?",
+ o:["Only to affected areas","From neck down","From head to toe and leave on for 8-14 hours","Apply and rinse immediately","Apply twice daily for 3 days"], a:2,
+ ex:["Scabies treatment requires whole-body application, not spot treatment.",
+     "Incomplete coverage compared to the standard head-to-toe application.",
+     "Correct — permethrin cream is applied from head to toe and left on for 8-14 hours before rinsing.",
+     "Immediate rinsing would prevent adequate mite exposure and kill.",
+     "Not the standard single-application regimen for scabies."]},
+{q:"Which selective COX-2 inhibitor was withdrawn from the market?",
+ o:["Celecoxib","Etoricoxib","Rofecoxib","Valdecoxib","Indomethacin"], a:2,
+ ex:["Remains on the market; not withdrawn.",
+     "Available in many markets; not the classic withdrawal case.",
+     "Correct — rofecoxib (Vioxx) was withdrawn due to increased cardiovascular thrombotic events.",
+     "Also withdrawn for safety concerns, but the classic case referenced here is rofecoxib.",
+     "A non-selective NSAID, never withdrawn for this reason."]},
+{q:"A patient with acetaminophen overdose is treated with which antidote?",
+ o:["N-acetylcysteine","Flumazenil","Naloxone","Atropine","Sodium bicarbonate"], a:0,
+ ex:["Correct — N-acetylcysteine replenishes glutathione stores and prevents hepatotoxic metabolite accumulation.",
+     "Reverses benzodiazepine overdose, not acetaminophen toxicity.",
+     "Reverses opioid overdose, unrelated to acetaminophen toxicity.",
+     "Used for cholinergic toxicity, not acetaminophen overdose.",
+     "Used in salicylate or TCA overdose, not acetaminophen toxicity."]},
+{q:"A patient with aspirin overdose initially has respiratory alkalosis, followed by metabolic acidosis. This is characteristic of which condition?",
+ o:["Acute renal failure","Salicylate poisoning","Reye syndrome","Hepatic failure","Anaphylaxis"], a:1,
+ ex:["Doesn't classically present with this specific respiratory-then-metabolic acid-base pattern.",
+     "Correct — salicylate poisoning classically causes early respiratory alkalosis followed by metabolic acidosis.",
+     "A complication of aspirin use in children with viral illness, not this acid-base pattern itself.",
+     "Not classically characterized by this specific acid-base sequence.",
+     "Presents with different symptoms (hypotension, urticaria), not this acid-base pattern."]},
+{q:"Which drug is used for the treatment of malignant hyperthermia?",
+ o:["Baclofen","Dantrolene","Tizanidine","Diazepam","Botulinum toxin"], a:1,
+ ex:["Used for spasticity, not malignant hyperthermia.",
+     "Correct — dantrolene blocks ryanodine receptor-mediated calcium release, treating malignant hyperthermia.",
+     "Used for spasticity, not malignant hyperthermia.",
+     "A benzodiazepine, not the definitive malignant hyperthermia treatment.",
+     "Used for focal spasticity, not an emergency malignant hyperthermia treatment."]},
+{q:"Which spasmolytic is a focal agent that targets the neuromuscular junction directly?",
+ o:["Baclofen","Diazepam","Tizanidine","Botulinum toxin","Dantrolene"], a:3,
+ ex:["Acts centrally at GABA-B receptors in the spinal cord, not the NMJ.",
+     "Acts on GABA-A receptors centrally, not the NMJ.",
+     "Acts centrally as an alpha-2 agonist, not the NMJ.",
+     "Correct — botulinum toxin acts directly at the neuromuscular junction, blocking ACh release.",
+     "Acts on the sarcoplasmic reticulum within muscle fibers, not the NMJ itself."]},
+{q:"A patient has prolonged apnea after succinylcholine due to a genetic deficiency. Which enzyme is deficient?",
+ o:["Plasma pseudocholinesterase","Acetylcholinesterase","CYP450","Monoamine oxidase","Catechol-O-methyltransferase"], a:0,
+ ex:["Correct — deficiency of plasma pseudocholinesterase prevents normal succinylcholine hydrolysis, causing prolonged paralysis/apnea.",
+     "Terminates ACh at synapses; not the enzyme that metabolizes succinylcholine.",
+     "Not involved in succinylcholine metabolism.",
+     "Metabolizes monoamine neurotransmitters, unrelated to succinylcholine.",
+     "Metabolizes catecholamines, unrelated to succinylcholine."]},
+{q:"Which agent terminates the action of rocuronium and vecuronium by forming a tight encapsulation complex?",
+ o:["Neostigmine","Edrophonium","Sugammadex","Atropine","Pralidoxime"], a:2,
+ ex:["Reverses non-depolarizing blockade by inhibiting acetylcholinesterase, not by encapsulation.",
+     "A short-acting acetylcholinesterase inhibitor, not an encapsulating agent.",
+     "Correct — sugammadex forms a tight inclusion complex that encapsulates rocuronium/vecuronium, terminating their action.",
+     "An antimuscarinic given alongside neostigmine; doesn't reverse blockade itself.",
+     "Reactivates acetylcholinesterase in organophosphate poisoning, unrelated to rocuronium reversal."]},
+{q:"A 17-year-old bitten by a cat is prescribed which antibiotic?",
+ o:["Amoxicillin","Amoxicillin-clavulanate","Cephalexin","Doxycycline","Azithromycin"], a:1,
+ ex:["Alone doesn't reliably cover beta-lactamase producing Pasteurella; clavulanate broadens coverage.",
+     "Correct — amoxicillin-clavulanate covers Pasteurella multocida and anaerobes typical of cat bite wounds.",
+     "Has poor activity against Pasteurella multocida.",
+     "An alternative in penicillin-allergic patients, not the first-line choice here.",
+     "Not the preferred first-line agent for cat bite prophylaxis."]},
+{q:"Which part of a prescription contains the name and strength of the drug?",
+ o:["Superscription","Inscription","Subscription","Signature","Date"], a:1,
+ ex:["Contains the Rx symbol/patient info, not the drug name/strength.",
+     "Correct — the inscription lists the drug name and strength.",
+     "Contains dispensing instructions (e.g., quantity, refills), not the drug name.",
+     "Contains directions for the patient on how to take the drug.",
+     "Simply records when the prescription was written."]},
+{q:"Which part of the prescription includes the child-proof container instruction?",
+ o:["Superscription","Inscription","Subscription","Signature","Date"], a:2,
+ ex:["Contains the Rx symbol and patient demographics.",
+     "Contains the drug name and strength, not dispensing instructions.",
+     "Correct — the subscription includes dispensing instructions like refills and child-proof container requirements.",
+     "Contains patient directions for use (the \"Sig\").",
+     "Simply the date the prescription was written."]},
+{q:"A 34-year-old male presents with fever, headache, and myalgia. What is the recommended dosing interval for paracetamol?",
+ o:["Every 4 hours","Every 6 hours","Every 8 hours","Every 12 hours","Once daily"], a:1,
+ ex:["More frequent than the specified interval.",
+     "Correct — the prescription specifies taking one tablet every 6 hours until symptoms subside.",
+     "Less frequent than specified.",
+     "Less frequent than specified.",
+     "Far less frequent than the prescribed regimen."]},
+{q:"Which vaccine is contraindicated in pregnancy?",
+ o:["Influenza vaccine","Tetanus vaccine","Varicella-zoster vaccine","Hepatitis B vaccine","COVID-19 vaccine"], a:2,
+ ex:["The inactivated flu vaccine is actually recommended in pregnancy.",
+     "Recommended in pregnancy (e.g., Tdap).",
+     "Correct — varicella-zoster is a live attenuated vaccine and is contraindicated in pregnancy.",
+     "Considered safe in pregnancy.",
+     "Generally recommended and not a live vaccine; considered safe in pregnancy."]},
+{q:"A patient with postherpetic neuralgia does not respond to gabapentin. Which other oral medication is widely used?",
+ o:["Lidocaine patches","Tricyclic antidepressants","Capsaicin cream","Epidural corticosteroids","Foscarnet"], a:1,
+ ex:["A useful topical adjunct, but not the oral alternative referenced here.",
+     "Correct — oral tricyclic antidepressants are a widely used alternative for postherpetic neuralgia.",
+     "Also topical; the question specifies an oral medication.",
+     "Not a standard oral first-line option for postherpetic neuralgia.",
+     "An antiviral, not used for neuralgia pain management."]},
+{q:"Which treatment for molluscum contagiosum is described as a safe and effective option?",
+ o:["Cantharidin","Salicylic acid","Podophyllotoxin","Tretinoin","Imiquimod"], a:0,
+ ex:["Correct — cantharidin is described as a safe and effective office-based treatment for molluscum contagiosum.",
+     "Used for warts, not the specifically highlighted molluscum treatment here.",
+     "Used for genital warts, not molluscum contagiosum.",
+     "A retinoid used for acne/skin conditions, not a standard molluscum therapy.",
+     "Used mainly for warts, not the answer highlighted for molluscum here."]},
+{q:"Warts are caused by which virus?",
+ o:["HPV","HSV","VZV","Poxvirus","HIV"], a:0,
+ ex:["Correct — warts (verrucae) are caused by human papillomavirus.",
+     "Causes herpes lesions, not warts.",
+     "Causes chickenpox/shingles, not warts.",
+     "Causes molluscum contagiosum, not warts.",
+     "Causes immunodeficiency, not warts directly."]},
+{q:"Which drug is a 5% cream that acts as a local interferon inducer for warts?",
+ o:["Podophyllum resin","Imiquimod","Salicylic acid","Cantharidin","Tretinoin"], a:1,
+ ex:["A cytotoxic antimitotic agent, not an interferon inducer.",
+     "Correct — imiquimod 5% cream acts as a local interferon inducer, stimulating immune-mediated clearance of warts.",
+     "Works by keratolysis, not immune stimulation.",
+     "Works by blistering the lesion, not interferon induction.",
+     "A retinoid affecting keratinization, not an interferon inducer."]},
+{q:"Which antiviral is recommended for VZV pneumonia in pregnancy?",
+ o:["Oral acyclovir","Intravenous acyclovir","Oral valacyclovir","Oral famciclovir","Topical acyclovir"], a:1,
+ ex:["Insufficient for severe VZV pneumonia; IV therapy is needed.",
+     "Correct — intravenous acyclovir is recommended for VZV pneumonia given its severity.",
+     "Also insufficient for this severe presentation.",
+     "Not the recommended route/severity-appropriate choice here.",
+     "Inappropriate for a systemic/pulmonary infection."]},
+{q:"What is the mechanism of action of colchicine?",
+ o:["Inhibits xanthine oxidase","Inhibits granulocyte migration","Blocks urate transporter","Oxidizes uric acid","Inhibits cyclooxygenase"], a:1,
+ ex:["This is allopurinol/febuxostat's mechanism.",
+     "Correct — colchicine inhibits microtubule polymerization, impairing granulocyte migration and phagocytosis of urate crystals.",
+     "This describes probenecid's mechanism.",
+     "This describes uricase enzymes like rasburicase/pegloticase.",
+     "This describes NSAIDs, not colchicine."]},
+{q:"What is the fatal dose of colchicine?",
+ o:["1-2 mg","3-5 mg","7-10 mg","15-20 mg","25-30 mg"], a:2,
+ ex:["Below the cited fatal dose range.",
+     "Below the cited fatal dose range.",
+     "Correct — the fatal dose of colchicine is cited as 7-10 mg.",
+     "Above the cited fatal dose range.",
+     "Well above the cited fatal dose range."]},
+{q:"Which enzyme metabolizes colchicine?",
+ o:["CYP2D6","CYP3A4","CYP2C9","CYP1A2","CYP2E1"], a:1,
+ ex:["Not the primary enzyme metabolizing colchicine.",
+     "Correct — colchicine is metabolized primarily by CYP3A4.",
+     "Not the primary colchicine-metabolizing enzyme.",
+     "Not involved in colchicine metabolism here.",
+     "Not the enzyme responsible for colchicine metabolism."]},
+{q:"Probenecid inhibits urinary excretion of which drug?",
+ o:["Allopurinol","Colchicine","Penicillin","Febuxostat","Losartan"], a:2,
+ ex:["Not the classic drug whose excretion probenecid blocks.",
+     "Not the drug referenced for this interaction.",
+     "Correct — probenecid inhibits renal tubular secretion of penicillin (and similar drugs), prolonging their action.",
+     "Not the drug referenced for this excretion interaction.",
+     "Not relevant to this probenecid interaction."]},
+{q:"Allopurinol inhibits degradation of which drug?",
+ o:["Penicillin","Warfarin","Probenecid","Colchicine","Losartan"], a:1,
+ ex:["Not affected by allopurinol's enzyme inhibition.",
+     "Correct — allopurinol inhibits xanthine oxidase-mediated metabolism, prolonging effects of warfarin (and 6-MP, azathioprine, theophylline).",
+     "Not a drug degraded via the pathway allopurinol inhibits.",
+     "Not metabolized via the pathway allopurinol affects here.",
+     "Not part of this interaction."]},
+{q:"Which adverse effect is associated with allopurinol?",
+ o:["Hypersensitivity reaction","Nephrotoxicity","Cardiotoxicity","Pulmonary fibrosis","Optic neuritis"], a:0,
+ ex:["Correct — allopurinol hypersensitivity reaction (including severe skin reactions) is a well-known adverse effect.",
+     "Not the classically highlighted allopurinol adverse effect here.",
+     "Not a typical allopurinol adverse effect.",
+     "Not associated with allopurinol.",
+     "Not a recognized allopurinol adverse effect."]},
+{q:"Febuxostat is classified as which type of xanthine oxidase inhibitor?",
+ o:["Purine analogue","Non-purine","Purine agonist","Nucleoside","Pyrimidine analogue"], a:1,
+ ex:["This describes allopurinol, not febuxostat.",
+     "Correct — febuxostat is a non-purine selective xanthine oxidase inhibitor.",
+     "Not an accurate pharmacologic classification.",
+     "Not the correct classification for febuxostat.",
+     "Not the correct classification for febuxostat."]},
+{q:"Which genetic marker is associated with severe hypersensitivity to allopurinol?",
+ o:["HLA-B27","HLA-B57","HLA-B58","HLA-DR4","HLA-DQ2"], a:2,
+ ex:["Associated with ankylosing spondylitis, not allopurinol hypersensitivity.",
+     "Associated with abacavir hypersensitivity, not allopurinol.",
+     "Correct — HLA-B58:01 is strongly associated with severe allopurinol hypersensitivity reactions.",
+     "Associated with rheumatoid arthritis susceptibility, not this drug reaction.",
+     "Associated with celiac disease, not allopurinol hypersensitivity."]},
+{q:"Pegloticase is what type of drug?",
+ o:["Xanthine oxidase inhibitor","Uricosuric agent","Recombinant uricase","Purine analogue","Microtubule inhibitor"], a:2,
+ ex:["This describes allopurinol/febuxostat, not pegloticase.",
+     "This describes probenecid, not pegloticase.",
+     "Correct — pegloticase is a PEGylated recombinant uricase enzyme that degrades uric acid.",
+     "Not the correct classification for pegloticase.",
+     "This describes colchicine, not pegloticase."]},
+{q:"What is the main use of rasburicase?",
+ o:["Chronic gout","Tumor lysis syndrome","Acute gout","Pseudogout","Rheumatoid arthritis"], a:1,
+ ex:["Not the primary indication for rasburicase.",
+     "Correct — rasburicase is used to manage/prevent hyperuricemia in tumor lysis syndrome.",
+     "Not the standard indication for rasburicase.",
+     "Not treated with rasburicase.",
+     "Not an indication for rasburicase."]},
+{q:"Rasburicase is contraindicated in patients with which deficiency?",
+ o:["G6PD deficiency","ADA deficiency","PNP deficiency","HGPRT deficiency","APRT deficiency"], a:0,
+ ex:["Correct — rasburicase can cause severe hemolysis in G6PD-deficient patients and is contraindicated.",
+     "Not the specific contraindication for rasburicase.",
+     "Not the specific contraindication for rasburicase.",
+     "Associated with Lesch-Nyhan syndrome, not a rasburicase contraindication.",
+     "Not the recognized rasburicase contraindication."]},
+{q:"Which anti-TNF agent does NOT induce apoptosis of cells expressing membrane-bound TNF?",
+ o:["Infliximab","Adalimumab","Golimumab","Certolizumab","Etanercept"], a:3,
+ ex:["Known to induce apoptosis of cells expressing membrane TNF.",
+     "Also induces apoptosis of TNF-expressing cells.",
+     "Similarly capable of inducing apoptosis via Fc-mediated mechanisms.",
+     "Correct — certolizumab, lacking an Fc region, does not induce apoptosis of membrane-TNF-expressing cells.",
+     "Functions differently as a receptor fusion protein, but is not the answer highlighted here."]},
+{q:"Anakinra acts as an antagonist at which receptor?",
+ o:["TNF-alpha receptor","IL-1 receptor","IL-6 receptor","T-cell receptor","B-cell receptor"], a:1,
+ ex:["This is the target of etanercept, not anakinra.",
+     "Correct — anakinra is a recombinant IL-1 receptor antagonist.",
+     "This is the target of tocilizumab, not anakinra.",
+     "Not the target of anakinra.",
+     "Not the target of anakinra."]},
+{q:"A patient on methotrexate for RA requires laboratory monitoring. How often should monitoring be performed?",
+ o:["Daily","Every 4–8 weeks","Every 6 months","Yearly","Only if symptomatic"], a:1,
+ ex:["Far too frequent for routine methotrexate monitoring.",
+     "Correct — methotrexate requires lab monitoring (CBC, LFTs) roughly every 4-8 weeks.",
+     "Too infrequent for adequate methotrexate safety monitoring.",
+     "Far too infrequent for methotrexate's toxicity risk profile.",
+     "Inadequate; routine monitoring is required regardless of symptoms."]},
+{q:"Cyclosporine use in RA is associated with increased incidence of which malignancies?",
+ o:["Colon and pancreatic cancer","Lymphoma and skin cancer","Lung and breast cancer","Prostate and thyroid cancer","Leukemia and myeloma"], a:1,
+ ex:["Not the malignancies classically linked to cyclosporine.",
+     "Correct — cyclosporine immunosuppression increases risk of lymphoma and skin cancers (including Kaposi's sarcoma).",
+     "Not the classic cyclosporine-associated malignancies.",
+     "Not linked to cyclosporine use.",
+     "Not the specifically cited cyclosporine-associated malignancies."]},
+{q:"What is an advantage of cyclosporine compared with many other DMARDs?",
+ o:["Little bone marrow suppression","No nephrotoxicity","No risk of lymphoma","No need for monitoring","No drug interactions"], a:0,
+ ex:["Correct — unlike many DMARDs, cyclosporine causes very little bone marrow suppression.",
+     "Incorrect; nephrotoxicity is actually a major cyclosporine concern.",
+     "Incorrect; cyclosporine does carry lymphoma risk.",
+     "Incorrect; cyclosporine still requires monitoring (renal function, blood pressure).",
+     "Incorrect; cyclosporine has significant drug interactions."]},
+{q:"A patient receiving infliximab develops diminished therapeutic response over time. What is the most likely cause?",
+ o:["Human antibodies to infliximab","Development of tolerance to TNF","Loss of TNF receptors","Renal failure","Hepatic failure"], a:0,
+ ex:["Correct — development of human anti-chimeric antibodies against infliximab reduces its efficacy over time.",
+     "Not the mechanism described for infliximab's reduced efficacy.",
+     "Not the mechanism responsible for this clinical scenario.",
+     "Not directly the cause of diminished infliximab response.",
+     "Not directly the cause of diminished infliximab response."]},
+{q:"Which NSAID is used for closure of ductus arteriosus in newborns?",
+ o:["Aspirin","Ibuprofen","Indomethacin","Diclofenac","Celecoxib"], a:2,
+ ex:["Not the standard drug used for PDA closure in neonates.",
+     "Also used for PDA closure in some protocols, but indomethacin is the classic answer here.",
+     "Correct — indomethacin promotes closure of a patent ductus arteriosus in premature infants.",
+     "Not used for PDA closure.",
+     "Not used for PDA closure."]},
+{q:"Why does paracetamol have weak anti-inflammatory activity compared with aspirin?",
+ o:["It inhibits COX-2 selectively","It has poor ability to inhibit COX","It inhibits lipoxygenase strongly","It blocks prostaglandin receptors","It increases TXA2 formation"], a:1,
+ ex:["Not accurate; paracetamol's COX selectivity isn't the basis for its weak anti-inflammatory effect.",
+     "Correct — paracetamol has poor ability to inhibit COX, especially in peripheral tissues, limiting its anti-inflammatory action.",
+     "Not the mechanism described for paracetamol.",
+     "Not paracetamol's mechanism.",
+     "Not a paracetamol effect."]},
+{q:"What is the loading dose of leflunomide?",
+ o:["10 mg daily for 3 days","20 mg daily for 3 days","100 mg daily for 3 days","200 mg daily for 3 days","500 mg once"], a:2,
+ ex:["Far below the actual loading dose.",
+     "This is closer to the maintenance dose, not the loading dose.",
+     "Correct — leflunomide loading dose is 100 mg daily for 3 days.",
+     "Higher than the actual loading dose.",
+     "Not the correct loading regimen."]},
+{q:"Leflunomide inhibits which key enzyme?",
+ o:["Cyclooxygenase-2","Dihydroorotate dehydrogenase","Calcineurin","TNF-alpha convertase","IL-1 receptor"], a:1,
+ ex:["This is the target of NSAIDs/coxibs, not leflunomide.",
+     "Correct — leflunomide inhibits dihydroorotate dehydrogenase, blocking pyrimidine synthesis in activated lymphocytes.",
+     "This is the target of cyclosporine/tacrolimus, not leflunomide.",
+     "Not leflunomide's mechanism.",
+     "This is the target of anakinra, not leflunomide."]},
+{q:"Which drug is a prodrug converted to acyclovir?",
+ o:["Famciclovir","Valacyclovir","Cidofovir","Foscarnet","Ganciclovir"], a:1,
+ ex:["A prodrug of penciclovir, not acyclovir.",
+     "Correct — valacyclovir is the L-valine ester prodrug of acyclovir, improving oral bioavailability.",
+     "An active nucleotide analog, not a prodrug of acyclovir.",
+     "A pyrophosphate analog, unrelated to acyclovir metabolism.",
+     "A separate antiviral used mainly for CMV, not a prodrug of acyclovir."]},
+{q:"A 25-year-old woman presents with oral herpes simplex. She is prescribed valacyclovir. What is the dosing schedule?",
+ o:["500 mg three times daily for 5 days","2 grams stat then 2 grams after 12 hours","1 gram twice daily for 7 days","400 mg three times daily for 10 days","800 mg five times daily for 7 days"], a:1,
+ ex:["Not the specific regimen described in the source.",
+     "Correct — the prescription specifies 2 grams stat, then 2 grams after 12 hours.",
+     "Not the regimen given in the source.",
+     "Resembles a suppressive acyclovir-type regimen, not this valacyclovir dosing.",
+     "This is an acyclovir zoster-type regimen, not this valacyclovir dosing."]},
+{q:"Which drug is a fusion protein rather than a monoclonal antibody?",
+ o:["Infliximab","Adalimumab","Etanercept","Golimumab","Certolizumab"], a:2,
+ ex:["A chimeric monoclonal antibody, not a fusion protein.",
+     "A fully human monoclonal antibody, not a fusion protein.",
+     "Correct — etanercept is a fusion protein combining the TNF receptor with an Fc fragment.",
+     "A human monoclonal antibody, not a fusion protein.",
+     "A PEGylated Fab' fragment, not a fusion protein."]},
+{q:"A patient on cyclosporine develops nephrotoxicity. Which adverse effect is also associated with cyclosporine?",
+ o:["Gingival hyperplasia","Pulmonary fibrosis","Aplastic anemia","Optic neuritis","Pancreatitis"], a:0,
+ ex:["Correct — gingival hyperplasia is a recognized cyclosporine adverse effect, alongside nephrotoxicity and hirsutism.",
+     "Not a classic cyclosporine adverse effect.",
+     "Not typical of cyclosporine, which causes little marrow suppression.",
+     "Not associated with cyclosporine.",
+     "Not a classic cyclosporine adverse effect."]},
+{q:"Which spasmolytic provides sedation, analgesia, muscle relaxation, and anxiolysis?",
+ o:["Baclofen","Diazepam","Tizanidine","Dantrolene","Botulinum toxin"], a:2,
+ ex:["A GABA-B agonist; doesn't provide this specific alpha-2-mediated profile.",
+     "A benzodiazepine acting on GABA-A receptors, a different mechanism.",
+     "Correct — tizanidine is an alpha-2 adrenergic agonist providing sedation, analgesia, muscle relaxation, and anxiolysis.",
+     "Acts peripherally on muscle, not centrally like tizanidine.",
+     "Acts locally at the NMJ, not systemically like tizanidine."]},
+{q:"Which neuromuscular blocker is metabolized by plasma cholinesterase?",
+ o:["Pancuronium","Vecuronium","Mivacurium","Rocuronium","d-Tubocurarine"], a:2,
+ ex:["Primarily eliminated renally, not by plasma cholinesterase.",
+     "Metabolized hepatically, not by plasma cholinesterase.",
+     "Correct — mivacurium (like succinylcholine) is metabolized by plasma cholinesterase.",
+     "Eliminated primarily hepatically/biliary, not via plasma cholinesterase.",
+     "Eliminated renally, not via plasma cholinesterase."]},
+{q:"What is the mechanism of action of botulinum toxin?",
+ o:["Blocks acetylcholine receptors","Inhibits release of acetylcholine from presynaptic terminals","Blocks sodium channels","Increases GABA activity","Blocks ryanodine receptors"], a:1,
+ ex:["Describes non-depolarizing NMB drugs, not botulinum toxin.",
+     "Correct — botulinum toxin inhibits presynaptic acetylcholine release at the neuromuscular junction.",
+     "Describes local anesthetics, not botulinum toxin.",
+     "Describes benzodiazepines/baclofen-type drugs, not botulinum toxin.",
+     "Describes dantrolene's mechanism, not botulinum toxin."]},
+];
+
+const letters = ["A","B","C","D","E"];
+const main = document.getElementById('main');
+let total = 0, answered = 0, correctCount = 0;
+
+items.forEach(item => {
+  total++;
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const num = document.createElement('div');
+  num.className = 'qnum';
+  num.textContent = 'Q' + total;
+  card.appendChild(num);
+
+  const qt = document.createElement('div');
+  qt.className = 'qtext';
+  qt.textContent = item.q;
+  card.appendChild(qt);
+
+  const tag = document.createElement('div');
+  tag.className = 'result-tag';
+
+  item.o.forEach((opt, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'optwrap';
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.textContent = letters[i] + '. ' + opt;
+    const ex = document.createElement('div');
+    ex.className = 'explain';
+    ex.textContent = item.ex[i];
+    if (i === item.a) ex.classList.add('ex-correct');
+
+    btn.addEventListener('click', () => {
+      if (card.dataset.locked) return;
+      card.dataset.locked = '1';
+      const allBtns = card.querySelectorAll('.opt');
+      const allExs = card.querySelectorAll('.explain');
+      allBtns.forEach(b => b.classList.add('disabled'));
+      allBtns[item.a].classList.add('correct');
+      allExs.forEach(e => e.classList.add('show'));
+      if (i === item.a) {
+        btn.classList.add('correct');
+        tag.textContent = 'Correct';
+        tag.className = 'result-tag correct';
+        correctCount++;
+      } else {
+        btn.classList.add('wrong');
+        tag.textContent = 'Incorrect — correct answer highlighted above';
+        tag.className = 'result-tag wrong';
+      }
+      answered++;
+      updateProgress();
+    });
+    wrap.appendChild(btn);
+    wrap.appendChild(ex);
+    card.appendChild(wrap);
+  });
+  card.appendChild(tag);
+  main.appendChild(card);
+});
+
+const finalCard = document.createElement('div');
+finalCard.id = 'finalCard';
+finalCard.className = 'card';
+finalCard.innerHTML = '<h2>Your Score</h2><div class="big" id="finalScore"></div><div class="msg" id="finalMsg"></div>';
+main.appendChild(finalCard);
+
+function updateProgress(){
+  document.getElementById('progressLabel').textContent = answered + ' / ' + total + ' answered';
+  document.getElementById('progressFill').style.width = (answered/total*100) + '%';
+  if (answered === total) {
+    const pct = Math.round(correctCount/total*100);
+    finalCard.style.display = 'block';
+    document.getElementById('finalScore').textContent = correctCount + ' / ' + total + ' (' + pct + '%)';
+    let msg = pct >= 85 ? "Strong work — you know this material." :
+              pct >= 70 ? "Solid, review the ones you missed." :
+              pct >= 50 ? "Getting there — worth another pass." :
+              "Time to go back through the material and retry.";
+    document.getElementById('finalMsg').textContent = msg;
+    finalCard.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function resetQuiz(){
+  location.reload();
+}
+</script>
+</body>
+</html>
