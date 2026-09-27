@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MSK Q Bank — Self Test (Graded)</title>
+<style>
+:root{
+  --bg:#f7f5f2; --card:#ffffff; --ink:#1f2328; --sub:#5b6168;
+  --accent:#8a3b2f; --line:#e6e1da; --correct:#2f7d4f; --correct-bg:#e6f4ea;
+  --wrong:#b3382c; --wrong-bg:#fbeae7;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171513; --card:#211e1b; --ink:#eee8e0; --sub:#aba296;
+    --accent:#e8a08c; --line:#332e29; --correct:#7fd89e; --correct-bg:#183324;
+    --wrong:#f0a091; --wrong-bg:#3a201c;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171513; --card:#211e1b; --ink:#eee8e0; --sub:#aba296;
+  --accent:#e8a08c; --line:#332e29; --correct:#7fd89e; --correct-bg:#183324;
+  --wrong:#f0a091; --wrong-bg:#3a201c;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:Georgia,'Iowan Old Style',ui-serif,serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+header{position:sticky; top:0; top:env(safe-area-inset-top,0px); background:var(--bg); border-bottom:1px solid var(--line);
+  padding:14px 20px 12px; z-index:5;}
+h1{margin:0; font-size:1.2rem;}
+.sub{color:var(--sub); font-size:.82rem; margin-top:3px; font-family:-apple-system,system-ui,sans-serif;}
+.scorebar{display:flex; align-items:center; gap:12px; margin-top:10px; font-family:-apple-system,system-ui,sans-serif; font-size:.82rem;}
+.scorebar .pill{border:1px solid var(--line); border-radius:20px; padding:4px 12px; background:var(--card);}
+.progress-track{flex:1; height:6px; background:var(--line); border-radius:4px; overflow:hidden;}
+.progress-fill{height:100%; background:var(--accent); width:0%; transition:width .2s;}
+button.ctrl{font-family:-apple-system,system-ui,sans-serif; font-size:.78rem; border:1px solid var(--line);
+  background:var(--card); color:var(--ink); padding:5px 12px; border-radius:20px; cursor:pointer;}
+main{max-width:720px; margin:0 auto; padding:16px 16px 60px;}
+.group-title{font-family:-apple-system,system-ui,sans-serif; text-transform:uppercase; letter-spacing:.08em;
+  font-size:.72rem; color:var(--accent); margin:18px 4px 10px; font-weight:600;}
+.card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:12px;}
+.qnum{font-family:-apple-system,system-ui,sans-serif; font-size:.7rem; color:var(--sub); margin-bottom:6px;}
+.qtext{font-size:1rem; line-height:1.5; margin-bottom:12px;}
+.opt{
+  display:block; width:100%; text-align:left; font-family:-apple-system,system-ui,sans-serif;
+  font-size:.92rem; padding:9px 12px; margin-bottom:7px; border-radius:8px;
+  border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer;
+}
+.opt:active{transform:scale(.99);}
+.opt.correct{border-color:var(--correct); background:var(--correct-bg); color:var(--correct); font-weight:600;}
+.opt.wrong{border-color:var(--wrong); background:var(--wrong-bg); color:var(--wrong); font-weight:600;}
+.opt.disabled{cursor:default; opacity:.75;}
+.result-tag{font-family:-apple-system,system-ui,sans-serif; font-size:.78rem; margin-top:2px; font-weight:600;}
+.result-tag.correct{color:var(--correct);}
+.result-tag.wrong{color:var(--wrong);}
+#finalCard{display:none; text-align:center; padding:28px 20px; margin:6px 0 24px;}
+#finalCard h2{margin:0 0 6px; font-size:1.6rem;}
+#finalCard .big{font-size:2.6rem; font-weight:700; color:var(--accent); margin:8px 0;}
+#finalCard .msg{font-family:-apple-system,system-ui,sans-serif; color:var(--sub); font-size:.9rem;}
+footer{text-align:center; color:var(--sub); font-family:-apple-system,system-ui,sans-serif; font-size:.75rem; padding:10px 0 30px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>MSK Q Bank — Self Test</h1>
+  <div class="sub">Tap an option to answer. Correct/incorrect shows instantly; your final mark tallies at the bottom.</div>
+  <div class="scorebar">
+    <span class="pill" id="progressLabel">0 / 50 answered</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <button class="ctrl" onclick="resetQuiz()">Reset</button>
+  </div>
+</header>
+<main id="main"></main>
+<footer>50 questions · from your uploaded MSK Q Bank (MME Theory only)</footer>
+
+<script>
+const groups = [
+ { title: "MME Theory", items: [
+  {q:"Joint pain, osteophytes, narrowing of joint space; RF and ACPA negative. What is another diagnostic feature seen?",
+   o:["Pannus formation","Bone eburnation","Suppurative inflammation","Fibrinous necrosis","Tophus formation"], a:1},
+  {q:"Colchicine aborts acute gouty attacks. Which is a probable direct effect of colchicine?",
+   o:["Direct membrane stabilization","Antimitotic action","Decreases purine synthesis directly","Prevents IL-1 release directly","Promotes release of chemotactic factor"], a:1},
+  {q:"Patient with numbness over the upper lateral arm. Which structure is most likely injured?",
+   o:["Axillary nerve","Musculocutaneous nerve","Lateral cord of the median nerve","Suprascapular nerve","Thoracodorsal nerve"], a:0},
+  {q:"Patient with loss of elbow flexion and numbness in the lateral forearm — which nerve?",
+   o:["Musculocutaneous nerve","Median nerve","Radial nerve","Axillary nerve","Ulnar nerve"], a:0},
+  {q:"Nerve injury in the carpal tunnel causes difficulty moving the thumb. Which muscle retains its function?",
+   o:["Adductor pollicis","Abductor pollicis brevis","Opponens pollicis","Flexor pollicis brevis","Palmaris brevis"], a:0},
+  {q:"Glass stab on posterior forearm affects thumb movement — damage to the posterior interosseous nerve. Which muscle is affected?",
+   o:["Flexor carpi ulnaris","Anconeus","Brachioradialis","Extensor carpi radialis longus","Abductor pollicis longus"], a:4},
+  {q:"After hip surgery, chronic inflammation. Aspiration shows biofilm-forming, coagulase-negative gram-positive cocci in clusters. Organism?",
+   o:["Staphylococcus aureus","Staphylococcus epidermidis","Campylobacter spp.","Streptococcus pyogenes","Enterococcus faecalis"], a:1},
+  {q:"17-year-old with sore throat, lymphadenopathy, and atypical lymphocytes. Cause?",
+   o:["EBV","CMV","HSV","HPV","Parvovirus B19"], a:0},
+  {q:"Sexually active 25-year-old woman with migratory joint pain, pustular rash, WBC >70,000/mm3. Cultures reveal?",
+   o:["Haemophilus influenzae","Staphylococcus aureus","Neisseria gonorrhoeae","Pseudomonas aeruginosa","Streptococcus pyogenes"], a:2},
+  {q:"Correct sequence of excitation-contraction coupling:",
+   o:["Depolarization of t-tubules → calcium binds troponin → calcium is released","Release calcium from sarcoplasmic reticulum → calcium binds troponin → sliding of actin and myosin","Calcium influx from extracellular space → binds myosin → cross-bridge cycling","ATP hydrolysis → calcium release → depolarization of t-tubules","Acetylcholine release → calcium binds actin → sarcomere shortening"], a:1},
+  {q:"The nerve that supplies a muscle that initiates abduction is a branch of which of the following?",
+   o:["Upper trunk","Lower trunk","Posterior cord","Lateral cord","Medial cord"], a:0},
+  {q:"Swimmer with shoulder pain on abduction and lateral rotation during crawl stroke. Which muscle is responsible for lateral rotation of the shoulder?",
+   o:["Infraspinatus","Teres major","Supraspinatus","Subscapularis","Teres minor"], a:0},
+  {q:"Child with a viral infection is accidentally given aspirin. Increased risk of which condition?",
+   o:["Reye's syndrome","Guillain-Barré syndrome","Stevens-Johnson syndrome","Kawasaki disease","Toxic epidermal necrolysis"], a:0},
+  {q:"Diet deficient in glycine and aspartate (used in nucleotide synthesis) impairs de novo synthesis of which of the following?",
+   o:["Pyrimidine","Heme","Purine","Nucleotide salvage pathway only","Deoxyribose sugar"], a:2},
+  {q:"Stab to the innermost part of the cubital fossa — which structure is most likely injured?",
+   o:["Radial nerve","Brachial artery","Median nerve","Biceps brachii tendon","Ulnar nerve"], a:2},
+  {q:"11-year-old boy, 2 weeks of right upper thigh pain, worse at night, relieved by aspirin. Radiograph: small lucent area in proximal femoral cortex surrounded by sclerotic bone. Diagnosis?",
+   o:["Enchondroma","Osteoid osteoma","Osteochondroma","Ewing sarcoma","Osteosarcoma"], a:1},
+  {q:"Rugby player with weeks of right knee pain. Lytic and sclerotic masses elevating the periosteum, with a Codman's triangle. Associated gene?",
+   o:["RB gene mutation","IDH gene mutation","EXT gene mutation","TP53 mutation only","NF1 mutation"], a:0},
+  {q:"Burning, radiating unilateral pain with painful vascular rash in the T5 dermatome. Most appropriate post-herpetic prescription?",
+   o:["Valacyclovir","Mupirocin","Topical acyclovir ointment","Oral prednisone alone","Topical capsaicin only"], a:0},
+  {q:"Which of the following is true regarding muscles for precise movement?",
+   o:["Originates from a single myotome","Originates from multiple myotomes","Innervated by multiple spinal levels for fine control","Has large motor units","Predominantly type IIb fibers"], a:0},
+  {q:"Joint pain with a nodule on the ulnar side of the elbow. Joint aspirate shows needle-shaped urate crystals, chalky deposits, and tophus formation. Diagnosis?",
+   o:["Rheumatoid arthritis","Gout","Pseudogout (CPPD)","Septic arthritis","Osteoarthritis"], a:1},
+  {q:"How is Ach released from presynaptic neurons into the synaptic cleft?",
+   o:["Sodium influx","Calcium influx","Opening of voltage-gated potassium channels","Chloride influx","Magnesium efflux"], a:1},
+  {q:"Which is responsible for increasing cytosolic calcium after depolarization?",
+   o:["Ryanodine receptor","Dihydropyridine receptor","Sodium-calcium exchanger","Calcium ATPase pump","IP3 receptor"], a:0},
+  {q:"Patient develops muscle rigidity, hyperthermia, and acidosis on anesthesia with succinylcholine. Immediate management?",
+   o:["Neostigmine","Pyridostigmine","Dantrolene","More succinylcholine","Atropine"], a:2},
+  {q:"Which best describes involucrum (in the context of osteomyelitis)?",
+   o:["Reactive new bone formation","Dead bone fragment (sequestrum)","Granulation tissue","Fibrous callus","Cloaca (sinus tract opening)"], a:0},
+  {q:"Mechanism of myasthenia gravis:",
+   o:["Autoantibodies against Ach receptor","Autoantibodies against voltage-gated calcium channels","Autoantibodies against MuSK protein only","Autoimmune destruction of motor neurons","Acetylcholinesterase deficiency"], a:0},
+  {q:"Breast cancer metastasized to the medial wall of the axilla. Which muscle is most likely affected?",
+   o:["Serratus anterior","Pectoralis major","Teres major","Subscapularis","Latissimus dorsi"], a:0},
+  {q:"Pott's disease affecting the vertebra is associated with which type of osteomyelitis?",
+   o:["Tuberculous osteomyelitis","Syphilitic osteomyelitis","Pyogenic osteomyelitis","Fungal osteomyelitis","Brucellar osteomyelitis"], a:0},
+  {q:"Physician palpates a pulse lateral to the tendon of flexor carpi radialis at the wrist. Which artery?",
+   o:["Radial artery","Ulnar artery","Brachial artery","Persistent median artery","Anterior interosseous artery"], a:0},
+  {q:"Asymptomatic female with multiple partners; blood smear shows koilocytes, testing reveals HPV16 DNA. Likely complication of persistent high-risk HPV16 infection?",
+   o:["Cervical cancer","Genital warts","Oral leukoplakia","Vulvar lichen sclerosus","Bacterial vaginosis"], a:0},
+  {q:"Main source of energy for long-duration exercise?",
+   o:["Oxidative metabolism","Direct energy from ATP","Creatine phosphate","Lactic acid","Anaerobic glycolysis"], a:0},
+  {q:"Athlete with high-energy bursts, rapid contraction, high glycogen storage, fatigues quickly. Which is true of this fiber type?",
+   o:["Slow oxidative enzymes","Less mitochondrial density","High capillary density","Slow myosin ATPase","High oxidative capacity"], a:1},
+  {q:"Which is scientifically correct for fibers with prolonged endurance?",
+   o:["High ATPase activity","High oxidative enzymes","Innervated by large motor neurons","Low mitochondrial density","Fast fatigue rate"], a:1},
+  {q:"Wrist injury affecting the structure above (superficial to) the flexor retinaculum. Which is likely affected?",
+   o:["Ulnar nerve and flexor digitorum superficialis tendon","Ulnar nerve and ulnar artery","Median nerve and radial artery","Median nerve and flexor digitorum profundus tendon","Radial nerve and radial artery"], a:1},
+  {q:"How does Becker's muscular dystrophy differ from Duchenne's muscular dystrophy?",
+   o:["Dystrophin is partially active in BMD, completely absent in DMD","BMD has reduced life expectancy","BMD is X-linked recessive, DMD is autosomal recessive","BMD is more severe in progression than DMD","BMD shows earlier onset than DMD"], a:0},
+  {q:"Merkel cells are found in which layer of the skin?",
+   o:["Stratum basale","Stratum spinosum","Stratum granulosum","Stratum corneum","Stratum lucidum"], a:0},
+  {q:"Actin is composed of F-actin filament, troponin, and tropomyosin. What is the function of tropomyosin?",
+   o:["Binds troponin to actin","Covers actin active sites","Binds calcium and helps in contraction","Binds to myosin's head","Anchors actin to the Z-disc"], a:1},
+  {q:"After chronic use of leflunomide, a patient develops hepatotoxicity. Likely cause of this ADR?",
+   o:["Inhibition of dihydroorotate dehydrogenase","Inhibition of xanthine oxidase","Inhibition of thymidylate synthase","Induction of CYP3A4","Direct mitochondrial toxicity"], a:0},
+  {q:"Patient with peptic ulcer disease is given etoricoxib, a COX-2 inhibitor. Advantage of this drug over non-selective COX inhibitors?",
+   o:["Decreased gastrointestinal ulceration","Reduced cardiovascular effects","Less toxic to the kidneys","Inhibits prostaglandin synthesis","Reduced hepatotoxicity"], a:0},
+  {q:"45-year-old male with a tibial fracture after a car accident. After 7 days, a mass of uncalcified granulation tissue bridges the fracture ends. Which stage of fracture healing?",
+   o:["Soft (procallus) callus formation","Hematoma formation","Hard (bony) callus formation","Remodeling phase","Inflammatory phase only"], a:0},
+  {q:"5-Fluorouracil inhibits pyrimidine synthesis by acting on which enzyme?",
+   o:["Thymidylate synthase","Dihydrofolate reductase","Ribonucleotide reductase","DNA topoisomerase II","DNA polymerase"], a:0},
+  {q:"Pathohistological hallmark of Sjögren's syndrome?",
+   o:["Excessive collagen deposition","Lymphocytic infiltration of salivary and lacrimal glands","Granulomatous inflammation","Immune complex deposition in glomeruli","Amyloid deposition in glands"], a:1},
+  {q:"The shoulder joint is supported by intrinsic and extrinsic ligaments. Which extrinsic ligament helps prevent superior dislocation of the shoulder joint?",
+   o:["Costoclavicular ligament","Coracoclavicular ligament","Coracoacromial ligament","Transverse humeral ligament","Glenohumeral ligament"], a:2},
+  {q:"Primary stabilizer of the elbow?",
+   o:["Radial collateral ligament","Annular ligament","Ulnar collateral ligament","Lateral ulnar collateral ligament","Quadrate ligament"], a:2},
+  {q:"A child presents with bowed legs. Diagnosis?",
+   o:["Rickets","Osteomalacia","Hyperparathyroidism","Osteoporosis","Achondroplasia"], a:0},
+  {q:"Mechanism of action of vitamin D in bone remodeling?",
+   o:["Increases intestinal calcium absorption","Increases renal calcium excretion","Directly stimulates osteoclast apoptosis","Inhibits PTH secretion only","Increases renal phosphate reabsorption alone"], a:0},
+  {q:"80-year-old postmenopausal woman, otherwise healthy, femoral neck fracture after a simple fall. Underlying cause?",
+   o:["Decreased OPG due to decreased estrogen","Increased PTH due to hypocalcemia","Vitamin D deficiency alone","Decreased osteoblast activity due to aging alone","Increased cortisol due to stress"], a:0},
+  {q:"Which best describes a Colles' fracture?",
+   o:["Fracture of the proximal radius with posterior displacement","Fracture of the distal radius with posterior displacement","Fracture of the distal radius with anterior displacement","Fracture of the distal ulna with dorsal displacement","Fracture of the scaphoid with volar displacement"], a:1},
+  {q:"Feature of skeletal muscle fibers?",
+   o:["Involuntary contraction","Excitable and somatic motor innervation","Same as smooth muscle — both voluntary","Autonomic innervation","Multi-unit contraction like smooth muscle"], a:1},
+  {q:"Special ligaments that support the breast and anchor it to the pectoral fascia and skin are called?",
+   o:["Cooper's ligaments","Suspensory ligaments of the axilla","Pectoral fascia ligaments","Retromammary ligaments","Halsted's ligament"], a:0},
+  {q:"Which vein pierces the clavipectoral fascia?",
+   o:["Cephalic vein","Axillary vein","Basilic vein","Subclavian vein","Internal thoracic vein"], a:0},
+ ]},
+];
+
+const letters = ["A","B","C","D","E"];
+const main = document.getElementById('main');
+let total = 0, answered = 0, correctCount = 0;
+
+groups.forEach(g => {
+  const sec = document.createElement('section');
+  const h = document.createElement('div');
+  h.className = 'group-title';
+  h.textContent = g.title;
+  sec.appendChild(h);
+
+  g.items.forEach(item => {
+    total++;
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const num = document.createElement('div');
+    num.className = 'qnum';
+    num.textContent = 'Q' + total;
+    card.appendChild(num);
+
+    const qt = document.createElement('div');
+    qt.className = 'qtext';
+    qt.textContent = item.q;
+    card.appendChild(qt);
+
+    const tag = document.createElement('div');
+    tag.className = 'result-tag';
+
+    item.o.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.textContent = letters[i] + '. ' + opt;
+      btn.addEventListener('click', () => {
+        if (btn.dataset.locked) return;
+        const allBtns = card.querySelectorAll('.opt');
+        allBtns.forEach(b => { b.dataset.locked = '1'; b.classList.add('disabled'); });
+        allBtns[item.a].classList.add('correct');
+        if (i === item.a) {
+          btn.classList.add('correct');
+          tag.textContent = 'Correct';
+          tag.className = 'result-tag correct';
+          correctCount++;
+        } else {
+          btn.classList.add('wrong');
+          tag.textContent = 'Incorrect — correct answer highlighted above';
+          tag.className = 'result-tag wrong';
+        }
+        answered++;
+        updateProgress();
+      });
+      card.appendChild(btn);
+    });
+    card.appendChild(tag);
+    sec.appendChild(card);
+  });
+
+  main.appendChild(sec);
+});
+
+const finalCard = document.createElement('div');
+finalCard.id = 'finalCard';
+finalCard.className = 'card';
+finalCard.innerHTML = '<h2>Your Score</h2><div class="big" id="finalScore"></div><div class="msg" id="finalMsg"></div>';
+main.appendChild(finalCard);
+
+function updateProgress(){
+  document.getElementById('progressLabel').textContent = answered + ' / ' + total + ' answered';
+  document.getElementById('progressFill').style.width = (answered/total*100) + '%';
+  if (answered === total) {
+    const pct = Math.round(correctCount/total*100);
+    finalCard.style.display = 'block';
+    document.getElementById('finalScore').textContent = correctCount + ' / ' + total + ' (' + pct + '%)';
+    let msg = pct >= 85 ? "Strong work — you know this material." :
+              pct >= 70 ? "Solid, review the ones you missed." :
+              pct >= 50 ? "Getting there — worth another pass." :
+              "Time to go back through the material and retry.";
+    document.getElementById('finalMsg').textContent = msg;
+    finalCard.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function resetQuiz(){
+  location.reload();
+}
+</script>
+</body>
+</html>

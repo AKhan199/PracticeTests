@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MSK Q Bank — Test 3 (Mid Module)</title>
+<style>
+:root{
+  --bg:#f7f5f2; --card:#ffffff; --ink:#1f2328; --sub:#5b6168;
+  --accent:#3a6b4f; --line:#e6e1da; --correct:#2f7d4f; --correct-bg:#e6f4ea;
+  --wrong:#b3382c; --wrong-bg:#fbeae7;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171513; --card:#211e1b; --ink:#eee8e0; --sub:#aba296;
+    --accent:#7fcf9e; --line:#332e29; --correct:#7fd89e; --correct-bg:#183324;
+    --wrong:#f0a091; --wrong-bg:#3a201c;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171513; --card:#211e1b; --ink:#eee8e0; --sub:#aba296;
+  --accent:#7fcf9e; --line:#332e29; --correct:#7fd89e; --correct-bg:#183324;
+  --wrong:#f0a091; --wrong-bg:#3a201c;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:Georgia,'Iowan Old Style',ui-serif,serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+header{position:sticky; top:0; top:env(safe-area-inset-top,0px); background:var(--bg); border-bottom:1px solid var(--line);
+  padding:14px 20px 12px; z-index:5;}
+h1{margin:0; font-size:1.2rem;}
+.sub{color:var(--sub); font-size:.82rem; margin-top:3px; font-family:-apple-system,system-ui,sans-serif;}
+.scorebar{display:flex; align-items:center; gap:12px; margin-top:10px; font-family:-apple-system,system-ui,sans-serif; font-size:.82rem;}
+.scorebar .pill{border:1px solid var(--line); border-radius:20px; padding:4px 12px; background:var(--card);}
+.progress-track{flex:1; height:6px; background:var(--line); border-radius:4px; overflow:hidden;}
+.progress-fill{height:100%; background:var(--accent); width:0%; transition:width .2s;}
+button.ctrl{font-family:-apple-system,system-ui,sans-serif; font-size:.78rem; border:1px solid var(--line);
+  background:var(--card); color:var(--ink); padding:5px 12px; border-radius:20px; cursor:pointer;}
+main{max-width:720px; margin:0 auto; padding:16px 16px 60px;}
+.card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:12px;}
+.qnum{font-family:-apple-system,system-ui,sans-serif; font-size:.7rem; color:var(--sub); margin-bottom:6px;}
+.qtext{font-size:1rem; line-height:1.5; margin-bottom:12px;}
+.opt{
+  display:block; width:100%; text-align:left; font-family:-apple-system,system-ui,sans-serif;
+  font-size:.92rem; padding:9px 12px; margin-bottom:7px; border-radius:8px;
+  border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer;
+}
+.opt:active{transform:scale(.99);}
+.opt.correct{border-color:var(--correct); background:var(--correct-bg); color:var(--correct); font-weight:600;}
+.opt.wrong{border-color:var(--wrong); background:var(--wrong-bg); color:var(--wrong); font-weight:600;}
+.opt.disabled{cursor:default; opacity:.75;}
+.result-tag{font-family:-apple-system,system-ui,sans-serif; font-size:.78rem; margin-top:2px; font-weight:600;}
+.result-tag.correct{color:var(--correct);}
+.result-tag.wrong{color:var(--wrong);}
+#finalCard{display:none; text-align:center; padding:28px 20px; margin:6px 0 24px;}
+#finalCard h2{margin:0 0 6px; font-size:1.6rem;}
+#finalCard .big{font-size:2.6rem; font-weight:700; color:var(--accent); margin:8px 0;}
+#finalCard .msg{font-family:-apple-system,system-ui,sans-serif; color:var(--sub); font-size:.9rem;}
+footer{text-align:center; color:var(--sub); font-family:-apple-system,system-ui,sans-serif; font-size:.75rem; padding:10px 0 30px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>MSK Q Bank — Test 3 (Mid Module)</h1>
+  <div class="sub">Tap an option to answer. Correct/incorrect shows instantly; your final mark tallies at the bottom.</div>
+  <div class="scorebar">
+    <span class="pill" id="progressLabel">0 / 48 answered</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <button class="ctrl" onclick="resetQuiz()">Reset</button>
+  </div>
+</header>
+<main id="main"></main>
+<footer>48 questions · from your pasted MSK mid module set</footer>
+
+<script>
+const items = [
+{q:"Which artery is damaged in a scaphoid fracture?",
+ o:["Radial artery","Ulnar artery","Anterior interosseous artery","Posterior interosseous artery","Brachial artery"], a:0},
+{q:"Which artery is palpated in the anatomical snuff box?",
+ o:["Radial artery","Ulnar artery","Princeps pollicis artery","Dorsal carpal arch","Superficial palmar arch"], a:0},
+{q:"Which of the following resembles the remnants of recycled osteons?",
+ o:["Interstitial lamellae","Circumferential lamellae","Haversian canal","Volkmann's canal","Concentric lamellae"], a:0},
+{q:"During mastectomy, the medial wall of the axilla is being operated on. Which muscle is most likely to be affected?",
+ o:["Serratus anterior","Pectoralis major","Teres major","Subscapularis","Latissimus dorsi"], a:0},
+{q:"The nerve innervating the muscle responsible for initiating abduction arises from which part of the brachial plexus?",
+ o:["Upper trunk","Lower trunk","Posterior cord","Lateral cord","Medial cord"], a:0},
+{q:"Klumpke's paralysis with claw hand deformity affects which roots of the brachial plexus?",
+ o:["C5-C6","C7 only","C8-T1","C5-T1","T1-T2"], a:2},
+{q:"Which nerve gives sensation to the lateral part of the forearm and mediates flexion of the elbow?",
+ o:["Musculocutaneous nerve","Median nerve","Radial nerve","Axillary nerve","Ulnar nerve"], a:0},
+{q:"A construction worker has difficulty lifting his arm after lifting a heavy object. Exam reveals difficulty with abduction and external rotation, with a rotator cuff tear. Which muscle is mainly affected?",
+ o:["Supraspinatus","Infraspinatus","Teres minor","Subscapularis","Deltoid"], a:0},
+{q:"A powerlifter has chest pain with difficulty in flexion, adduction, and medial rotation of the arm. Which muscle is damaged?",
+ o:["Pectoralis major","Pectoralis minor","Serratus anterior","Deltoid","Coracobrachialis"], a:0},
+{q:"A patient has a swollen little finger. Which group of lymph nodes is most likely affected?",
+ o:["Lateral (axillary) nodes","Medial (axillary) nodes","Supratrochlear nodes","Deltopectoral nodes","Apical axillary nodes"], a:0},
+{q:"A stab wound to the most medial side of the cubital fossa. Which structure is damaged?",
+ o:["Median nerve","Brachial artery","Radial nerve","Biceps brachii tendon","Ulnar nerve"], a:0},
+{q:"Damage to the wrist affecting the structures above the flexor retinaculum. Which structures are affected?",
+ o:["Ulnar artery and ulnar nerve","Median nerve and radial artery","Radial nerve and radial artery","Median nerve and flexor tendons","Ulnar nerve and median nerve"], a:0},
+{q:"Fracture of the medial epicondyle of the humerus with hypothenar wasting and medial hand sensation loss. Which nerve is affected?",
+ o:["Ulnar nerve","Median nerve","Radial nerve","Musculocutaneous nerve","Axillary nerve"], a:0},
+{q:"A patient can't hold a piece of paper between the index and middle finger. Which nerve is damaged?",
+ o:["Ulnar nerve","Median nerve","Radial nerve","Anterior interosseous nerve","Musculocutaneous nerve"], a:0},
+{q:"Glass stab on the posterior forearm with thumb movement affected — damage to the posterior interosseous nerve. Which muscle is affected?",
+ o:["Abductor pollicis longus","Extensor pollicis brevis","Flexor pollicis longus","Opponens pollicis","Adductor pollicis"], a:0},
+{q:"A patient has loss of pigmentation in some areas with melanocyte damage detected. In which layer are melanocytes found?",
+ o:["Stratum basale","Stratum spinosum","Stratum granulosum","Stratum corneum","Stratum lucidum"], a:0},
+{q:"Which ligament holds the head of the radius and allows its rotation about the ulna?",
+ o:["Annular ligament","Radial collateral ligament","Ulnar collateral ligament","Quadrate ligament","Oblique cord"], a:0},
+{q:"Which of the following tendons is related to (medial to) the radial artery at the wrist?",
+ o:["Tendon of flexor carpi radialis","Tendon of palmaris longus","Tendon of flexor carpi ulnaris","Tendon of abductor pollicis longus","Tendon of extensor carpi radialis longus"], a:0},
+{q:"Which of the following describes the surface marking of the median nerve?",
+ o:["Midline of the cubital fossa to the flexor retinaculum","Medial epicondyle to the pisiform","Lateral epicondyle to the radial styloid","Axilla to the lateral epicondyle","Coracoid process to the medial epicondyle"], a:0},
+{q:"Which of the following is expected in a case of a defective ryanodine receptor (RyR)?",
+ o:["Impaired release of calcium from the sarcoplasmic reticulum","Increased calcium reuptake by the SERCA pump","Increased sodium influx through the t-tubules","Excess acetylcholine release at the NMJ","Enhanced troponin-calcium binding affinity"], a:0},
+{q:"Which of the following best describes isotonic contraction?",
+ o:["Generation of tension and shortening of the muscle while moving the joint","Generation of tension without a change in muscle length","Increase in muscle length without a change in tension","No change in tension or length","Lengthening of the muscle while generating tension (eccentric)"], a:0},
+{q:"In a defect of neurotransmitter release from the nerve terminal, which of the following is most likely affected?",
+ o:["Influx of calcium into the presynaptic terminal","Influx of sodium into the postsynaptic membrane","Efflux of potassium from the presynaptic terminal","Reuptake of neurotransmitter","Vesicle recycling only"], a:0},
+{q:"Which of the following describes the function of voltage-gated sodium channels?",
+ o:["Allows rapid sodium influx and depolarization","Allows rapid potassium efflux and repolarization","Allows calcium influx for neurotransmitter release","Maintains the resting membrane potential","Allows chloride influx for hyperpolarization"], a:0},
+{q:"In an over-stretched muscle, what is the cause of generating suboptimal tension?",
+ o:["Less overlap between actin and myosin","Excess overlap between actin and myosin","Depletion of ATP","Excess calcium binding to troponin","Loss of tropomyosin"], a:0},
+{q:"How is a muscle twitch best defined?",
+ o:["Rapid contraction followed by rapid relaxation","Sustained contraction without relaxation","Slow contraction followed by slow relaxation","Summation of multiple stimuli","Fused tetanic contraction"], a:0},
+{q:"What is the action of the enzyme glucose-6-phosphatase?",
+ o:["Converts glucose-6-phosphate to glucose","Converts glucose to glucose-6-phosphate","Converts glycogen to glucose-1-phosphate","Converts fructose-6-phosphate to glucose-6-phosphate","Converts glucose-1-phosphate to glycogen"], a:0},
+{q:"Fasting for 18-20 hours leads to depletion of liver glycogen. What is the cause?",
+ o:["Release of glycogen as glucose to maintain blood sugar levels","Increased muscle glycogen synthesis","Increased insulin secretion","Decreased glucagon secretion","Increased glycogen synthase activity"], a:0},
+{q:"During a long-distance run, which is a characteristic of the muscle fibers primarily used?",
+ o:["High fatigue resistance and rely on aerobic metabolism","Low fatigue resistance and rely on anaerobic glycolysis","High ATPase activity and rely on creatine phosphate","Low mitochondrial density and fast contraction","Large motor unit size with fast fatigability"], a:0},
+{q:"Why does sulfonamide provide a bacteriostatic, not bactericidal, effect?",
+ o:["It stops synthesis of purines (via folate pathway inhibition)","It irreversibly inhibits bacterial DNA gyrase","It blocks bacterial cell wall synthesis","It disrupts bacterial ribosomal function","It directly damages bacterial DNA"], a:0},
+{q:"A patient with lung cancer has hypercalcemia and low PTH. What is likely to be observed in this patient's blood?",
+ o:["Elevated PTHrP","Elevated PTH","Elevated calcitonin","Elevated vitamin D","Elevated ACTH"], a:0},
+{q:"What is a characteristic sign of hypocalcemia?",
+ o:["Tetany","Muscle flaccidity","Hyperreflexia only","Bone pain","Polyuria"], a:0},
+{q:"Methotrexate inhibits an enzyme that converts DHF to THF. Name this enzyme.",
+ o:["Dihydrofolate reductase","Thymidylate synthase","Ribonucleotide reductase","Folate polyglutamate synthase","Methionine synthase"], a:0},
+{q:"After administering an inhalational anesthetic, a patient develops muscle contraction with hyperthermia. Which drug should be administered immediately?",
+ o:["Dantrolene","Neostigmine","Succinylcholine","Atropine","Naloxone"], a:0},
+{q:"A 70-year-old woman with hypertension and CKD has an acute gouty flare confirmed by monosodium urate crystals. Which medication should be avoided given her comorbidities?",
+ o:["Indomethacin","Colchicine (with dose adjustment)","Allopurinol","Prednisone","Acetaminophen"], a:0},
+{q:"A patient with obesity and hypertension wants to reduce gouty attacks. What lifestyle changes should be advised?",
+ o:["Decrease intake of purine-rich food and restrict alcohol intake","Increase intake of red meat and seafood","Increase alcohol consumption in moderation","Increase intake of fructose-rich beverages","No dietary changes needed if on medication"], a:0},
+{q:"A patient with osteomyelitis and peptic ulcer disease is given etoricoxib, a COX-2 inhibitor. What is the advantage of this drug over non-selective COX inhibitors?",
+ o:["Decreased chances of aggravating peptic ulcer","Reduced cardiovascular risk","Less nephrotoxicity","Better anti-pyretic effect","Lower cost compared to non-selective NSAIDs"], a:0},
+{q:"A child with a viral infection is accidentally given salicylates (aspirin). What is a possible side effect?",
+ o:["Reye's syndrome","Stevens-Johnson syndrome","Guillain-Barré syndrome","Kawasaki disease","Toxic epidermal necrolysis"], a:0},
+{q:"After chronic use of leflunomide, a patient develops hepatotoxicity. What is the likely cause of this ADR?",
+ o:["Inhibition of dihydroorotate dehydrogenase","Inhibition of xanthine oxidase","Inhibition of thymidylate synthase","Induction of CYP3A4","Direct mitochondrial toxicity"], a:0},
+{q:"A 45-year-old male had a tibial fracture after a car accident. After one week, a mass of uncalcified tissue bridged the ends of the fracture. Which stage of fracture healing does this represent?",
+ o:["Soft callus (procallus) formation","Hematoma formation","Hard (bony) callus formation","Remodeling phase","Inflammatory phase only"], a:0},
+{q:"A 50-year-old patient has right knee and hip pain, worst in the morning and improving after 30 minutes, worsening with exercise and improving with rest. Biopsy reveals eburnation and subchondral cyst formation. Diagnosis?",
+ o:["Osteoarthritis","Rheumatoid arthritis","Gout","Septic arthritis","Ankylosing spondylitis"], a:0},
+{q:"A patient has joint pain in the MCP joints and wrists bilaterally, with positive RF and ACPA. Which cytokine acts by stimulating synovial cells to release proteases that destroy cartilage?",
+ o:["TNF","IL-10","IL-4","TGF-beta","IFN-gamma"], a:0},
+{q:"In a case of osteomyelitis with a chronic draining sinus tract through the skin, what is an expected long-term complication?",
+ o:["Squamous cell carcinoma (Marjolin's ulcer)","Basal cell carcinoma","Osteosarcoma","Chondrosarcoma","Melanoma"], a:0},
+{q:"A patient has a tumour around the knee joint; X-ray shows periosteal elevation and a Codman's triangle. Which gene is likely disrupted?",
+ o:["RB gene mutation","IDH gene mutation","EXT gene mutation","EWSR1-FLI1 fusion","MDM2 amplification"], a:0},
+{q:"A 5-year-old boy presents with weakness, exercise intolerance, proximal muscle weakness, elevated creatine kinase, and admixture atrophy on biopsy. Diagnosis?",
+ o:["Duchenne muscular dystrophy (DMD)","Becker muscular dystrophy (BMD)","Myasthenia gravis","Spinal muscular atrophy","Polymyositis"], a:0},
+{q:"A patient has a malar rash over the cheeks and photosensitivity. Diagnosis?",
+ o:["Systemic lupus erythematosus (SLE)","Dermatomyositis","Rosacea","Systemic sclerosis","Sjögren's syndrome"], a:0},
+{q:"A patient has an autoimmune disease against exocrine glands with dry mouth and anti-SSB antibodies. What is a possible complication?",
+ o:["Conjunctivitis (keratoconjunctivitis sicca)","Nephrotic syndrome","Pulmonary fibrosis","Peripheral neuropathy","Non-Hodgkin lymphoma"], a:0},
+{q:"A 5-year-old child has osteomyelitis. What is the most common causative agent?",
+ o:["Staphylococcus aureus","Streptococcus pyogenes","Haemophilus influenzae","Kingella kingae","Salmonella spp."], a:0},
+{q:"A patient has joint trauma with fever, swelling, and pain over the joint. Which of the following is correct regarding septic arthritis?",
+ o:["Staphylococcus aureus causes 40-50% of cases","Neisseria gonorrhoeae is the most common cause across all ages","Streptococcus pneumoniae is the most common cause","Gram-negative rods cause the majority of cases","Fungal causes are most common"], a:0},
+];
+
+const letters = ["A","B","C","D","E"];
+const main = document.getElementById('main');
+let total = 0, answered = 0, correctCount = 0;
+
+items.forEach(item => {
+  total++;
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const num = document.createElement('div');
+  num.className = 'qnum';
+  num.textContent = 'Q' + total;
+  card.appendChild(num);
+
+  const qt = document.createElement('div');
+  qt.className = 'qtext';
+  qt.textContent = item.q;
+  card.appendChild(qt);
+
+  const tag = document.createElement('div');
+  tag.className = 'result-tag';
+
+  item.o.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.textContent = letters[i] + '. ' + opt;
+    btn.addEventListener('click', () => {
+      if (btn.dataset.locked) return;
+      const allBtns = card.querySelectorAll('.opt');
+      allBtns.forEach(b => { b.dataset.locked = '1'; b.classList.add('disabled'); });
+      allBtns[item.a].classList.add('correct');
+      if (i === item.a) {
+        btn.classList.add('correct');
+        tag.textContent = 'Correct';
+        tag.className = 'result-tag correct';
+        correctCount++;
+      } else {
+        btn.classList.add('wrong');
+        tag.textContent = 'Incorrect — correct answer highlighted above';
+        tag.className = 'result-tag wrong';
+      }
+      answered++;
+      updateProgress();
+    });
+    card.appendChild(btn);
+  });
+  card.appendChild(tag);
+  main.appendChild(card);
+});
+
+const finalCard = document.createElement('div');
+finalCard.id = 'finalCard';
+finalCard.className = 'card';
+finalCard.innerHTML = '<h2>Your Score</h2><div class="big" id="finalScore"></div><div class="msg" id="finalMsg"></div>';
+main.appendChild(finalCard);
+
+function updateProgress(){
+  document.getElementById('progressLabel').textContent = answered + ' / ' + total + ' answered';
+  document.getElementById('progressFill').style.width = (answered/total*100) + '%';
+  if (answered === total) {
+    const pct = Math.round(correctCount/total*100);
+    finalCard.style.display = 'block';
+    document.getElementById('finalScore').textContent = correctCount + ' / ' + total + ' (' + pct + '%)';
+    let msg = pct >= 85 ? "Strong work — you know this material." :
+              pct >= 70 ? "Solid, review the ones you missed." :
+              pct >= 50 ? "Getting there — worth another pass." :
+              "Time to go back through the material and retry.";
+    document.getElementById('finalMsg').textContent = msg;
+    finalCard.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function resetQuiz(){
+  location.reload();
+}
+</script>
+</body>
+</html>

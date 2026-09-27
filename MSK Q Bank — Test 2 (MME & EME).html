@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MSK Q Bank — Test 2 (MME &amp; EME)</title>
+<style>
+:root{
+  --bg:#f7f5f2; --card:#ffffff; --ink:#1f2328; --sub:#5b6168;
+  --accent:#2f5d8a; --line:#e6e1da; --correct:#2f7d4f; --correct-bg:#e6f4ea;
+  --wrong:#b3382c; --wrong-bg:#fbeae7;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171513; --card:#211e1b; --ink:#eee8e0; --sub:#aba296;
+    --accent:#8cb8e8; --line:#332e29; --correct:#7fd89e; --correct-bg:#183324;
+    --wrong:#f0a091; --wrong-bg:#3a201c;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171513; --card:#211e1b; --ink:#eee8e0; --sub:#aba296;
+  --accent:#8cb8e8; --line:#332e29; --correct:#7fd89e; --correct-bg:#183324;
+  --wrong:#f0a091; --wrong-bg:#3a201c;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:Georgia,'Iowan Old Style',ui-serif,serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+header{position:sticky; top:0; top:env(safe-area-inset-top,0px); background:var(--bg); border-bottom:1px solid var(--line);
+  padding:14px 20px 12px; z-index:5;}
+h1{margin:0; font-size:1.2rem;}
+.sub{color:var(--sub); font-size:.82rem; margin-top:3px; font-family:-apple-system,system-ui,sans-serif;}
+.scorebar{display:flex; align-items:center; gap:12px; margin-top:10px; font-family:-apple-system,system-ui,sans-serif; font-size:.82rem;}
+.scorebar .pill{border:1px solid var(--line); border-radius:20px; padding:4px 12px; background:var(--card);}
+.progress-track{flex:1; height:6px; background:var(--line); border-radius:4px; overflow:hidden;}
+.progress-fill{height:100%; background:var(--accent); width:0%; transition:width .2s;}
+button.ctrl{font-family:-apple-system,system-ui,sans-serif; font-size:.78rem; border:1px solid var(--line);
+  background:var(--card); color:var(--ink); padding:5px 12px; border-radius:20px; cursor:pointer;}
+main{max-width:720px; margin:0 auto; padding:16px 16px 60px;}
+.card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:12px;}
+.qnum{font-family:-apple-system,system-ui,sans-serif; font-size:.7rem; color:var(--sub); margin-bottom:6px;}
+.qtext{font-size:1rem; line-height:1.5; margin-bottom:12px;}
+.opt{
+  display:block; width:100%; text-align:left; font-family:-apple-system,system-ui,sans-serif;
+  font-size:.92rem; padding:9px 12px; margin-bottom:7px; border-radius:8px;
+  border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer;
+}
+.opt:active{transform:scale(.99);}
+.opt.correct{border-color:var(--correct); background:var(--correct-bg); color:var(--correct); font-weight:600;}
+.opt.wrong{border-color:var(--wrong); background:var(--wrong-bg); color:var(--wrong); font-weight:600;}
+.opt.disabled{cursor:default; opacity:.75;}
+.result-tag{font-family:-apple-system,system-ui,sans-serif; font-size:.78rem; margin-top:2px; font-weight:600;}
+.result-tag.correct{color:var(--correct);}
+.result-tag.wrong{color:var(--wrong);}
+#finalCard{display:none; text-align:center; padding:28px 20px; margin:6px 0 24px;}
+#finalCard h2{margin:0 0 6px; font-size:1.6rem;}
+#finalCard .big{font-size:2.6rem; font-weight:700; color:var(--accent); margin:8px 0;}
+#finalCard .msg{font-family:-apple-system,system-ui,sans-serif; color:var(--sub); font-size:.9rem;}
+footer{text-align:center; color:var(--sub); font-family:-apple-system,system-ui,sans-serif; font-size:.75rem; padding:10px 0 30px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>MSK Q Bank — Test 2 (MME &amp; EME)</h1>
+  <div class="sub">Upper limb &amp; general MSK/path/pharm only — lower limb and breast pathology questions removed. Tap an option to answer; your score tallies at the bottom.</div>
+  <div class="scorebar">
+    <span class="pill" id="progressLabel">0 / 42 answered</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <button class="ctrl" onclick="resetQuiz()">Reset</button>
+  </div>
+</header>
+<main id="main"></main>
+<footer>42 questions · expanded from your uploaded MME/EME set (lower limb &amp; breast pathology removed)</footer>
+
+<script>
+const items = [
+{q:"What is the joint between the first metacarpal and the trapezium bone?",
+ o:["Hinge joint","Pivot joint","Saddle joint","Plane (gliding) joint","Condyloid joint"],a:2},
+{q:"A person has an injury at the mid-shaft of the humerus. Which artery is most likely affected?",
+ o:["Brachial artery","Profunda brachii artery","Radial artery","Posterior circumflex humeral artery","Ulnar collateral artery"],a:1},
+{q:"A person has an injury at the mid-shaft of the humerus and is unable to extend the wrist. Which nerve is affected?",
+ o:["Median nerve","Ulnar nerve","Radial nerve","Axillary nerve","Musculocutaneous nerve"],a:2},
+{q:"A woman has a small painful tumour under the nail of her left index finger. Which nerve should be blocked to remove it surgically?",
+ o:["Radial nerve","Ulnar nerve","Median nerve","Musculocutaneous nerve","Axillary nerve"],a:2},
+{q:"Which of the following is true about the cubital fossa?",
+ o:["Median cubital vein forms the roof of the fossa","Ulnar nerve is a part of the cubital fossa","Brachial artery lies lateral to the biceps tendon","Brachioradialis forms the roof of the fossa","Pronator teres forms the lateral border of the fossa"],a:0},
+{q:"A person ruptures the tendon of biceps but is still able to flex the arm. Which muscles are responsible?",
+ o:["Brachialis and Brachioradialis","Triceps brachii and Anconeus","Coracobrachialis and Deltoid","Pronator teres and Supinator","Extensor carpi radialis longus and brevis"],a:0},
+{q:"A person falls from a height and hangs from a tree branch by one arm. Which part of the brachial plexus is most likely injured?",
+ o:["Upper trunk of the brachial plexus","Lower trunk of the brachial plexus","Posterior cord of the brachial plexus","Long thoracic nerve","Axillary nerve alone"],a:0},
+{q:"Syndactyly results from:",
+ o:["Excess apoptosis of the digital rays","Failure of apoptosis of the interdigital mesenchyme","Failure of limb bud rotation","A gain-of-function SHH mutation","Failure of apical ectodermal ridge induction"],a:1},
+{q:"The bone and cartilage of the limbs develop from:",
+ o:["Paraxial mesoderm","Intermediate mesoderm","Visceral (splanchnic) layer of lateral plate mesoderm","Parietal (somatic) layer of lateral plate mesoderm","Neural crest cells"],a:3},
+{q:"A 65-year-old woman with osteoarthritis is started on diclofenac. Which complication is she LEAST likely to face on this drug?",
+ o:["Myocardial infarction","Bronchospasm/asthma exacerbation","Renal dysfunction","Dyspepsia","All four are recognised NSAID ADRs — source didn't specify a clear answer"],a:4},
+{q:"A young woman has had dry eyes and dry mouth for about 2 years (suspected Sjögren's syndrome). What is the most serious complication that could occur?",
+ o:["Proliferation of monoclonal B-lymphocytes (lymphoma risk)","Development of rheumatoid factor","Distal renal tubular acidosis","Interstitial pulmonary fibrosis","Peripheral sensory neuropathy"],a:0},
+{q:"A 5-year-old boy with muscular dystrophy lacks dystrophin. The muscle wasting occurs mainly due to:",
+ o:["Increased calcium efflux from the sarcoplasmic reticulum","Impairment of the structural integrity of the muscle cell membrane","Failure of troponin–tropomyosin interaction","Loss of myosin ATPase activity","Autoimmune destruction of the neuromuscular junction"],a:1},
+{q:"A patient has severe joint pain, crepitations, and eburnation of the underlying bone. What is the cause?",
+ o:["Autoimmune synovitis","Wear and tear of articular cartilage","Urate crystal deposition","Bacterial infection of the joint space","Calcium pyrophosphate deposition"],a:1},
+{q:"The muscle responsible for early (0–15°) abduction of the shoulder is supplied by:",
+ o:["Axillary nerve","Suprascapular nerve","Upper subscapular nerve","Long thoracic nerve","Musculocutaneous nerve"],a:1},
+{q:"A 23-year-old woman has inflammation of multiple joints. The most likely causative organism is:",
+ o:["Staphylococcus aureus","Neisseria gonorrhoeae","Borrelia burgdorferi","Streptococcus pyogenes","Chlamydia trachomatis"],a:1},
+{q:"A patient with myasthenia gravis is treated with physostigmine. Which receptor does the resulting excess acetylcholine act on at the neuromuscular junction?",
+ o:["Nm (nicotinic muscle) receptor","Nn (nicotinic neuronal) receptor","Muscarinic M2 receptor","Muscarinic M3 receptor","GABA-A receptor"],a:0},
+{q:"The mechanism of action of physostigmine is:",
+ o:["Direct nicotinic receptor agonism","Blockade of presynaptic ACh release","Reversible inhibition of acetylcholinesterase","Irreversible inhibition of acetylcholinesterase","Blockade of postsynaptic ACh receptors"],a:2},
+{q:"A weightlifter is given an extra 10 kg to lift. The additional force generated is most likely due to:",
+ o:["Increased firing frequency of a single motor unit only","Recruitment of additional motor units","Hypertrophy of muscle fibers occurring in real time","Calcium release from the SR alone, without more motor units","Conversion of type I to type II fibers within seconds"],a:1},
+{q:"X-ray shows a mushroom-shaped growth at the junction of the epiphysis and metaphysis. What is this?",
+ o:["Osteoid osteoma","Osteochondroma","Enchondroma","Osteosarcoma","Chondroblastoma"],a:1},
+{q:"A tumour has an 'onion-peel' periosteal reaction on X-ray and small round blue cells on histology. What is the diagnosis?",
+ o:["Osteosarcoma","Chondrosarcoma","Ewing sarcoma","Giant cell tumour of bone","Osteoid osteoma"],a:2},
+{q:"An 8-year-old with a greenstick fracture has a plaster cast for 3 weeks. What happens during the remodeling phase?",
+ o:["Hematoma formation","Formation of a soft fibrocartilaginous callus","Formation of a hard woven-bone callus","Formation of compact (lamellar) bone","Formation of granulation tissue"],a:3},
+{q:"A 5-year-old boy passes orange crystals in his diaper and has self-mutilating behaviour. What enzyme is deficient?",
+ o:["Adenosine deaminase","HGPRT (hypoxanthine-guanine phosphoribosyltransferase)","Xanthine oxidase","PRPP synthetase (overactive, not deficient)","Ornithine transcarbamylase"],a:1},
+{q:"A 4-year-old boy has repeated infections with decreased WBC and decreased uric acid levels. Which enzyme is deficient?",
+ o:["HGPRT","Adenosine deaminase","Purine nucleoside phosphorylase","Xanthine oxidase","Myeloperoxidase"],a:1},
+{q:"Which eicosanoid causes vasodilation and decreased platelet aggregation?",
+ o:["Thromboxane A2","Prostacyclin (PGI2)","Leukotriene B4","Prostaglandin F2α","Thromboxane B2"],a:1},
+{q:"Which of the following is true regarding the scapula?",
+ o:["The spine divides the dorsal surface into two parts","The spine continues laterally as the coracoid process","The spine attaches directly to the clavicle via a synovial joint","The spine forms the floor of the axilla","The spine gives attachment to pectoralis minor"],a:0},
+{q:"A person is injured on the posteromedial side of the elbow in a fight. Which nerve is most likely injured?",
+ o:["Median nerve","Radial nerve","Ulnar nerve","Musculocutaneous nerve","Anterior interosseous nerve"],a:2},
+{q:"Regarding muscle glycogenolysis, which is correct?",
+ o:["Activated by cAMP","Inhibited by glucose alone, independent of insulin","Requires insulin for activation","Directly activated by calcium without cAMP involvement","Inhibited by epinephrine"],a:0},
+{q:"An elderly man has vertebral osteomyelitis. What is the most common route of infection?",
+ o:["Hematogenous spread via the arterial system","Batson's venous plexus (valveless veins)","Direct extension from adjacent soft tissue","Lymphatic spread","Direct inoculation from trauma"],a:1},
+{q:"A boy has numerous white, non-itchy skin lesions on the shoulder/upper back; microscopy shows a 'spaghetti and meatball' appearance. Diagnosis?",
+ o:["Tinea corporis","Tinea (Pityriasis) versicolor","Candidal intertrigo","Erythrasma","Vitiligo"],a:1},
+{q:"Which test is used to identify a bloodstain as human in origin?",
+ o:["ELISA","Precipitin test","Western blot","Species-specific PCR","Agglutination test"],a:1},
+{q:"Depressed skull fractures are typically caused by a blow with:",
+ o:["A light weapon with a large striking surface","A heavy weapon with a small striking surface area","A heavy weapon with a large striking surface","A light weapon with a small striking surface","A blunt weapon applied tangentially"],a:1},
+{q:"A key characteristic of a bruise (contusion) is that it is:",
+ o:["Intravascular","Extravascular","Confined strictly to the epidermis","Always associated with an open wound","Sterile and non-inflammatory"],a:1},
+{q:"A man has reactivation of a prior viral infection causing very painful vesicles confined to a single dermatome. The original infection was:",
+ o:["Herpes simplex virus 1","Varicella zoster virus","Cytomegalovirus","Epstein-Barr virus","Coxsackievirus A"],a:1},
+{q:"A farmer pricked by rusty metal later develops lockjaw, neck stiffness, and dysphagia. Likely organism?",
+ o:["Clostridium perfringens","Clostridium tetani","Clostridium botulinum","Clostridium difficile","Bacillus anthracis"],a:1},
+{q:"The main skeletal difference between male and female skeletons is in the:",
+ o:["Skull","Pelvic bone","Femur","Sternum","Vertebral column"],a:1},
+{q:"Which region undergoes rigor mortis fastest after death?",
+ o:["Jaw (small muscles)","Upper limb","Extremities (fingers/toes)","Lower limb","Trunk"],a:0},
+{q:"A 5-year-old girl with lice is given a lotion applied for 7–10 minutes, repeated after 7 days. What is this?",
+ o:["Lindane lotion","Permethrin lotion","Malathion lotion","Ivermectin lotion","Benzyl benzoate lotion"],a:1},
+{q:"Which statement is NOT applicable to topical corticosteroids?",
+ o:["Ointments are preferred for dry, scaly lesions","Wet creams/lotions should be used for both wet and dry lesions","Potency varies with the vehicle used","Prolonged use can cause skin atrophy","Occlusion increases potency"],a:1},
+{q:"A 10-year-old child has tinea capitis. What treatment is indicated (per the source answer)?",
+ o:["Topical clotrimazole","Topical ketoconazole","Oral griseofulvin","Oral fluconazole","Topical nystatin"],a:1},
+{q:"Which of the following is NOT an adverse drug reaction of glucocorticosteroids?",
+ o:["Osteoporosis","Cushingoid features","Early onset of puberty","Hyperglycemia","Immunosuppression"],a:2},
+{q:"A patient has a dark pigmented malignant skin lesion. What is the most important prognostic factor for tumour growth/spread?",
+ o:["Diameter of the lesion","Depth of tumour infiltration (Breslow depth)","Colour variation within the lesion","Presence of itching","Patient's age at diagnosis"],a:1},
+{q:"A basketball player falls on his shoulder with sharp pain; weeks later he has a firm, painless mass in the area. Most likely diagnosis?",
+ o:["Osteosarcoma","Myositis ossificans","Fracture healing (callus formation)","Chronic osteomyelitis","Soft tissue sarcoma"],a:2},
+];
+
+const letters = ["A","B","C","D","E"];
+const main = document.getElementById('main');
+let total = 0, answered = 0, correctCount = 0;
+
+items.forEach(item => {
+  total++;
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const num = document.createElement('div');
+  num.className = 'qnum';
+  num.textContent = 'Q' + total;
+  card.appendChild(num);
+
+  const qt = document.createElement('div');
+  qt.className = 'qtext';
+  qt.textContent = item.q;
+  card.appendChild(qt);
+
+  const tag = document.createElement('div');
+  tag.className = 'result-tag';
+
+  item.o.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.textContent = letters[i] + '. ' + opt;
+    btn.addEventListener('click', () => {
+      if (btn.dataset.locked) return;
+      const allBtns = card.querySelectorAll('.opt');
+      allBtns.forEach(b => { b.dataset.locked = '1'; b.classList.add('disabled'); });
+      allBtns[item.a].classList.add('correct');
+      if (i === item.a) {
+        btn.classList.add('correct');
+        tag.textContent = 'Correct';
+        tag.className = 'result-tag correct';
+        correctCount++;
+      } else {
+        btn.classList.add('wrong');
+        tag.textContent = 'Incorrect — correct answer highlighted above';
+        tag.className = 'result-tag wrong';
+      }
+      answered++;
+      updateProgress();
+    });
+    card.appendChild(btn);
+  });
+  card.appendChild(tag);
+  main.appendChild(card);
+});
+
+const finalCard = document.createElement('div');
+finalCard.id = 'finalCard';
+finalCard.className = 'card';
+finalCard.innerHTML = '<h2>Your Score</h2><div class="big" id="finalScore"></div><div class="msg" id="finalMsg"></div>';
+main.appendChild(finalCard);
+
+function updateProgress(){
+  document.getElementById('progressLabel').textContent = answered + ' / ' + total + ' answered';
+  document.getElementById('progressFill').style.width = (answered/total*100) + '%';
+  if (answered === total) {
+    const pct = Math.round(correctCount/total*100);
+    finalCard.style.display = 'block';
+    document.getElementById('finalScore').textContent = correctCount + ' / ' + total + ' (' + pct + '%)';
+    let msg = pct >= 85 ? "Strong work — you know this material." :
+              pct >= 70 ? "Solid, review the ones you missed." :
+              pct >= 50 ? "Getting there — worth another pass." :
+              "Time to go back through the material and retry.";
+    document.getElementById('finalMsg').textContent = msg;
+    finalCard.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function resetQuiz(){
+  location.reload();
+}
+</script>
+</body>
+</html>
