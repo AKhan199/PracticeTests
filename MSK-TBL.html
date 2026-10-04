@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MSK Q Bank — Test 5 (Breast Pathology, Robbins-cited)</title>
+<style>
+:root{
+  --bg:#f7f5f2; --card:#ffffff; --ink:#1f2328; --sub:#5b6168;
+  --accent:#8a3b2f; --line:#e6e1da; --correct:#2f7d4f; --correct-bg:#e6f4ea;
+  --wrong:#b3382c; --wrong-bg:#fbeae7; --explain-bg:#f4f2ef; --page:#8a6d2f;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171513; --card:#211e1b; --ink:#eee8e0; --sub:#aba296;
+    --accent:#e8a08c; --line:#332e29; --correct:#7fd89e; --correct-bg:#183324;
+    --wrong:#f0a091; --wrong-bg:#3a201c; --explain-bg:#262220; --page:#e0c47c;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171513; --card:#211e1b; --ink:#eee8e0; --sub:#aba296;
+  --accent:#e8a08c; --line:#332e29; --correct:#7fd89e; --correct-bg:#183324;
+  --wrong:#f0a091; --wrong-bg:#3a201c; --explain-bg:#262220; --page:#e0c47c;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:Georgia,'Iowan Old Style',ui-serif,serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+header{position:sticky; top:0; top:env(safe-area-inset-top,0px); background:var(--bg); border-bottom:1px solid var(--line);
+  padding:14px 20px 12px; z-index:5;}
+h1{margin:0; font-size:1.2rem;}
+.sub{color:var(--sub); font-size:.82rem; margin-top:3px; font-family:-apple-system,system-ui,sans-serif;}
+.scorebar{display:flex; align-items:center; gap:12px; margin-top:10px; font-family:-apple-system,system-ui,sans-serif; font-size:.82rem;}
+.scorebar .pill{border:1px solid var(--line); border-radius:20px; padding:4px 12px; background:var(--card);}
+.progress-track{flex:1; height:6px; background:var(--line); border-radius:4px; overflow:hidden;}
+.progress-fill{height:100%; background:var(--accent); width:0%; transition:width .2s;}
+button.ctrl{font-family:-apple-system,system-ui,sans-serif; font-size:.78rem; border:1px solid var(--line);
+  background:var(--card); color:var(--ink); padding:5px 12px; border-radius:20px; cursor:pointer;}
+main{max-width:720px; margin:0 auto; padding:16px 16px 60px;}
+.card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:12px;}
+.qnum{font-family:-apple-system,system-ui,sans-serif; font-size:.7rem; color:var(--sub); margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;}
+.pagetag{font-size:.68rem; color:var(--page); border:1px solid var(--page); border-radius:10px; padding:1px 8px;}
+.qtext{font-size:1rem; line-height:1.5; margin-bottom:12px;}
+.optwrap{margin-bottom:10px;}
+.opt{
+  display:block; width:100%; text-align:left; font-family:-apple-system,system-ui,sans-serif;
+  font-size:.92rem; padding:9px 12px; border-radius:8px 8px 0 0;
+  border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer;
+}
+.opt:active{transform:scale(.995);}
+.opt.correct{border-color:var(--correct); background:var(--correct-bg); color:var(--correct); font-weight:600;}
+.opt.wrong{border-color:var(--wrong); background:var(--wrong-bg); color:var(--wrong); font-weight:600;}
+.opt.disabled{cursor:default;}
+.explain{
+  display:none; font-family:-apple-system,system-ui,sans-serif; font-size:.82rem; line-height:1.45;
+  padding:8px 12px; border:1px solid var(--line); border-top:none; border-radius:0 0 8px 8px;
+  background:var(--explain-bg); color:var(--sub); margin-bottom:7px;
+}
+.explain.show{display:block;}
+.explain.ex-correct{color:var(--correct);}
+.result-tag{font-family:-apple-system,system-ui,sans-serif; font-size:.78rem; margin-top:2px; font-weight:600;}
+.result-tag.correct{color:var(--correct);}
+.result-tag.wrong{color:var(--wrong);}
+#finalCard{display:none; text-align:center; padding:28px 20px; margin:6px 0 24px;}
+#finalCard h2{margin:0 0 6px; font-size:1.6rem;}
+#finalCard .big{font-size:2.6rem; font-weight:700; color:var(--accent); margin:8px 0;}
+#finalCard .msg{font-family:-apple-system,system-ui,sans-serif; color:var(--sub); font-size:.9rem;}
+footer{text-align:center; color:var(--sub); font-family:-apple-system,system-ui,sans-serif; font-size:.75rem; padding:10px 0 30px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>MSK Q Bank — Test 5 (Breast Pathology)</h1>
+  <div class="sub">10 questions, graded, with explanations citing the Robbins "The Breast" excerpt (pp. 948, 949, 951) you uploaded.</div>
+  <div class="scorebar">
+    <span class="pill" id="progressLabel">0 / 10 answered</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <button class="ctrl" onclick="resetQuiz()">Reset</button>
+  </div>
+</header>
+<main id="main"></main>
+<footer>10 questions · TBL breast questions matched to the Robbins textbook excerpt</footer>
+
+<script>
+const items = [
+{q:"A biopsy from a breast lesion showed an increased number of both luminal and myoepithelial cell types, filling and distending ducts and lobules. No histologic features of atypia were identified. What is the diagnosis?",
+ page:"p.948",
+ o:["Epithelial hyperplasia","Apocrine metaplasia","Radial scar","Ductal carcinoma in situ","Lobular carcinoma in situ"], a:0,
+ ex:["Correct — matches the textbook's definition of usual ductal hyperplasia (p.948): \"increased number of both luminal and myoepithelial cells filling and distending ducts and lobules.\"",
+     "Apocrine cells have abundant granular eosinophilic cytoplasm resembling sweat gland epithelium (p.948) — a different cell population than described here.",
+     "Radial scar is a stellate lesion with a central nidus of entrapped glands and radiating projections (p.948) — not this finding.",
+     "DCIS is a neoplastic proliferation with cytologic atypia confined by the basement membrane (p.951) — this case explicitly has no atypia.",
+     "LCIS is a carcinoma in situ carrying a much higher relative risk (Table 23.1, p.951) — not a benign proliferation without atypia."]},
+{q:"A 44-year-old female has ducts partially distended by atypical cells with a cribriform pattern on biopsy, no invasive tumor. Compared to the normal population, what is the relative risk of developing breast carcinoma based on this lesion?",
+ page:"p.951",
+ o:["Less than the normal population","The same as the normal population","1 to 2x the normal population","4 to 5x the normal population","10 to 15x the normal population"], a:3,
+ ex:["Table 23.1 (p.951) shows atypical hyperplasia increases risk, not decreases it.",
+     "Table 23.1 (p.951) places \"proliferative disease with atypia\" above baseline risk.",
+     "Table 23.1 (p.951) lists \"proliferative disease without atypia\" (not atypical hyperplasia) at RR 1.5-2.",
+     "Correct — Table 23.1 (p.951) lists \"proliferative disease with atypia (atypical ductal/lobular hyperplasia)\" at relative risk 4-5 (~13-17% absolute lifetime risk).",
+     "Table 23.1 (p.951) lists carcinoma in situ (not atypical hyperplasia) at RR 8-10, not 10-15."]},
+{q:"A 60-year-old man with painless, bilateral breast enlargement has a history of alcohol abuse and is on medication for hypercholesterolemia. What is the most likely underlying cause?",
+ page:"p.948",
+ o:["Chronic glomerulonephritis","Liver cirrhosis","Parathyroid adenoma","Progressive systemic sclerosis","Non-seminomatous germ cell neoplasm"], a:1,
+ ex:["Not mentioned on p.948 as a gynecomastia cause.",
+     "Correct — p.948 states cirrhosis is \"the most important\" cause of gynecomastia since the liver normally metabolizes estrogen; alcohol abuse history supports this.",
+     "Not listed on p.948 among gynecomastia causes.",
+     "Not mentioned on p.948.",
+     "p.948 mentions functioning testicular neoplasms (Leydig/Sertoli cell tumors) as a rare cause — not germ cell tumors, and not the most likely cause given this history."]},
+{q:"Which of the following markers is expressed in both atypical ductal hyperplasia and atypical lobular hyperplasia?",
+ page:"not in excerpt",
+ o:["Estrogen receptor","Androgen receptor","Synaptophysin","Smooth muscle actin","Vimentin"], a:0,
+ ex:["Correct in general pathology teaching (ADH/ALH are ER-positive as part of the low-grade neoplasia pathway) — though the uploaded excerpt only states this for low-grade DCIS (p.951), not explicitly for ADH/ALH, so this one isn't directly citable from your pages.",
+     "Not the marker tested here.",
+     "A neuroendocrine marker, unrelated to this question.",
+     "Marks myoepithelial cells, not the luminal atypical population being asked about.",
+     "A nonspecific mesenchymal marker, not the answer here."]},
+{q:"A 37-year-old female has occasional non-milky, now bloody, nipple discharge. A small palpable lesion is behind the areola with normal overlying skin. Biopsy shows an intraductal branching lesion with no atypia. Most likely diagnosis?",
+ page:"p.948",
+ o:["Paget's disease of the nipple","Phyllodes tumor","Breast papilloma","Leiomyoma of the breast","Invasive ductal carcinoma"], a:2,
+ ex:["Not described in this excerpt; Paget's disease presents as eczematous nipple skin change, not an intraductal branching lesion.",
+     "Not described on these pages; distinct from a papillary/branching intraductal lesion.",
+     "Correct — p.948 describes papillomas as composed of multiple branching fibrovascular cores within a duct, often causing (sometimes bloody) nipple discharge from torsion/infarction of the stalk.",
+     "Not covered in this excerpt and not a typical breast ductal lesion.",
+     "The biopsy explicitly showed no atypia, inconsistent with carcinoma."]},
+{q:"Which of the following is considered a proliferative epithelial breast lesion without atypia?",
+ page:"p.948",
+ o:["Apocrine metaplasia","Sclerosing adenosis"], a:1,
+ ex:["p.948 describes apocrine metaplasia separately under apocrine cysts/fibrocystic change — it is not listed among the \"Proliferative Breast Disease Without Atypia\" entries.",
+     "Correct — p.948 explicitly lists sclerosing adenosis under \"Proliferative Breast Disease Without Atypia.\""]},
+{q:"Which of the following lesions has a 1.5-2x relative increase in risk of developing breast carcinoma?",
+ page:"p.951",
+ o:["Atypical lobular hyperplasia","Acute mastitis","Fat necrosis","Complex sclerosing lesion","Ductal carcinoma in situ"], a:3,
+ ex:["Table 23.1 (p.951) places atypical lobular hyperplasia under \"proliferative disease with atypia,\" RR 4-5, not 1.5-2.",
+     "Not listed in Table 23.1 (p.951) at all — not a proliferative epithelial lesion.",
+     "Not listed in Table 23.1 (p.951) — not a proliferative lesion.",
+     "Correct — Table 23.1 (p.951) lists \"radial scar/complex sclerosing lesion\" under \"proliferative disease without atypia,\" RR 1.5-2.",
+     "Table 23.1 (p.951) places DCIS under \"carcinoma in situ,\" RR 8-10 — far higher than 1.5-2."]},
+{q:"Which of the following best describes the histology of atypical ductal hyperplasia?",
+ page:"p.949",
+ o:["The ductal cells are monomorphic, partially filling the ducts with some cribriform pattern","The ductal cells have neuroendocrine features with low mitotic activity","The ducts are filled with comedo-type necrosis","The ducts usually exhibit apocrine and squamous metaplasia","The ducts are surrounded by foreign-body type granulomatous reaction"], a:0,
+ ex:["Correct — Fig. 23.11A caption (p.949) describes ADH as \"rounded, cytologically monotonous cells within the central portion, with interspersed cribriform spaces,\" partially involving the duct.",
+     "Not how ADH is described anywhere in this excerpt.",
+     "Comedo-type necrosis is a classic feature of high-grade DCIS (p.951 discussion of DCIS grading), not ADH.",
+     "Not part of the ADH description in Fig. 23.11 (p.949).",
+     "Not described for ADH anywhere in this excerpt."]},
+{q:"Which of the following best explains the pathogenesis of gynecomastia?",
+ page:"p.948",
+ o:["Mutations in BRCA 1/BRCA 2 genes","Association with non-functioning germ cell tumors","Imbalance between estrogens and androgens","Infection by acid-fast bacilli","Association with growth hormone-producing pituitary adenoma"], a:2,
+ ex:["Not mentioned on p.948 as a gynecomastia cause; these are breast/ovarian cancer risk genes.",
+     "p.948 mentions functioning testicular neoplasms (e.g., Leydig/Sertoli cell tumors), not non-functioning germ cell tumors.",
+     "Correct — p.948 states directly: \"Gynecomastia occurs due to an imbalance between estrogens, which stimulate breast tissue, and androgens, which counteract these effects.\"",
+     "Not mentioned anywhere on p.948.",
+     "Not listed among the causes on p.948."]},
+{q:"On routine mammographic screening, an irregular small lesion was detected. Biopsy showed a central area of entrapped glands in dense stroma, surrounded by long radiating projections into the stroma. Most likely diagnosis?",
+ page:"p.948",
+ o:["Fibroadenoma","Radial scar (radial sclerosing lesion)","Epithelial hyperplasia","Intraductal papilloma","Ductal carcinoma in situ"], a:1,
+ ex:["Not described with entrapped glands/radiating projections in this excerpt; fibroadenoma is a distinct, separate lesion.",
+     "Correct — p.948 describes radial scar as having \"a central nidus of entrapped glands in a hyalinized elastotic stroma surrounded by long radiating projections of glandular elements,\" matching this vignette exactly.",
+     "Described on p.948 as filling/distending ducts, not a stellate lesion with radiating projections.",
+     "p.948 describes papillomas as branching lesions within a dilated duct, not a stellate radiating lesion.",
+     "DCIS is a neoplastic epithelial proliferation confined by the basement membrane, typically detected via calcifications (p.951) — not this stellate entrapped-gland morphology."]},
+];
+
+const letters = ["A","B","C","D","E"];
+const main = document.getElementById('main');
+let total = 0, answered = 0, correctCount = 0;
+
+items.forEach(item => {
+  total++;
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const numRow = document.createElement('div');
+  numRow.className = 'qnum';
+  const num = document.createElement('span');
+  num.textContent = 'Q' + total;
+  const pg = document.createElement('span');
+  pg.className = 'pagetag';
+  pg.textContent = item.page;
+  numRow.appendChild(num);
+  numRow.appendChild(pg);
+  card.appendChild(numRow);
+
+  const qt = document.createElement('div');
+  qt.className = 'qtext';
+  qt.textContent = item.q;
+  card.appendChild(qt);
+
+  const tag = document.createElement('div');
+  tag.className = 'result-tag';
+
+  item.o.forEach((opt, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'optwrap';
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.textContent = letters[i] + '. ' + opt;
+    const ex = document.createElement('div');
+    ex.className = 'explain';
+    ex.textContent = item.ex[i];
+    if (i === item.a) ex.classList.add('ex-correct');
+
+    btn.addEventListener('click', () => {
+      if (card.dataset.locked) return;
+      card.dataset.locked = '1';
+      const allBtns = card.querySelectorAll('.opt');
+      const allExs = card.querySelectorAll('.explain');
+      allBtns.forEach(b => b.classList.add('disabled'));
+      allBtns[item.a].classList.add('correct');
+      allExs.forEach(e => e.classList.add('show'));
+      if (i === item.a) {
+        btn.classList.add('correct');
+        tag.textContent = 'Correct';
+        tag.className = 'result-tag correct';
+        correctCount++;
+      } else {
+        btn.classList.add('wrong');
+        tag.textContent = 'Incorrect — correct answer highlighted above';
+        tag.className = 'result-tag wrong';
+      }
+      answered++;
+      updateProgress();
+    });
+    wrap.appendChild(btn);
+    wrap.appendChild(ex);
+    card.appendChild(wrap);
+  });
+  card.appendChild(tag);
+  main.appendChild(card);
+});
+
+const finalCard = document.createElement('div');
+finalCard.id = 'finalCard';
+finalCard.className = 'card';
+finalCard.innerHTML = '<h2>Your Score</h2><div class="big" id="finalScore"></div><div class="msg" id="finalMsg"></div>';
+main.appendChild(finalCard);
+
+function updateProgress(){
+  document.getElementById('progressLabel').textContent = answered + ' / ' + total + ' answered';
+  document.getElementById('progressFill').style.width = (answered/total*100) + '%';
+  if (answered === total) {
+    const pct = Math.round(correctCount/total*100);
+    finalCard.style.display = 'block';
+    document.getElementById('finalScore').textContent = correctCount + ' / ' + total + ' (' + pct + '%)';
+    let msg = pct >= 85 ? "Strong work — you know this material." :
+              pct >= 70 ? "Solid, review the ones you missed." :
+              pct >= 50 ? "Getting there — worth another pass." :
+              "Time to go back through the material and retry.";
+    document.getElementById('finalMsg').textContent = msg;
+    finalCard.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function resetQuiz(){
+  location.reload();
+}
+</script>
+</body>
+</html>
