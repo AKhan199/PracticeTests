@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSK 308 - Interactive MCQ Master Test</title>
+    <style>
+        :root {
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --indigo-50: #eef2ff;
+            --indigo-600: #4f46e5;
+            --indigo-700: #4338ca;
+            --indigo-800: #3730a3;
+            --emerald-50: #ecfdf5;
+            --emerald-100: #d1fae5;
+            --emerald-600: #059669;
+            --emerald-800: #065f46;
+            --rose-50: #fff1f2;
+            --rose-100: #ffe4e6;
+            --rose-600: #e11d48;
+            --rose-850: #9f1239;
+            --amber-500: #f59e0b;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--slate-50);
+            color: var(--slate-800);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: white;
+            border-bottom: 1px solid var(--slate-200);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            max-width: 64rem;
+            margin: 0 auto;
+            padding: 0.75rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .header-container {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--slate-900);
+            margin: 0 0 0.15rem 0;
+        }
+
+        .subtitle {
+            font-size: 0.75rem;
+            color: var(--slate-500);
+            margin: 0;
+        }
+
+        .stats-box {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background-color: var(--slate-100);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .text-indigo { color: var(--indigo-600); font-weight: 700; }
+        .text-emerald { color: var(--emerald-600); font-weight: 700; }
+
+        .badges {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .badge-correct { background-color: var(--emerald-100); color: var(--emerald-800); padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-weight: 700; }
+        .badge-incorrect { background-color: var(--rose-100); color: var(--rose-850); padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-weight: 700; }
+
+        /* Filter Bar */
+        .filter-bar-wrapper {
+            background-color: var(--slate-50);
+            border-top: 1px solid var(--slate-200);
+            padding: 0.5rem 1rem;
+        }
+
+        .filter-container {
+            max-width: 64rem;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .tag-filters, .status-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+        }
+
+        button.tag-btn, button.status-btn {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.75rem;
+            font-family: inherit;
+        }
+
+        .tag-btn {
+            background-color: white;
+            border: 1px solid var(--slate-300);
+            color: var(--slate-700);
+        }
+        .tag-btn:hover { background-color: var(--slate-100); }
+        .tag-btn.active {
+            background-color: var(--indigo-600);
+            border-color: var(--indigo-600);
+            color: white;
+        }
+
+        .status-btn {
+            background-color: white;
+            border: 1px solid var(--slate-300);
+            color: var(--slate-600);
+            border-radius: 0.375rem;
+        }
+        .status-btn.active {
+            background-color: var(--indigo-50);
+            border-color: var(--indigo-600);
+            color: var(--indigo-700);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 56rem;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            flex-grow: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .space-y-6 > * + * { margin-top: 1.5rem; }
+
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1);
+            border: 1px solid var(--slate-200);
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag-pill {
+            background-color: var(--indigo-50);
+            color: var(--indigo-800);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.625rem;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .qid { font-size: 0.75rem; color: var(--slate-400); }
+
+        .bookmark-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.125rem;
+            color: var(--slate-400);
+            transition: color 0.2s;
+        }
+        .bookmark-btn:hover { color: var(--amber-500); }
+
+        .question-text {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--slate-900);
+            margin-bottom: 1rem;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--slate-200);
+            background-color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--slate-700);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+        .option-btn:hover:not(:disabled) {
+            background-color: var(--slate-50);
+            border-color: var(--slate-300);
+        }
+        .option-btn:disabled { cursor: default; }
+
+        /* State Styles for Options */
+        .option-btn.correct {
+            border-color: var(--emerald-600);
+            background-color: var(--emerald-50);
+            color: var(--emerald-800);
+            font-weight: 600;
+        }
+        .option-btn.incorrect {
+            border-color: var(--rose-600);
+            background-color: var(--rose-50);
+            color: var(--rose-850);
+        }
+        .option-btn.dimmed {
+            border-color: var(--slate-200);
+            background-color: var(--slate-50);
+            color: var(--slate-400);
+            opacity: 0.6;
+        }
+
+        .explanation-box {
+            background-color: var(--slate-50);
+            border-left: 4px solid var(--indigo-600);
+            padding: 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            font-size: 0.875rem;
+            color: var(--slate-700);
+            margin-top: 1rem;
+        }
+        .explanation-box.hidden { display: none; }
+        .explanation-title {
+            color: var(--indigo-800);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        footer {
+            background-color: white;
+            border-top: 1px solid var(--slate-200);
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.75rem;
+            color: var(--slate-500);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Stats & Header -->
+    <header>
+        <div class="header-container">
+            <div>
+                <h1>MSK 308 Interactive Test Bank</h1>
+                <p class="subtitle">Instant Grading • Untimed Practice • Comprehensive Review</p>
+            </div>
+            <div class="stats-box">
+                <div>Answered: <span id="stat-answered" class="text-indigo">0</span> / <span id="stat-total">0</span></div>
+                <div>Accuracy: <span id="stat-accuracy" class="text-emerald">0%</span></div>
+                <div class="badges">
+                    <span class="badge-correct" id="stat-correct">0 C</span>
+                    <span class="badge-incorrect" id="stat-incorrect">0 I</span>
+                </div>
+            </div>
+        </div>
+        <!-- Filter Bar -->
+        <div class="filter-bar-wrapper">
+            <div class="filter-container">
+                <div id="tag-filters" class="tag-filters">
+                    <button onclick="setTagFilter('all')" class="tag-btn active" data-tag="all">All Tags</button>
+                    <button onclick="setTagFilter('anatomy-osteology')" class="tag-btn" data-tag="anatomy-osteology">Anatomy & Osteology</button>
+                    <button onclick="setTagFilter('physiology-emg')" class="tag-btn" data-tag="physiology-emg">Physiology & EMG</button>
+                    <button onclick="setTagFilter('biochemistry-metabolic')" class="tag-btn" data-tag="biochemistry-metabolic">Biochemistry</button>
+                    <button onclick="setTagFilter('microbiology-wound')" class="tag-btn" data-tag="microbiology-wound">Microbiology</button>
+                    <button onclick="setTagFilter('pathology-oncology')" class="tag-btn" data-tag="pathology-oncology">Pathology</button>
+                </div>
+                <div class="status-filters">
+                    <button onclick="setStatusFilter('all')" class="status-btn active" data-status="all">Show All</button>
+                    <button onclick="setStatusFilter('unanswered')" class="status-btn" data-status="unanswered">Unanswered</button>
+                    <button onclick="setStatusFilter('incorrect')" class="status-btn" data-status="incorrect">Incorrect</button>
+                    <button onclick="setStatusFilter('bookmarked')" class="status-btn" data-status="bookmarked">Bookmarked</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Stream -->
+    <main>
+        <div id="questions-container" class="space-y-6">
+            <!-- Questions rendered via JS -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        MSK 308 Musculoskeletal & Integumentary Module Test Bank • Instant Grading Enabled
+    </footer>
+
+    <!-- JavaScript Application Core -->
+    <script>
+        const questions = [
+            // ANATOMY & OSTEOLOGY
+            {
+                id: 1, tag: "anatomy-osteology",
+                text: "What structure forms the lateral anatomical boundary of the axilla?",
+                options: [
+                    "Pectoralis major and minor muscles",
+                    "Subscapularis, teres major, and latissimus dorsi muscles",
+                    "Intertubercular groove of the humerus",
+                    "Serratus anterior muscle",
+                    "Cervico-axillary canal"
+                ],
+                correct: 2,
+                explanation: "The boundaries of the axilla are well-defined: the anterior wall comprises the pectoralis major and minor muscles, the posterior wall is formed by the subscapularis, teres major, and latissimus dorsi muscles, the medial wall is formed by the serratus anterior, and the lateral boundary is the intertubercular groove (bicipital groove) of the humerus."
+            },
+            {
+                id: 2, tag: "anatomy-osteology",
+                text: "Which of the following structures forms the medial boundary of the cubital fossa?",
+                options: [
+                    "Imaginary line between the epicondyles of the humerus",
+                    "Brachioradialis muscle",
+                    "Pronator teres muscle",
+                    "Bicipital aponeurosis",
+                    "Brachialis and supinator muscles"
+                ],
+                correct: 2,
+                explanation: "The cubital fossa is bounded superiorly by an imaginary line between the humeral epicondyles, laterally by the brachioradialis muscle, and medially by the pronator teres muscle."
+            },
+            {
+                id: 3, tag: "anatomy-osteology",
+                text: "Which neural or tendinous structure does not pass through the carpal tunnel beneath the flexor retinaculum?",
+                options: [
+                    "Median nerve",
+                    "Tendons of flexor digitorum superficialis",
+                    "Tendons of flexor digitorum profundus",
+                    "Tendon of flexor pollicis longus",
+                    "Tendon of flexor carpi radialis"
+                ],
+                correct: 4,
+                explanation: "The flexor retinaculum forms the roof of the carpal tunnel. Structures passing through include the median nerve, flexor digitorum superficialis and profundus tendons, and flexor pollicis longus. The flexor carpi radialis travels in a separate compartment outside the carpal tunnel."
+            },
+            {
+                id: 4, tag: "anatomy-osteology",
+                text: "What structure forms the lateral boundary of the femoral triangle?",
+                options: [
+                    "Inguinal ligament",
+                    "Sartorius muscle",
+                    "Adductor longus muscle",
+                    "Pectineus muscle",
+                    "Fascia lata"
+                ],
+                correct: 1,
+                explanation: "The femoral triangle is bounded superiorly by the inguinal ligament, laterally by the sartorius muscle, and medially by the adductor longus muscle."
+            },
+            {
+                id: 5, tag: "anatomy-osteology",
+                text: "Which of the following structures is located specifically within the carotid triangle of the anterior neck?",
+                options: [
+                    "Submental lymph nodes and anterior jugular vein",
+                    "Submandibular gland and hypoglossal nerve (CN XII)",
+                    "Common carotid artery, internal jugular vein, and vagus nerve (CN X)",
+                    "Infrahyoid muscles and thyroid/parathyroid glands",
+                    "Accessory nerve (CN XI) and brachial plexus trunks"
+                ],
+                correct: 2,
+                explanation: "The carotid triangle contains the common carotid artery, internal jugular vein, vagus nerve (CN X), hypoglossal nerve (CN XII), ansa cervicalis, and deep cervical lymph nodes."
+            },
+            {
+                id: 6, tag: "anatomy-osteology",
+                text: "Which specific bony landmark is located on the lateral (acromial) third of the clavicle?",
+                options: [
+                    "Sternal end",
+                    "Costal tuberosity",
+                    "Conoid tubercle and trapezoid line",
+                    "Subclavian groove",
+                    "Radial groove"
+                ],
+                correct: 2,
+                explanation: "On the inferior surface of the lateral third of the clavicle, the conoid tubercle and trapezoid line serve as attachment sites for the coracoclavicular ligaments."
+            },
+            {
+                id: 7, tag: "anatomy-osteology",
+                text: "Which scapular fossa is located inferior to the spine of the scapula on the posterior surface?",
+                options: [
+                    "Supraspinous fossa",
+                    "Infraspinous fossa",
+                    "Subscapular fossa",
+                    "Glenoid cavity",
+                    "Coracoid process"
+                ],
+                correct: 1,
+                explanation: "The spine of the scapula divides the posterior surface into the supraspinous fossa superiorly and the infraspinous fossa inferiorly."
+            },
+            {
+                id: 8, tag: "anatomy-osteology",
+                text: "Which nerve runs in direct association with the radial groove located on the posterior shaft of the humerus?",
+                options: [
+                    "Ulnar nerve",
+                    "Median nerve",
+                    "Radial nerve",
+                    "Axillary nerve",
+                    "Musculocutaneous nerve"
+                ],
+                correct: 2,
+                explanation: "The radial groove on the posterior shaft of the humerus transmits the radial nerve and deep brachial artery."
+            },
+            {
+                id: 9, tag: "anatomy-osteology",
+                text: "Which specific bony landmark of the radius is commonly referred to as Lister's tubercle?",
+                options: [
+                    "Radial tuberosity",
+                    "Styloid process of the radius",
+                    "Dorsal tubercle",
+                    "Ulnar notch",
+                    "Head of the radius"
+                ],
+                correct: 2,
+                explanation: "The dorsal tubercle (Lister's tubercle) is a prominent bony landmark on the posterior distal radius acting as a pulley for the extensor pollicis longus tendon."
+            },
+            {
+                id: 10, tag: "anatomy-osteology",
+                text: "Which of the following neurovascular or tendinous structures lies most medially within the contents of the cubital fossa?",
+                options: [
+                    "Tendon of biceps brachii",
+                    "Brachial artery",
+                    "Median nerve",
+                    "Radial nerve",
+                    "Cephalic vein"
+                ],
+                correct: 2,
+                explanation: "From lateral to medial, the contents follow TAN (Tendon of biceps, Artery, Nerve), placing the median nerve most medially."
+            },
+            {
+                id: 11, tag: "anatomy-osteology",
+                text: "Which carpal bone articulates directly with the radius to form the radiocarpal wrist joint?",
+                options: [
+                    "Pisiform",
+                    "Trapezium",
+                    "Capitate",
+                    "Scaphoid",
+                    "Hamate"
+                ],
+                correct: 3,
+                explanation: "The scaphoid and lunate articulate directly with the distal surface of the radius at the radiocarpal joint."
+            },
+            {
+                id: 12, tag: "anatomy-osteology",
+                text: "Which structure forms the socket for the hip joint articulation with the femoral head?",
+                options: [
+                    "Greater sciatic notch",
+                    "Obturator foramen",
+                    "Acetabulum",
+                    "Ischial tuberosity",
+                    "Iliac crest"
+                ],
+                correct: 2,
+                explanation: "The acetabulum is a deep cup-shaped cavity on the lateral aspect of the hip bone forming the socket for the femoral head."
+            },
+            {
+                id: 13, tag: "anatomy-osteology",
+                text: "What major nerve runs through the adductor canal (Hunter's canal) alongside the femoral vessels?",
+                options: [
+                    "Femoral nerve",
+                    "Obturator nerve",
+                    "Saphenous nerve",
+                    "Sciatic nerve",
+                    "Common fibular nerve"
+                ],
+                correct: 2,
+                explanation: "The adductor canal contains the femoral vessels, saphenous nerve, and the nerve to vastus medialis."
+            },
+            {
+                id: 14, tag: "anatomy-osteology",
+                text: "Which muscles form the superomedial boundary of the popliteal fossa?",
+                options: [
+                    "Biceps femoris",
+                    "Semimembranosus and semitendinosus muscles",
+                    "Medial head of gastrocnemius",
+                    "Lateral head of gastrocnemius",
+                    "Popliteus muscle"
+                ],
+                correct: 1,
+                explanation: "The popliteal fossa is bounded superomedially by the semimembranosus and semitendinosus muscles."
+            },
+            {
+                id: 15, tag: "anatomy-osteology",
+                text: "Which cranial nerve runs directly through the occipital triangle within the posterior triangle of the neck?",
+                options: [
+                    "Vagus nerve (CN X)",
+                    "Accessory nerve (CN XI)",
+                    "Hypoglossal nerve (CN XII)",
+                    "Glossopharyngeal nerve (CN IX)",
+                    "Facial nerve (CN VII)"
+                ],
+                correct: 1,
+                explanation: "The occipital triangle contains the accessory nerve (CN XI), brachial plexus trunks, and cervical plexus branches."
+            },
+
+            // PHYSIOLOGY & EMG
+            {
+                id: 16, tag: "physiology-emg",
+                text: "Based on the muscle stimulation exercise, what does observing no measurable twitch at a stimulus of 0 mA indicate?",
+                options: [
+                    "All motor units are firing asynchronously to maintain baseline tone.",
+                    "No muscles contract when there is no current because the threshold is not met.",
+                    "Only slow-twitch type I fibers are activated without high-voltage current.",
+                    "The threshold has been exceeded, leading to tetanic fusion.",
+                    "Calcium reuptake by the sarcoplasmic reticulum is completely blocked."
+                ],
+                correct: 1,
+                explanation: "A stimulus of 0 mA produces no twitch because the threshold required to depolarize motor nerve axons has not been met."
+            },
+            {
+                id: 17, tag: "physiology-emg",
+                text: "Why does varying the stimulus strength from threshold to maximal levels affect the observed twitch force?",
+                options: [
+                    "Higher current increases the conduction velocity of individual action potentials.",
+                    "More motor axons are stimulated, recruiting more motor units, thereby contracting more fibers and increasing twitch force.",
+                    "Increased voltage directly enhances myosin ATPase activity within sliding filaments.",
+                    "Higher currents cause temporal summation by shortening the refractory period.",
+                    "Increased current prevents the reuptake of calcium ions into terminal cisternae."
+                ],
+                correct: 1,
+                explanation: "Increasing current recruits a greater number of motor axons, activating more motor units and producing a stronger cumulative twitch force."
+            },
+            {
+                id: 18, tag: "physiology-emg",
+                text: "When a muscle is stimulated in rapid succession without relaxation time, what phenomenon occurs, and what was the minimum time observed?",
+                options: [
+                    "Muscle fatigue occurs instantly; minimum time is 10 ms.",
+                    "Contraction forces add together (summation); minimum time was around 100 ms.",
+                    "Recruitment stops completely; minimum time is 500 ms.",
+                    "Isometric relaxation reaches a plateau; minimum time is 1 second.",
+                    "Complete asynchronous tetanus occurs; minimum time is 5 ms."
+                ],
+                correct: 1,
+                explanation: "When relaxation time is insufficient, individual contraction forces add together (summation), with a minimum time of around 100 ms observed."
+            },
+            {
+                id: 19, tag: "physiology-emg",
+                text: "How does the toxin produced by Clostridium tetani cause 'spastic paralysis' in muscles?",
+                options: [
+                    "It blocks acetylcholine receptors at the neuromuscular junction.",
+                    "It continuously and painfully causes involuntary muscle contraction by preventing inhibitory neurotransmission.",
+                    "It permanently opens voltage-gated sodium channels causing flaccid paralysis.",
+                    "It degrades acetylcholinesterase leading to permanent fiber exhaustion.",
+                    "It inhibits calcium release from the sarcoplasmic reticulum."
+                ],
+                correct: 1,
+                explanation: "Clostridium tetani toxin causes continuous involuntary contraction by preventing inhibitory neurotransmission."
+            },
+            {
+                id: 20, tag: "physiology-emg",
+                text: "Why is declining force observed when subjects shut their eyes during a sustained contraction (pseudo-fatigue) not considered true fatigue?",
+                options: [
+                    "True fatigue involves permanent metabolic depletion while pseudo-fatigue involves lactic acid.",
+                    "The full force can be easily exerted again as soon as the subject opens their eyes and regains visual feedback.",
+                    "Pseudo-fatigue only affects slow-twitch fibers through central inhibition.",
+                    "Visual deprivation blocks motor cortex output entirely without peripheral involvement.",
+                    "True fatigue is psychological while pseudo-fatigue is neuromuscular."
+                ],
+                correct: 1,
+                explanation: "Pseudo-fatigue happens due to lack of visual feedback to gauge force; it is not true fatigue because full force is exerted immediately upon opening eyes."
+            },
+            {
+                id: 21, tag: "physiology-emg",
+                text: "Unlike the discrete ECG waveform, why is the electromyogram (EMG) waveform irregular?",
+                options: [
+                    "The heart features pacemakers whereas skeletal muscle lacks electrical coordination.",
+                    "EMG represents the asynchronous activity of many individual motor units firing at different times and rates.",
+                    "Skin resistance completely distorts the frequency of action potentials.",
+                    "Skeletal muscle relies exclusively on anaerobic glycolysis during recording.",
+                    "Bio Amp filter settings automatically introduce random noise."
+                ],
+                correct: 1,
+                explanation: "EMG records the asynchronous firing of numerous individual motor units at varying times and rates."
+            },
+            {
+                id: 22, tag: "physiology-emg",
+                text: "In your own words, what is 'coactivation', and what is a proposed explanation for this phenomenon?",
+                options: [
+                    "Simultaneous fatigue of agonist and antagonist muscles.",
+                    "Sequential firing of motor units to maximize isometric force.",
+                    "Simultaneous activation of an agonist muscle and its antagonist, which helps to stabilize joints and control movement.",
+                    "Electrical cross-talk between Channel 1 and 2 on the Bio Amp cable.",
+                    "Complete inhibition of antagonist muscles during rapid movement."
+                ],
+                correct: 2,
+                explanation: "Coactivation is simultaneous activation of an agonist and its antagonist, serving to stabilize joints."
+            },
+            {
+                id: 23, tag: "physiology-emg",
+                text: "Which of the following physiological events occurs during the latent period between stimulus delivery and recorded response?",
+                options: [
+                    "Immediate cross-bridge detachment and muscle fiber relaxation.",
+                    "Stimulation of the nerve axon, action potential propagation, neuromuscular junction synaptic transmission, muscle fiber action potential, and excitation-contraction coupling.",
+                    "Complete depletion of acetylcholine stores in terminal buttons.",
+                    "Maximal sliding of actin filaments past myosin without calcium.",
+                    "Direct mechanical compression of recording electrodes."
+                ],
+                correct: 1,
+                explanation: "The latent period encompasses axon stimulation, propagation, synaptic transmission, muscle action potential generation, and excitation-contraction coupling."
+            },
+
+            // BIOCHEMISTRY & METABOLIC
+            {
+                id: 24, tag: "biochemistry-metabolic",
+                text: "Which two enzymes are significantly elevated in serum following acute skeletal muscle injury?",
+                options: [
+                    "Amylase and lipase",
+                    "Alanine aminotransferase and gamma-glutamyl transferase",
+                    "Aldolase and creatine kinase",
+                    "Lactate dehydrogenase and alkaline phosphatase",
+                    "Acid phosphatase and cholinesterase"
+                ],
+                correct: 2,
+                explanation: "Aldolase and creatine kinase (CK) leak into the blood during muscle trauma and myopathies."
+            },
+            {
+                id: 25, tag: "biochemistry-metabolic",
+                text: "How does severe rhabdomyolysis biochemically affect renal function?",
+                options: [
+                    "It increases liver urea synthesis lowering blood pH.",
+                    "It releases myoglobin into circulation, which can precipitate in renal tubules leading to acute tubular necrosis and acute kidney injury.",
+                    "It causes hypercalcemia by precipitating calcium phosphate in the renal cortex.",
+                    "It triggers autoimmune glomerular basement membrane destruction.",
+                    "It inhibits antidiuretic hormone resulting in nephrogenic diabetes insipidus."
+                ],
+                correct: 1,
+                explanation: "Released myoglobin filters into renal tubules and precipitates, causing acute tubular necrosis and kidney injury."
+            },
+            {
+                id: 26, tag: "biochemistry-metabolic",
+                text: "What is the underlying biochemical reason for hyperkalemia during severe skeletal muscle breakdown?",
+                options: [
+                    "Extracellular potassium shifts into cells in exchange for sodium.",
+                    "Skeletal muscle cells contain high intracellular potassium concentrations released directly into blood when cells lyse.",
+                    "Renal tubular reabsorption of potassium is upregulated by myoglobin.",
+                    "Breakdown of muscle proteins liberates amino acids rich in potassium.",
+                    "Increased aldosterone synthesis is triggered by damaged muscle."
+                ],
+                correct: 1,
+                explanation: "Muscle cells maintain high intracellular potassium; massive cell lysis floods circulation with potassium, causing hyperkalemia."
+            },
+            {
+                id: 27, tag: "biochemistry-metabolic",
+                text: "A 30-year-old man under anesthesia develops hyperthermia, tachycardia, muscle rigidity, and acidosis. What is the emergency antidote and associated gene mutation?",
+                options: [
+                    "Naloxone; CACNA1S",
+                    "Flumazenil; SOD1",
+                    "Dantrolene; RYR1",
+                    "Physostigmine; DMD",
+                    "N-acetylcysteine; COL1A1"
+                ],
+                correct: 2,
+                explanation: "Malignant hyperthermia is linked to ryanodine receptor RYR1 mutations; dantrolene blocks calcium release and serves as the emergency antidote."
+            },
+            {
+                id: 28, tag: "biochemistry-metabolic",
+                text: "In primary hyperparathyroidism, what is the mechanism responsible for elevated serum calcium?",
+                options: [
+                    "Decreased renal calcium excretion with suppressed vitamin D activation.",
+                    "Excess PTH increases bone resorption, enhances renal calcium reabsorption, and increases intestinal calcium absorption via activated vitamin D.",
+                    "Increased dietary absorption driven by serum calcitonin.",
+                    "Direct inhibition of osteoblast activity paired with hyperphosphatemic mineralization.",
+                    "Enhanced renal filtration paired with secretory failure."
+                ],
+                correct: 1,
+                explanation: "Excess PTH raises blood calcium by stimulating bone resorption, promoting renal calcium reabsorption, and stimulating gut absorption via calcitriol."
+            },
+            {
+                id: 29, tag: "biochemistry-metabolic",
+                text: "Why is serum alkaline phosphatase (ALP) markedly elevated in children with nutritional rickets?",
+                options: [
+                    "It reflects compensatory hepatic synthesis due to low dietary fat.",
+                    "It represents a compensatory increase in osteoblastic activity and bone turnover driven by defective mineralization.",
+                    "It is released from damaged skeletal muscle fibers alongside CK.",
+                    "It is produced by parathyroid hyperplasia secondary to hypocalcemia.",
+                    "It acts as an enzyme to substitute for deficient active vitamin D."
+                ],
+                correct: 1,
+                explanation: "Defective bone mineralization triggers a compensatory surge in osteoblast activity and bone turnover, driving serum ALP up."
+            },
+            {
+                id: 30, tag: "biochemistry-metabolic",
+                text: "In stage 4 chronic kidney disease with bone pain, what causes secondary hyperparathyroidism?",
+                options: [
+                    "Failing kidneys hyper-secrete active vitamin D stimulating parathyroid cell division.",
+                    "Hyperphosphatemia, decreased active vitamin D synthesis by failing kidneys, and hypocalcemia stimulate parathyroid glands to overproduce PTH.",
+                    "Elevated serum calcium downregulates calcitonin receptors.",
+                    "Loss of renal urea clearance forces parathyroid glands to buffer acidity.",
+                    "Increased glomerular filtration of phosphate suppresses PTH degradation."
+                ],
+                correct: 1,
+                explanation: "Failing kidneys cause hyperphosphatemia and drop calcitriol synthesis; combined with hypocalcemia, this stimulates parathyroid glands to oversecrete PTH."
+            },
+            {
+                id: 31, tag: "biochemistry-metabolic",
+                text: "Why is genetic testing important in suspected cases of Duchenne Muscular Dystrophy?",
+                options: [
+                    "It measures circulating activity of serum creatine kinase isoenzymes.",
+                    "It detects mutations in the DMD gene, confirming diagnosis, enabling carrier testing, and facilitating potential genetic therapies.",
+                    "It identifies single nucleotide polymorphisms predicting exact life expectancy.",
+                    "It monitors muscle glycogen depletion during anaerobic exercise.",
+                    "It replaces muscle biopsy by quantifying dystrophin protein levels in serum."
+                ],
+                correct: 1,
+                explanation: "Genetic testing checks the DMD gene for mutations, confirming diagnosis, allowing carrier testing, and opening avenues for gene therapies."
+            },
+            {
+                id: 32, tag: "biochemistry-metabolic",
+                text: "What are the key lab abnormalities indicative of malignant hyperthermia?",
+                options: [
+                    "Metabolic alkalosis, hypokalemia, and normal CK levels",
+                    "Respiratory alkalosis, hypercalcemia, and low myoglobin",
+                    "Acidosis (pH = 7.21), high serum potassium (K+ = 6.3 mmol/L), elevated CK (15,000 U/L), and myoglobinuria",
+                    "Normal blood gas, profound hypokalemia, and undetectable aldolase",
+                    "High serum sodium, profound hypoglycemia, and decreased BUN"
+                ],
+                correct: 2,
+                explanation: "Malignant hyperthermia presents intraoperatively with acidosis (pH = 7.21), hyperkalemia (6.3 mmol/L), extreme CK elevation (15,000 U/L), and myoglobinuria."
+            },
+            {
+                id: 33, tag: "biochemistry-metabolic",
+                text: "What are the standard reference ranges for serum calcium and serum phosphate?",
+                options: [
+                    "Calcium: 5.0–7.0 mg/dL; Phosphate: 1.0–2.0 mg/dL",
+                    "Calcium: 8.5–10.5 mg/dL; Phosphate: 2.5–4.5 mg/dL",
+                    "Calcium: 11.0–13.0 mg/dL; Phosphate: 5.0–7.0 mg/dL",
+                    "Calcium: 4.0–6.0 mg/dL; Phosphate: 0.5–1.5 mg/dL",
+                    "Calcium: 12.0–15.0 mg/dL; Phosphate: 8.0–10.0 mg/dL"
+                ],
+                correct: 1,
+                explanation: "Normal lab reference ranges are 8.5–10.5 mg/dL for calcium and 2.5–4.5 mg/dL for phosphate."
+            },
+            {
+                id: 34, tag: "biochemistry-metabolic",
+                text: "Which two primary hormones regulate calcium and phosphate homeostasis?",
+                options: [
+                    "Insulin and glucagon",
+                    "Thyroxine and triiodothyronine",
+                    "Parathyroid hormone (PTH) and calcitriol (activated vitamin D)",
+                    "Cortisol and aldosterone",
+                    "Growth hormone and somatostatin"
+                ],
+                correct: 2,
+                explanation: "Calcium and phosphate balance is tightly regulated by parathyroid hormone (PTH) and vitamin D (calcitriol)."
+            },
+            {
+                id: 35, tag: "biochemistry-metabolic",
+                text: "What are the primary clinical consequences of persistently elevated serum calcium levels (hypercalcemia)?",
+                options: [
+                    "Cardiac arrhythmias, kidney stones (nephrolithiasis), and gastrointestinal disturbances",
+                    "Tetany, Chvostek's sign, and prolonged QT intervals",
+                    "Severe hypoglycemia and profound skeletal muscle paralysis",
+                    "Bone marrow suppression and macrocytic anemia",
+                    "Bronchospasm and excessive mucous membrane secretions"
+                ],
+                correct: 0,
+                explanation: "Persistently high calcium alters neuromuscular and renal function, commonly resulting in cardiac arrhythmias, nephrolithiasis, and GI symptoms."
+            },
+            {
+                id: 36, tag: "biochemistry-metabolic",
+                text: "What biochemical profile is characteristic of primary hyperparathyroidism?",
+                options: [
+                    "Low calcium, high phosphate, low PTH, and normal ALP",
+                    "Elevated serum calcium, decreased/low-normal serum phosphate, high PTH levels, and elevated ALP",
+                    "Normal calcium, high phosphate, suppressed PTH, and low ALP",
+                    "Low calcium, low phosphate, very high PTH, and low ALP",
+                    "Elevated calcium, elevated phosphate, low PTH, and normal ALP"
+                ],
+                correct: 1,
+                explanation: "Primary hyperparathyroidism presents with high calcium, low-normal/decreased phosphate, high PTH, and elevated ALP."
+            },
+            {
+                id: 37, tag: "biochemistry-metabolic",
+                text: "Which imaging studies are most appropriate to support a diagnosis of primary hyperparathyroidism?",
+                options: [
+                    "Chest X-ray and CT brain",
+                    "Parathyroid scan and neck ultrasound",
+                    "MRI of the lumbar spine and pelvic X-ray",
+                    "Abdominal ultrasound and echocardiogram",
+                    "DEXA scan of the forearm only"
+                ],
+                correct: 1,
+                explanation: "A parathyroid scan (Sestamibi) and neck ultrasound are standard imaging tools to locate parathyroid adenomas."
+            },
+            {
+                id: 38, tag: "biochemistry-metabolic",
+                text: "Which laboratory and radiologic findings are classically seen in nutritional rickets in children?",
+                options: [
+                    "High calcium, high phosphate, low PTH, and dense bone mineralization",
+                    "Low serum calcium, low serum phosphate, high ALP, low 25-OH vitamin D, high PTH, and widened/cupped metaphyses on X-ray",
+                    "Normal calcium, high phosphate, normal ALP, and normal epiphyses",
+                    "High calcium, low phosphate, normal vitamin D, and osteosclerosis",
+                    "Low calcium, high phosphate, suppressed PTH, and absent epiphyseal plates"
+                ],
+                correct: 1,
+                explanation: "Nutritional rickets features low calcium/phosphate, high PTH, high ALP, low vitamin D, and widened/cupped metaphyses on X-ray."
+            },
+            {
+                id: 39, tag: "biochemistry-metabolic",
+                text: "In stage 4 CKD presenting with hyperphosphatemia, low calcium, high ALP, and very high PTH, what causes secondary hyperparathyroidism?",
+                options: [
+                    "Hyperphosphatemia, decreased active vitamin D synthesis by failing kidneys, and hypocalcemia stimulate parathyroid glands to overproduce PTH.",
+                    "Primary neoplastic proliferation of chief cells independent of mineral levels.",
+                    "Excessive dietary calcium supplementation suppressing renal tubular clearance.",
+                    "Overproduction of calcitonin by C-cells driving calcium into bones.",
+                    "Accelerated degradation of parathyroid hormone by uremic toxins."
+                ],
+                correct: 0,
+                explanation: "Failing kidneys cause hyperphosphatemia and drop calcitriol synthesis; combined with hypocalcemia, this stimulates parathyroid glands to hypertrophy and oversecrete PTH."
+            },
+
+            // MICROBIOLOGY & WOUND INFECTIONS
+            {
+                id: 40, tag: "microbiology-wound",
+                text: "What is the fundamental underlying principle of MALDI-TOF mass spectrometry for microbial identification?",
+                options: [
+                    "Optical absorption spectrum of nucleic acid hybridization probes.",
+                    "Ionizes microbial proteins using a laser and matrix to determine their mass-to-charge ratio, generating a unique protein mass spectral fingerprint matched against a database.",
+                    "Cultures bacteria on selective chromogenic agars and measures growth kinetics.",
+                    "Analyzes metabolic substrate consumption patterns using automated test cards.",
+                    "Measures electrical impedance across microfluidic channels during cell division."
+                ],
+                correct: 1,
+                explanation: "MALDI-TOF MS irradiates fresh colonies mixed with a matrix using a laser to ionize ribosomal proteins, determining mass-to-charge ratios to yield a spectral fingerprint matched against a database."
+            },
+            {
+                id: 41, tag: "microbiology-wound",
+                text: "What are the essential precautions when collecting clinical specimens suspected of containing anaerobic bacteria?",
+                options: [
+                    "Store the swab in an open-air container at room temperature for 24 hours.",
+                    "Use superficial surface swabs vigorously to capture normal skin flora.",
+                    "Avoid contamination with normal flora from skin or mucosal surfaces, collect specimens via needle aspiration or deep tissue biopsy rather than superficial swabs, and transport immediately in an oxygen-free transport container/medium.",
+                    "Submerge the sample in sterile distilled water and refrigerate at 4°C.",
+                    "Add broad-spectrum aminoglycosides to the collection vial."
+                ],
+                correct: 2,
+                explanation: "Anaerobic bacteria are oxygen-sensitive; specimens must be gathered via deep tissue biopsy or aspiration and transported in oxygen-free environments."
+            },
+            {
+                id: 42, tag: "microbiology-wound",
+                text: "What specific transport medium is commonly used for the isolation and transport of bacteria from pus samples?",
+                options: [
+                    "Viral Transport Medium (VTM)",
+                    "Amies transport medium",
+                    "Sabouraud dextrose broth",
+                    "Thioglycollate enrichment broth without agar",
+                    "Buffered charcoal-yeast extract medium"
+                ],
+                correct: 1,
+                explanation: "Amies transport medium is the standard formulation to maintain bacterial viability from pus and wound specimens."
+            },
+            {
+                id: 43, tag: "microbiology-wound",
+                text: "Which of the following lists contains the chemical ingredients found in Amies transport medium?",
+                options: [
+                    "Peptone, beef extract, sodium chloride, and crystal violet",
+                    "Sodium glycerophosphate, sodium chloride, potassium chloride, calcium chloride, magnesium chloride, potassium phosphate, and agar",
+                    "Glucose, gelatin, ammonium sulfate, and phenol red indicator",
+                    "Casein hydrolysate, yeast extract, starch, and activated charcoal",
+                    "Bovine serum albumin, glycerol, antibiotics, and PBS"
+                ],
+                correct: 1,
+                explanation: "Amies medium is formulated with sodium glycerophosphate, sodium chloride, potassium chloride, calcium chloride, magnesium chloride, potassium phosphate, and agar."
+            },
+            {
+                id: 44, tag: "microbiology-wound",
+                text: "How are anaerobic bacteria successfully isolated from deep wound samples in the laboratory?",
+                options: [
+                    "Inoculating specimens onto selective anaerobic media and incubating them in an anaerobic jar or chamber containing an oxygen-free atmosphere",
+                    "Placing blood agar plates in standard ambient incubators with 21% oxygen",
+                    "Exposing culture plates to ultraviolet irradiation to eliminate competitors",
+                    "Using liquid nutrient broth incubated on an orbital shaker at high speeds",
+                    "Adding high concentrations of penicillin to suppress aerobic flora"
+                ],
+                correct: 0,
+                explanation: "Isolation requires inoculating selective anaerobic media and incubating in anaerobic chambers maintaining an oxygen-free atmosphere."
+            },
+            {
+                id: 45, tag: "microbiology-wound",
+                text: "How should viral and fungal clinical samples be handled and transported respectively?",
+                options: [
+                    "Viral samples in VTM stored on ice at 4°C and transported within 48 hours; fungal specimens kept at room temperature rather than refrigerated.",
+                    "Both viral and fungal samples must be immediately frozen at -80°C in dry ice.",
+                    "Fungal samples should be refrigerated at 4°C while viral samples are kept at room temperature.",
+                    "Both sample types require Amies transport medium incubated at 37°C.",
+                    "Viral samples are stored in formalin while fungal samples are cultured immediately."
+                ],
+                correct: 0,
+                explanation: "Viral samples go in VTM on ice at 4°C for 48 hours; fungal specimens must not be refrigerated because cold inhibits/kills fungi, so they are kept at room temperature."
+            },
+            {
+                id: 46, tag: "microbiology-wound",
+                text: "What is the key structural difference between a furuncle and a carbuncle?",
+                options: [
+                    "A furuncle is caused exclusively by viruses while a carbuncle is bacterial.",
+                    "A furuncle is a single hair follicle infection, whereas a carbuncle is a coalescence of multiple interconnected furuncles forming a deeper, broader purulent lesion.",
+                    "A carbuncle occurs exclusively on the face while furuncles are restricted to lower extremities.",
+                    "A furuncle involves bone erosion whereas a carbuncle remains strictly epidermal.",
+                    "There is no clinical difference; terms are interchangeable."
+                ],
+                correct: 1,
+                explanation: "A furuncle is a single hair follicle infection, whereas a carbuncle is a deeper coalesced mass of multiple interconnected furuncles."
+            },
+            {
+                id: 47, tag: "microbiology-wound",
+                text: "Why do only certain strains of Staphylococcus aureus cause Staphylococcal Scalded Skin Syndrome (SSSS)?",
+                options: [
+                    "They produce hemolysins that lyse dermal capillary beds.",
+                    "They produce epidermolytic toxins A and B, which cleave desmoglein-1 in the epidermis.",
+                    "They express M protein inhibiting neutrophil phagocytosis across membranes.",
+                    "They secrete toxic shock syndrome toxin-1 (TSST-1) directly into blood.",
+                    "They possess capsules preventing immune recognition."
+                ],
+                correct: 1,
+                explanation: "SSSS is caused exclusively by strains producing epidermolytic toxins A and B that cleave desmoglein-1 in the epidermis."
+            },
+            {
+                id: 48, tag: "microbiology-wound",
+                text: "What is the causative agent of Rocky Mountain spotted fever, and how is it transmitted?",
+                options: [
+                    "Borrelia burgdorferi; transmitted by deer tick bites",
+                    "Rickettsia rickettsii; transmitted through the bite of infected ticks",
+                    "Treponema pallidum; transmitted sexually",
+                    "Rickettsia prowazekii; transmitted by human body lice",
+                    "Bartonella henselae; transmitted by cat scratches"
+                ],
+                correct: 1,
+                explanation: "RMSF is caused by Rickettsia rickettsii transmitted through the bite of infected hard ticks."
+            },
+            {
+                id: 49, tag: "microbiology-wound",
+                text: "Name the causative agent of Lyme disease and its primary mode of transmission.",
+                options: [
+                    "Rickettsia rickettsii; dog flea feces",
+                    "Borrelia burgdorferi; transmitted through the bite of infected ticks",
+                    "Leptospira interrogans; contact with contaminated rodent urine",
+                    "Yersinia pestis; rat flea vectors",
+                    "Francisella tularensis; aerosol inhalation"
+                ],
+                correct: 1,
+                explanation: "Lyme disease is caused by Borrelia burgdorferi transmitted via infected blacklegged ticks."
+            },
+            {
+                id: 50, tag: "microbiology-wound",
+                text: "What is the primary bacterial species implicated in the pathogenesis of Acne vulgaris?",
+                options: [
+                    "Staphylococcus epidermidis",
+                    "Propionibacterium acnes",
+                    "Corynebacterium diphtheriae",
+                    "Pseudomonas aeruginosa",
+                    "Streptococcus pyogenes"
+                ],
+                correct: 1,
+                explanation: "Propionibacterium acnes is a resident anaerobic skin bacterium colonizing sebum-rich hair follicles in acne vulgaris."
+            },
+            {
+                id: 51, tag: "microbiology-wound",
+                text: "What are the specific pathogenic roles of Hyaluronidase, M protein, and Pyrogenic exotoxin in Streptococcus pyogenes infections?",
+                options: [
+                    "Hyaluronidase breaks down connective tissue hyaluronic acid for spread; M protein inhibits phagocytosis and aids adherence; Pyrogenic exotoxin acts as a superantigen causing fever, rash, and shock.",
+                    "Hyaluronidase forms clots; M protein digests red blood cells; Pyrogenic exotoxin lyses neural membranes.",
+                    "Hyaluronidase binds immunoglobulins; M protein triggers complement destruction; Pyrogenic exotoxin induces cell wall lysis.",
+                    "Hyaluronidase inhibits protein synthesis; M protein promotes intracellular survival; Pyrogenic exotoxin blocks neural transmission.",
+                    "Hyaluronidase thickens extracellular matrix; M protein facilitates mucosal attachment; Pyrogenic exotoxin neutralizes antibodies."
+                ],
+                correct: 0,
+                explanation: "Hyaluronidase degrades hyaluronic acid for spread, M protein inhibits phagocytosis and aids adherence, and pyrogenic exotoxins act as superantigens causing fever, rash, and shock."
+            },
+            {
+                id: 52, tag: "microbiology-wound",
+                text: "What is the diagnostic immunological principle underlying the Weil-Felix test?",
+                options: [
+                    "Hemagglutination inhibition using monoclonal antibodies against viral antigens.",
+                    "A heterophile agglutination test based on cross-reacting carbohydrate antigens shared between certain Rickettsia species and Proteus strains.",
+                    "Precipitation reactions between fungal polysaccharides and rabbit antisera.",
+                    "Complement fixation assays testing for group A streptococcal carbohydrates.",
+                    "ELISA detecting specific outer membrane proteins of Borrelia."
+                ],
+                correct: 1,
+                explanation: "The Weil-Felix test is a heterophile agglutination assay detecting rickettsial antibodies via cross-reacting antigens between Rickettsia and Proteus strains."
+            },
+            {
+                id: 53, tag: "microbiology-wound",
+                text: "What are the standard drugs of choice for MRSA and extended cephalosporin-resistant Gram-negative pathogens respectively?",
+                options: [
+                    "Penicillin G for MRSA; Ampicillin for Gram-negatives",
+                    "Vancomycin for MRSA; Carbapenems or beta-lactam/beta-lactamase inhibitor combinations for extended cephalosporin-resistant Gram-negatives",
+                    "Cephalexin for MRSA; Gentamicin for Gram-negatives",
+                    "Clindamycin for MRSA; Ciprofloxacin for Gram-negatives",
+                    "Erythromycin for MRSA; Vancomycin for Gram-negatives"
+                ],
+                correct: 1,
+                explanation: "Vancomycin is a primary drug of choice for MRSA, while ESBL/cephalosporin-resistant Gram-negative bacilli are treated with carbapenems or beta-lactamase inhibitor combinations."
+            },
+            {
+                id: 54, tag: "microbiology-wound",
+                text: "What is the recommended drug combination for treating infections caused by metallo-beta-lactamase-producing Gram-negative pathogens?",
+                options: [
+                    "Vancomycin combined with tobramycin",
+                    "Aztreonam combined with avibactam, or cefiderocol",
+                    "Ampicillin-sulbactam combined with rifampin",
+                    "Ceftriaxone combined with metronidazole",
+                    "Polymyxin B combined with erythromycin"
+                ],
+                correct: 1,
+                explanation: "Metallo-beta-lactamases hydrolyze carbapenems but spare aztreonam; thus aztreonam combined with avibactam (or cefiderocol) is used."
+            },
+            {
+                id: 55, tag: "microbiology-wound",
+                text: "What are the key differentiating laboratory diagnostic features of Staphylococcus aureus versus Streptococcus pyogenes?",
+                options: [
+                    "S. aureus: chains, catalase-positive; S. pyogenes: clusters, catalase-negative.",
+                    "S. aureus: Gram-positive cocci in clusters, catalase-positive, coagulase-positive, beta-hemolytic colonies on blood agar; S. pyogenes: Gram-positive cocci in chains, catalase-negative, beta-hemolytic, bacitracin-susceptible, PYR-positive.",
+                    "S. aureus: Gram-negative bacilli, oxidase-positive; S. pyogenes: Gram-positive rods.",
+                    "S. aureus: Catalase-negative, optochin-susceptible; S. pyogenes: Catalase-positive.",
+                    "S. aureus: Anaerobic growth only; S. pyogenes: Strict aerobe on chocolate agar."
+                ],
+                correct: 1,
+                explanation: "S. aureus forms clusters, is catalase-positive and coagulase-positive with beta-hemolysis; S. pyogenes forms chains, is catalase-negative, beta-hemolytic, bacitracin-susceptible, and PYR-positive."
+            },
+            {
+                id: 56, tag: "microbiology-wound",
+                text: "Why is there typically a foul-smelling discharge in Type 1 Necrotizing Fasciitis?",
+                options: [
+                    "Fungal spore germination in subcutaneous adipose tissue.",
+                    "It is polymicrobial involving anaerobic bacteria that produce foul-smelling metabolic byproducts.",
+                    "Rapid necrosis of keratinocytes releasing sulfur-containing amino acids.",
+                    "Contamination with topical antiseptic ointments applied by the patient.",
+                    "Solitary infection with Pseudomonas aeruginosa producing pyocyanin."
+                ],
+                correct: 1,
+                explanation: "Type 1 necrotizing fasciitis is polymicrobial involving anaerobes whose metabolic breakdown products generate a foul-smelling purulent discharge."
+            },
+            {
+                id: 57, tag: "microbiology-wound",
+                text: "What are two major differentiating features between Community-Associated MRSA (CA-MRSA) and Hospital-Associated MRSA (HA-MRSA)?",
+                options: [
+                    "CA-MRSA occurs in healthy individuals outside healthcare, carries SCCmec type IV, and often produces PVL toxin; HA-MRSA occurs in hospitalized patients, carries larger SCCmec types I/II/III, and is multiresistant.",
+                    "CA-MRSA is strictly gram-negative while HA-MRSA is gram-positive.",
+                    "CA-MRSA affects geriatric patients in long-term care while HA-MRSA affects pediatrics.",
+                    "CA-MRSA is resistant to vancomycin while HA-MRSA is sensitive to all penicillins.",
+                    "There are no genetic or epidemiological differences."
+                ],
+                correct: 0,
+                explanation: "CA-MRSA infects healthy outpatients, possesses smaller SCCmec type IV cassettes, and frequently produces PVL toxin; HA-MRSA affects hospitalized patients and is multidrug-resistant."
+            },
+
+            // PATHOLOGY & ONCOLOGY
+            {
+                id: 58, tag: "pathology-oncology",
+                text: "What are the classic gross and microscopic pathological findings in osteoarthritis?",
+                options: [
+                    "Chalky white tophi involving bone and synovium with negative birefringence.",
+                    "Eburnated articular surface exposing subchondral bone, subchondral cysts, residual articular cartilage, and fibrillation/fissuring of articular cartilage with loss of chondrocytes.",
+                    "Bulky tan-white masses lifting periosteum with lace-like osteoid production.",
+                    "Red-black hemorrhagic expansile masses containing osteoclast-like giant cells.",
+                    "Lobules of malignant cartilage cells with nuclear atypia within lacunae."
+                ],
+                correct: 1,
+                explanation: "Osteoarthritis gross morphology shows eburnated bone, cysts, and thinned cartilage; microscopy reveals cartilage fibrillation and fissuring with chondrocyte loss."
+            },
+            {
+                id: 59, tag: "pathology-oncology",
+                text: "What pathological features characterize gout upon gross and microscopic examination?",
+                options: [
+                    "Proliferation of epithelial and stromal elements in a pericanalicular pattern.",
+                    "Chalky white tophi involving bone, synovium, and soft tissues, alongside needle-shaped urate crystals exhibiting negative birefringence under polarized light.",
+                    "Keratin pearls surrounded by nests of pleomorphic squamous cells.",
+                    "Basaloid cell nests with peripheral palisading and clefting artifacts.",
+                    "Invasive ducts surrounded by desmoplastic stromal reaction."
+                ],
+                correct: 1,
+                explanation: "Gout presents with chalky white tophi deposits; microscopic urate crystals show negative birefringence under polarized light."
+            },
+            {
+                id: 60, tag: "pathology-oncology",
+                text: "What microscopic feature distinguishes osteosarcoma from other primary bone tumors?",
+                options: [
+                    "Benign hyaline cartilage cap overlying organized bony trabeculae.",
+                    "Fine, lace-like pattern of neoplastic bone (osteoid) produced by highly pleomorphic malignant osteoblasts.",
+                    "Uniformly distributed multinucleated giant cells interspersed among mononuclear stroma.",
+                    "Lobules of malignant cartilage cells residing in lacunae within a chondroid matrix.",
+                    "Proliferation of basaloid cells with peripheral palisading."
+                ],
+                correct: 1,
+                explanation: "The definitive microscopic hallmark of osteosarcoma is the synthesis of malignant lace-like osteoid matrix by pleomorphic malignant osteoblasts."
+            },
+            {
+                id: 61, tag: "pathology-oncology",
+                text: "What is the underlying etiopathogenesis and structural appearance of an osteochondroma?",
+                options: [
+                    "Malignant transformation of osteoclast precursors via RANK-RANKL signaling.",
+                    "Bony outgrowth projecting from bone surface, capped by a smooth, glistening bluish-white cartilage cap continuous with underlying bone cortex, resulting from epiphyseal growth plate aberration.",
+                    "Proliferation of ductal epithelium within myxoid breast stroma.",
+                    "Infiltration of dermis by nests of malignant squamous cells forming keratin pearls.",
+                    "Expansion of epiphyseal bone by red-black hemorrhagic friable tissue."
+                ],
+                correct: 1,
+                explanation: "Osteochondromas arise from epiphyseal growth plate aberrations, appearing as bone surface projections capped by benign hyaline cartilage continuous with the marrow cavity."
+            },
+            {
+                id: 62, tag: "pathology-oncology",
+                text: "What are the gross and microscopic morphological characteristics of chondrosarcoma?",
+                options: [
+                    "Bulky, lobulated tumor composed of glistening bluish-gray, translucent cartilage with myxoid/gelatinous areas, necrosis, and calcification, showing nuclear atypia and hyperchromasia within lacunae.",
+                    "Red-black hemorrhagic friable masses containing osteoclast-type giant cells.",
+                    "Irregular firm masses with invasive borders and desmoplastic stroma.",
+                    "Pearly translucent papules with visible telangiectasia.",
+                    "Asymmetrical pigmented lesions with radial growth of atypical melanocytes."
+                ],
+                correct: 0,
+                explanation: "Chondrosarcomas display bulky glistening bluish-gray cartilaginous lobules with myxoid degeneration and necrosis, while microscopy reveals malignant cartilage cells with nuclear atypia in lacunae."
+            },
+            {
+                id: 63, tag: "pathology-oncology",
+                text: "What is the characteristic microscopic finding in a Giant Cell Tumor of bone?",
+                options: [
+                    "Fine lace-like osteoid matrices synthesized by pleomorphic osteoblasts.",
+                    "Numerous uniformly distributed multinucleated osteoclast-type giant cells interspersed among mononuclear stromal cells.",
+                    "Benign hyaline cartilage caps overlying normal trabecular bone marrow.",
+                    "Infiltrating cords of malignant ductal cells surrounded by desmoplasia.",
+                    "Nests of basaloid cells with peripheral palisading and clefting."
+                ],
+                correct: 1,
+                explanation: "Giant cell tumors are characterized histologically by numerous uniformly distributed multinucleated osteoclast-like giant cells intermingled among mononuclear stromal cells."
+            },
+            {
+                id: 64, tag: "pathology-oncology",
+                text: "What key histopathological feature confirms a diagnosis of cutaneous squamous cell carcinoma?",
+                options: [
+                    "Basaloid cell nests with peripheral palisading and shrinkage clefts.",
+                    "Malignant squamous cells invading the dermis with keratin pearl formation.",
+                    "Atypical melanocytes proliferating at dermo-epidermal junction.",
+                    "Proliferation of glandular ducts and fibrous stroma.",
+                    "Infiltrating malignant ductal cells with desmoplastic stromal reaction."
+                ],
+                correct: 1,
+                explanation: "Cutaneous squamous cell carcinoma is confirmed by invasive nests and sheets of malignant squamous cells infiltrating the dermis with characteristic keratin pearl formation."
+            },
+            {
+                id: 65, tag: "pathology-oncology",
+                text: "What morphological features define Basal Cell Carcinoma?",
+                options: [
+                    "Pearly, translucent raised papule with telangiectasia; microscopy shows basaloid cell nests with peripheral palisading and artifactual clefting.",
+                    "Hyperkeratotic ulcerated nodules with keratin pearls.",
+                    "Asymmetrical pigmented lesions with dermal invasion of pleomorphic melanocytes.",
+                    "Well-circumscribed rubbery grayish-white masses of mixed epithelial and stromal tissue.",
+                    "Irregular firm masses with desmoplastic stroma and microcalcifications."
+                ],
+                correct: 0,
+                explanation: "Grossly appearing as a pearly papule with telangiectasia, BCC microscopically displays uniform nests of basaloid cells with peripheral palisading and clefting artifacts."
+            },
+            {
+                id: 66, tag: "pathology-oncology",
+                text: "What microscopic finding is critical in diagnosing Melanoma?",
+                options: [
+                    "Proliferation of benign pericanalicular stroma and ducts.",
+                    "Irregular shaped lesion with melanocytes invading the dermis, showing cellular pleomorphism and intracellular brown melanin pigment.",
+                    "Dense aggregates of urate crystals surrounded by foreign-body giant cells.",
+                    "Uniform multinucleated giant cells distributed among mononuclear stroma.",
+                    "Squamous cell nests displaying prominent keratinization."
+                ],
+                correct: 1,
+                explanation: "Melanoma is identified by atypical melanocytes proliferating radially and vertically into the dermis, marked by cellular atypia and intracellular brown melanin pigment."
+            },
+            {
+                id: 67, tag: "pathology-oncology",
+                text: "What are the gross and microscopic characteristics of a Fibroadenoma?",
+                options: [
+                    "Irregular, firm, infiltrative grayish-white mass with desmoplastic stroma.",
+                    "Well-circumscribed, rubbery, firm, grayish-white mass showing proliferation of both epithelial (glandular) and stromal tissue.",
+                    "Bulky translucent cartilaginous lobules with myxoid areas.",
+                    "Red-black hemorrhagic friable masses in epiphyseal bone.",
+                    "Ulcerated hyperkeratotic skin nodules with rolled edges."
+                ],
+                correct: 1,
+                explanation: "Fibroadenomas are benign, well-circumscribed, rubbery grayish-white breast tumors composed histologically of a biphasic proliferation of glandular ducts and fibrous stroma."
+            },
+            {
+                id: 68, tag: "pathology-oncology",
+                text: "What pathological findings characterize Invasive (Infiltrating) Breast Carcinoma?",
+                options: [
+                    "Well-demarcated benign ducts surrounded by loose myxoid stroma.",
+                    "Irregular, firm, infiltrative grayish-white mass with malignant ductal cells forming nests and cords, surrounded by a desmoplastic stromal reaction.",
+                    "Proliferation of basaloid cells with peripheral palisading and clefting.",
+                    "Benign hyaline cartilage caps overlying normal trabecular bone.",
+                    "Chalky white urate crystal tophi with foreign-body giant cells."
+                ],
+                correct: 1,
+                explanation: "Invasive breast carcinoma presents as an irregular, firm, infiltrative mass whose histology reveals malignant ductal epithelial cells invading stroma with an accompanying desmoplastic fibrous reaction."
+            }
+        ];
+
+        let currentTagFilter = 'all';
+        let currentStatusFilter = 'all';
+        const userState = {}; // { qId: { selected: index, bookmarked: bool } }
+
+        function renderQuiz() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            let answeredCount = 0;
+            let correctCount = 0;
+            let incorrectCount = 0;
+
+            // First, calculate totals for global stats regardless of filter
+            questions.forEach(q => {
+                const state = userState[q.id];
+                if (state && state.selected !== undefined) {
+                    answeredCount++;
+                    if (state.selected === q.correct) correctCount++;
+                    else incorrectCount++;
+                }
+            });
+
+            // Filter questions for display
+            const filtered = questions.filter(q => {
+                const state = userState[q.id] || {};
+                const matchesTag = currentTagFilter === 'all' || q.tag === currentTagFilter;
+                
+                if (!matchesTag) return false;
+
+                if (currentStatusFilter === 'unanswered') {
+                    return state.selected === undefined;
+                } else if (currentStatusFilter === 'incorrect') {
+                    return state.selected !== undefined && state.selected !== q.correct;
+                } else if (currentStatusFilter === 'bookmarked') {
+                    return state.bookmarked === true;
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="card" style="text-align: center; color: var(--slate-500);">No questions match the selected filters.</div>`;
+            }
+
+            filtered.forEach((q, index) => {
+                const state = userState[q.id] || {};
+                const isAnswered = state.selected !== undefined;
+
+                const card = document.createElement('div');
+                card.className = "card";
+                
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    let btnClass = "option-btn ";
+                    
+                    if (!isAnswered) {
+                        btnClass += "";
+                    } else {
+                        if (optIndex === q.correct) {
+                            btnClass += "correct";
+                        } else if (optIndex === state.selected) {
+                            btnClass += "incorrect";
+                        } else {
+                            btnClass += "dimmed";
+                        }
+                    }
+
+                    optionsHtml += `
+                        <button onclick="handleSelect(${q.id}, ${optIndex})" ${isAnswered ? 'disabled' : ''} class="${btnClass}">
+                            <span><b style="display:inline-block; width:24px;">${String.fromCharCode(65 + optIndex)}.</b> ${opt}</span>
+                            ${isAnswered && optIndex === q.correct ? '<span style="color: var(--emerald-600); font-weight: 700; white-space: nowrap;">✓ Correct</span>' : ''}
+                            ${isAnswered && optIndex === state.selected && optIndex !== q.correct ? '<span style="color: var(--rose-600); font-weight: 700; white-space: nowrap;">✗ Choice</span>' : ''}
+                        </button>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span class="tag-pill">${q.tag.replace('-', ' ')}</span>
+                            <span class="qid">QID: ${q.id}</span>
+                        </div>
+                        <button onclick="toggleBookmark(${q.id})" class="bookmark-btn">
+                            ${state.bookmarked ? '⭐' : '☆'}
+                        </button>
+                    </div>
+                    <div class="question-text">${index + 1}. ${q.text}</div>
+                    <div class="options-container">
+                        ${optionsHtml}
+                    </div>
+                    <div id="explanation-${q.id}" class="explanation-box ${isAnswered ? '' : 'hidden'}">
+                        <span class="explanation-title">Detailed Explanation:</span>
+                        ${q.explanation}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Update stats bar
+            const totalQ = questions.length;
+            document.getElementById('stat-answered').innerText = answeredCount;
+            document.getElementById('stat-total').innerText = totalQ;
+            const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+            document.getElementById('stat-accuracy').innerText = accuracy + '%';
+            document.getElementById('stat-correct').innerText = correctCount + ' C';
+            document.getElementById('stat-incorrect').innerText = incorrectCount + ' I';
+        }
+
+        function handleSelect(qId, optIndex) {
+            if (!userState[qId]) userState[qId] = {};
+            userState[qId].selected = optIndex;
+            renderQuiz(); // Re-renders cleanly without dropping view context
+        }
+
+        function toggleBookmark(qId) {
+            if (!userState[qId]) userState[qId] = {};
+            userState[qId].bookmarked = !userState[qId].bookmarked;
+            renderQuiz();
+        }
+
+        function setTagFilter(tag) {
+            currentTagFilter = tag;
+            document.querySelectorAll('.tag-btn').forEach(btn => {
+                if (btn.dataset.tag === tag) {
+                    btn.className = "tag-btn active";
+                } else {
+                    btn.className = "tag-btn";
+                }
+            });
+            renderQuiz();
+        }
+
+        function setStatusFilter(status) {
+            currentStatusFilter = status;
+            document.querySelectorAll('.status-btn').forEach(btn => {
+                if (btn.dataset.status === status) {
+                    btn.className = "status-btn active";
+                } else {
+                    btn.className = "status-btn";
+                }
+            });
+            renderQuiz();
+        }
+
+        // Initialize App
+        renderQuiz();
+    </script>
+</body>
+</html>
