@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSK 308 - Interactive MCQ Master Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+    <!-- Sticky Stats & Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-bold text-slate-900">MSK 308 Interactive Test Bank</h1>
+                <p class="text-xs text-slate-500">Instant Grading • Untimed Practice • Comprehensive Review</p>
+            </div>
+            <div class="flex items-center gap-6 bg-slate-100 px-4 py-2 rounded-lg text-sm font-medium">
+                <div>Answered: <span id="stat-answered" class="font-bold text-indigo-600">0</span> / <span id="stat-total">0</span></div>
+                <div>Accuracy: <span id="stat-accuracy" class="font-bold text-emerald-600">0%</span></div>
+                <div class="flex gap-2 text-xs">
+                    <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold" id="stat-correct">0 C</span>
+                    <span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold" id="stat-incorrect">0 I</span>
+                </div>
+            </div>
+        </div>
+        <!-- Filter Bar -->
+        <div class="bg-slate-50 border-t border-slate-200 px-4 py-2">
+            <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div id="tag-filters" class="flex flex-wrap gap-1.5">
+                    <button onclick="setTagFilter('all')" class="tag-btn px-3 py-1 rounded-full font-medium transition bg-indigo-600 text-white" data-tag="all">All Tags (68)</button>
+                    <button onclick="setTagFilter('anatomy-osteology')" class="tag-btn px-3 py-1 rounded-full font-medium transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-tag="anatomy-osteology">Anatomy (15)</button>
+                    <button onclick="setTagFilter('physiology-emg')" class="tag-btn px-3 py-1 rounded-full font-medium transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-tag="physiology-emg">Physiology (8)</button>
+                    <button onclick="setTagFilter('biochemistry-metabolic')" class="tag-btn px-3 py-1 rounded-full font-medium transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-tag="biochemistry-metabolic">Biochemistry (16)</button>
+                    <button onclick="setTagFilter('microbiology-wound')" class="tag-btn px-3 py-1 rounded-full font-medium transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-tag="microbiology-wound">Microbiology (18)</button>
+                    <button onclick="setTagFilter('pathology-oncology')" class="tag-btn px-3 py-1 rounded-full font-medium transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-tag="pathology-oncology">Pathology (11)</button>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="setStatusFilter('all')" class="status-btn px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 font-semibold" data-status="all">Show All</button>
+                    <button onclick="setStatusFilter('unanswered')" class="status-btn px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-600" data-status="unanswered">Unanswered</button>
+                    <button onclick="setStatusFilter('incorrect')" class="status-btn px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-600" data-status="incorrect">Incorrect</button>
+                    <button onclick="setStatusFilter('bookmarked')" class="status-btn px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-600" data-status="bookmarked">Bookmarked</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Stream -->
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+        <div id="questions-container" class="space-y-6"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 text-center py-4 text-xs text-slate-500">
+        MSK 308 Complete Master Test Bank • 68 Questions Loaded
+    </footer>
+
+    <!-- JavaScript Application Core -->
+    <script>
+        const questions = [
+            // ANATOMY & OSTEOLOGY (1-15)
+            { id: 1, tag: "anatomy-osteology", text: "What structure forms the lateral anatomical boundary of the axilla?", options: ["Pectoralis major and minor muscles", "Subscapularis, teres major, and latissimus dorsi muscles", "Intertubercular groove of the humerus", "Serratus anterior muscle", "Cervico-axillary canal"], correct: 2, explanation: "Lateral boundary is the intertubercular groove of the humerus." },
+            { id: 2, tag: "anatomy-osteology", text: "Which structure forms the medial boundary of the cubital fossa?", options: ["Imaginary line between epicondyles", "Brachioradialis muscle", "Pronator teres muscle", "Bicipital aponeurosis", "Brachialis and supinator"], correct: 2, explanation: "Medial boundary is the pronator teres muscle." },
+            { id: 3, tag: "anatomy-osteology", text: "Which structure does not pass through the carpal tunnel beneath the flexor retinaculum?", options: ["Median nerve", "Tendons of flexor digitorum superficialis", "Tendons of flexor digitorum profundus", "Tendon of flexor pollicis longus", "Tendon of flexor carpi radialis"], correct: 4, explanation: "Flexor carpi radialis travels outside the carpal tunnel." },
+            { id: 4, tag: "anatomy-osteology", text: "What structure forms the lateral boundary of the femoral triangle?", options: ["Inguinal ligament", "Sartorius muscle", "Adductor longus muscle", "Pectineus muscle", "Fascia lata"], correct: 1, explanation: "Lateral boundary is the sartorius muscle." },
+            { id: 5, tag: "anatomy-osteology", text: "Which structure is located specifically within the carotid triangle of the anterior neck?", options: ["Submental lymph nodes", "Submandibular gland", "Common carotid artery, internal jugular vein, and vagus nerve (CN X)", "Infrahyoid muscles", "Accessory nerve (CN XI)"], correct: 2, explanation: "Contains common carotid artery, internal jugular vein, and vagus nerve." },
+            { id: 6, tag: "anatomy-osteology", text: "Which specific bony landmark is located on the lateral third of the clavicle?", options: ["Sternal end", "Costal tuberosity", "Conoid tubercle and trapezoid line", "Subclavian groove", "Radial groove"], correct: 2, explanation: "Conoid tubercle and trapezoid line anchor coracoclavicular ligaments." },
+            { id: 7, tag: "anatomy-osteology", text: "Which scapular fossa is located inferior to the spine of the scapula on the posterior surface?", options: ["Supraspinous fossa", "Infraspinous fossa", "Subscapular fossa", "Glenoid cavity", "Coracoid process"], correct: 1, explanation: "Infraspinous fossa lies inferior to the scapular spine." },
+            { id: 8, tag: "anatomy-osteology", text: "Which nerve runs in direct association with the radial groove on the posterior shaft of the humerus?", options: ["Ulnar nerve", "Median nerve", "Radial nerve", "Axillary nerve", "Musculocutaneous nerve"], correct: 2, explanation: "Radial groove transmits the radial nerve." },
+            { id: 9, tag: "anatomy-osteology", text: "Which bony landmark of the radius is referred to as Lister's tubercle?", options: ["Radial tuberosity", "Styloid process", "Dorsal tubercle", "Ulnar notch", "Head of the radius"], correct: 2, explanation: "Dorsal tubercle acts as a pulley for extensor pollicis longus." },
+            { id: 10, tag: "anatomy-osteology", text: "Which structure lies most medially within the contents of the cubital fossa?", options: ["Tendon of biceps brachii", "Brachial artery", "Median nerve", "Radial nerve", "Cephalic vein"], correct: 2, explanation: "TAN mnemonic (lateral to medial) places median nerve most medially." },
+            { id: 11, tag: "anatomy-osteology", text: "Which carpal bone articulates directly with the radius to form the radiocarpal wrist joint?", options: ["Pisiform", "Trapezium", "Capitate", "Scaphoid", "Hamate"], correct: 3, explanation: "Scaphoid and lunate articulate directly with the distal radius." },
+            { id: 12, tag: "anatomy-osteology", text: "Which structure forms the socket for the hip joint articulation with the femoral head?", options: ["Greater sciatic notch", "Obturator foramen", "Acetabulum", "Ischial tuberosity", "Iliac crest"], correct: 2, explanation: "Acetabulum forms the hip socket." },
+            { id: 13, tag: "anatomy-osteology", text: "What major nerve runs through the adductor canal alongside femoral vessels?", options: ["Femoral nerve", "Obturator nerve", "Saphenous nerve", "Sciatic nerve", "Common fibular nerve"], correct: 2, explanation: "Adductor canal transmits the saphenous nerve." },
+            { id: 14, tag: "anatomy-osteology", text: "Which muscles form the superomedial boundary of the popliteal fossa?", options: ["Biceps femoris", "Semimembranosus and semitendinosus muscles", "Medial gastrocnemius", "Lateral gastrocnemius", "Popliteus"], correct: 1, explanation: "Superomedial boundary formed by semimembranosus and semitendinosus." },
+            { id: 15, tag: "anatomy-osteology", text: "Which cranial nerve runs through the occipital triangle within the posterior triangle of the neck?", options: ["Vagus nerve (CN X)", "Accessory nerve (CN XI)", "Hypoglossal nerve (CN XII)", "Glossopharyngeal (CN IX)", "Facial (CN VII)"], correct: 1, explanation: "Occipital triangle contains the accessory nerve (CN XI)." },
+
+            // PHYSIOLOGY & EMG (16-23)
+            { id: 16, tag: "physiology-emg", text: "What does observing no measurable twitch at 0 mA indicate?", options: ["Asynchronous firing", "Threshold is not met", "Only slow-twitch fibers activated", "Tetanic fusion", "Calcium reuptake blocked"], correct: 1, explanation: "Zero current fails to reach the depolarization threshold." },
+            { id: 17, tag: "physiology-emg", text: "Why does varying stimulus strength affect twitch force?", options: ["Conduction velocity changes", "More motor axons are stimulated, recruiting more motor units", "Increased myosin ATPase", "Temporal summation", "Calcium prevention"], correct: 1, explanation: "Higher current recruits more motor units, increasing twitch force." },
+            { id: 18, tag: "physiology-emg", text: "What phenomenon occurs when muscle is stimulated rapidly without relaxation time?", options: ["Muscle fatigue", "Contraction forces add together (summation); minimum time ~100 ms", "Recruitment stops", "Isometric plateau", "Tetanus"], correct: 1, explanation: "Insufficient relaxation causes summation (~100 ms min)." },
+            { id: 19, tag: "physiology-emg", text: "How does Clostridium tetani toxin cause spastic paralysis?", options: ["Blocks ACh receptors", "Prevents inhibitory neurotransmission causing continuous contraction", "Opens sodium channels", "Degrades acetylcholinesterase", "Inhibits calcium"], correct: 1, explanation: "Blocks inhibitory neurotransmission, causing spastic contractions." },
+            { id: 20, tag: "physiology-emg", text: "Why is pseudo-fatigue observed when shutting eyes not true fatigue?", options: ["Metabolic depletion", "Full force is exerted immediately upon opening eyes and regaining visual feedback", "Slow-twitch only", "Motor cortex block", "Psychological"], correct: 1, explanation: "Lack of visual feedback causes perceived drop, cured instantly by opening eyes." },
+            { id: 21, tag: "physiology-emg", text: "Why is the EMG waveform irregular compared to ECG?", options: ["Heart pacemakers", "Asynchronous activity of many individual motor units firing at different times and rates", "Skin resistance", "Glycolysis", "Filter noise"], correct: 1, explanation: "EMG records asynchronous motor unit firing." },
+            { id: 22, tag: "physiology-emg", text: "What is 'coactivation'?", options: ["Agonist/antagonist fatigue", "Sequential firing", "Simultaneous activation of an agonist and its antagonist to stabilize joints", "Cable cross-talk", "Antagonist inhibition"], correct: 2, explanation: "Simultaneous agonist-antagonist activation stabilizes joints." },
+            { id: 23, tag: "physiology-emg", text: "Which event occurs during the latent period?", options: ["Cross-bridge detachment", "Axon stimulation, propagation, synaptic transmission, and excitation-contraction coupling", "ACh depletion", "Sliding filaments", "Compression"], correct: 1, explanation: "Latent period covers excitation-contraction coupling steps." },
+
+            // BIOCHEMISTRY & METABOLIC (24-39)
+            { id: 24, tag: "biochemistry-metabolic", text: "Which two enzymes are significantly elevated in serum following acute skeletal muscle injury?", options: ["Amylase and lipase", "ALT and GGT", "Aldolase and creatine kinase", "LDH and ALP", "Acid phosphatase"], correct: 2, explanation: "Aldolase and CK leak into blood during muscle trauma." },
+            { id: 25, tag: "biochemistry-metabolic", text: "How does severe rhabdomyolysis affect renal function?", options: ["Increases urea", "Releases myoglobin which precipitates in renal tubules leading to acute tubular necrosis", "Hypercalcemia", "Autoimmune damage", "Inhibits ADH"], correct: 1, explanation: "Myoglobin precipitation causes acute tubular necrosis." },
+            { id: 26, tag: "biochemistry-metabolic", text: "Why does severe muscle breakdown cause hyperkalemia?", options: ["Potassium shifts in", "Skeletal muscle cells contain high intracellular potassium released directly into blood when cells lyse", "Renal upregulation", "Protein breakdown", "Aldosterone"], correct: 1, explanation: "Cell lysis floods extracellular space with intracellular potassium." },
+            { id: 27, tag: "biochemistry-metabolic", text: "What is the emergency antidote and gene mutation for malignant hyperthermia?", options: ["Naloxone; CACNA1S", "Flumazenil; SOD1", "Dantrolene; RYR1", "Physostigmine; DMD", "N-acetylcysteine"], correct: 2, explanation: "Linked to RYR1 mutation; dantrolene blocks calcium release." },
+            { id: 28, tag: "biochemistry-metabolic", text: "In primary hyperparathyroidism, what mechanism elevates serum calcium?", options: ["Decreased excretion", "Excess PTH increases bone resorption, renal calcium reabsorption, and gut absorption via calcitriol", "Calcitonin absorption", "Osteoblast inhibition", "Filtration"], correct: 1, explanation: "Excess PTH drives bone resorption, renal reabsorption, and gut absorption." },
+            { id: 29, tag: "biochemistry-metabolic", text: "Why is alkaline phosphatase elevated in nutritional rickets?", options: ["Hepatic synthesis", "Compensatory increase in osteoblastic activity and bone turnover driven by defective mineralization", "Muscle release", "Parathyroid hyperplasia", "Vitamin D substitute"], correct: 1, explanation: "Defective mineralization triggers compensatory osteoblastic turnover." },
+            { id: 30, tag: "biochemistry-metabolic", text: "What causes secondary hyperparathyroidism in chronic kidney disease?", options: ["Vitamin D hyper-secretion", "Hyperphosphatemia, decreased active vitamin D synthesis, and hypocalcemia stimulate parathyroid glands", "Calcitonin downregulation", "Urea loss", "Phosphate filtration"], correct: 1, explanation: "Hyperphosphatemia and low calcitriol stimulate parathyroid overproduction." },
+            { id: 31, tag: "biochemistry-metabolic", text: "Why is genetic testing important in Duchenne Muscular Dystrophy?", options: ["Measures CK", "Detects DMD gene mutations, confirming diagnosis, enabling carrier testing, and gene therapies", "Identifies SNPs", "Monitors glycogen", "Replaces biopsy"], correct: 1, explanation: "Confirms diagnosis and permits carrier testing." },
+            { id: 32, tag: "biochemistry-metabolic", text: "What lab abnormalities indicate malignant hyperthermia?", options: ["Alkalosis, hypokalemia", "Alkalosis, hypercalcemia", "Acidosis (pH 7.21), high potassium (6.3), elevated CK (15,000), and myoglobinuria", "Normal blood gas", "High sodium"], correct: 2, explanation: "Presents with intraoperative acidosis, hyperkalemia, extreme CK, and myoglobinuria." },
+            { id: 33, tag: "biochemistry-metabolic", text: "What are normal reference ranges for serum calcium and phosphate?", options: ["Ca: 5-7; P: 1-2", "Calcium: 8.5–10.5 mg/dL; Phosphate: 2.5–4.5 mg/dL", "Ca: 11-13; P: 5-7", "Ca: 4-6; P: 0.5-1.5", "Ca: 12-15; P: 8-10"], correct: 1, explanation: "Normal ranges are 8.5–10.5 mg/dL (Ca) and 2.5–4.5 mg/dL (P)." },
+            { id: 34, tag: "biochemistry-metabolic", text: "Which two primary hormones regulate calcium and phosphate homeostasis?", options: ["Insulin and glucagon", "Thyroxine", "Parathyroid hormone (PTH) and calcitriol (vitamin D)", "Cortisol and aldosterone", "Growth hormone"], correct: 2, explanation: "Regulated primarily by PTH and calcitriol." },
+            { id: 35, tag: "biochemistry-metabolic", text: "What are the primary clinical consequences of hypercalcemia?", options: ["Cardiac arrhythmias, kidney stones (nephrolithiasis), and gastrointestinal disturbances", "Tetany, Chvostek's", "Hypoglycemia", "Bone marrow suppression", "Bronchospasm"], correct: 0, explanation: "Causes arrhythmias, nephrolithiasis, and GI disturbances." },
+            { id: 36, tag: "biochemistry-metabolic", text: "What biochemical profile characterizes primary hyperparathyroidism?", options: ["Low calcium, high phosphate", "Elevated serum calcium, decreased/low-normal phosphate, high PTH levels, and elevated ALP", "Normal minerals", "Low minerals", "High calcium and phosphate"], correct: 1, explanation: "Presents with high calcium, low/normal phosphate, high PTH, and high ALP." },
+            { id: 37, tag: "biochemistry-metabolic", text: "Which imaging studies support primary hyperparathyroidism diagnosis?", options: ["Chest X-ray", "Parathyroid scan and neck ultrasound", "MRI lumbar", "Abdominal ultrasound", "DEXA forearm"], correct: 1, explanation: "Sestamibi parathyroid scan and neck ultrasound locate adenomas." },
+            { id: 38, tag: "biochemistry-metabolic", text: "What findings are seen in nutritional rickets?", options: ["High calcium/phosphate", "Low calcium, low phosphate, high ALP, low vitamin D, high PTH, and widened metaphyses", "Normal labs", "High calcium", "Low PTH"], correct: 1, explanation: "Features vitamin D deficiency, low minerals, high ALP/PTH, and cupped metaphyses." },
+            { id: 39, tag: "biochemistry-metabolic", text: "What causes secondary hyperparathyroidism in stage 4 CKD?", options: ["Hyperphosphatemia, decreased active vitamin D synthesis, and hypocalcemia stimulate PTH overproduction", "Neoplasia", "Calcium supplements", "Calcitonin", "Uremic toxins"], correct: 0, explanation: "Phosphate retention and low calcitriol drive parathyroid hypertrophy." },
+
+            // MICROBIOLOGY & WOUND (40-57)
+            { id: 40, tag: "microbiology-wound", text: "What is the fundamental principle of MALDI-TOF MS?", options: ["Optical absorption", "Ionizes microbial proteins using a laser and matrix to determine mass-to-charge ratios matching a database", "Chromogenic agar", "Metabolic cards", "Impedance"], correct: 1, explanation: "Generates protein spectral fingerprints matched against reference databases." },
+            { id: 41, tag: "microbiology-wound", text: "What are precautions for anaerobic specimen collection?", options: ["Store in open air", "Use surface swabs", "Avoid normal flora contamination, use needle aspiration or deep biopsy, transport in oxygen-free container", "Distilled water", "Add aminoglycosides"], correct: 2, explanation: "Requires deep tissue samples and oxygen-free transport." },
+            { id: 42, tag: "microbiology-wound", text: "What transport medium is used for pus samples?", options: ["VTM", "Amies transport medium", "Sabouraud", "Thioglycollate", "BCYE"], correct: 1, explanation: "Amies transport medium maintains bacterial viability without overgrowth." },
+            { id: 43, tag: "microbiology-wound", text: "What chemical ingredients are found in Amies transport medium?", options: ["Peptone, beef extract", "Sodium glycerophosphate, sodium chloride, potassium chloride, calcium chloride, magnesium chloride, potassium phosphate, and agar", "Glucose, gelatin", "Casein", "BSA, glycerol"], correct: 1, explanation: "Contains balanced salts, buffers, and agar." },
+            { id: 44, tag: "microbiology-wound", text: "How are anaerobic bacteria isolated from deep wounds?", options: ["Inoculating selective anaerobic media and incubating in an anaerobic jar or chamber", "Ambient air", "UV exposure", "Orbital shaker", "Penicillin"], correct: 0, explanation: "Requires oxygen-free incubation chambers." },
+            { id: 45, tag: "microbiology-wound", text: "How should viral and fungal samples be handled?", options: ["Viral in VTM on ice at 4°C within 48h; fungal at room temperature (not refrigerated)", "Both frozen", "Fungal refrigerated", "Amies 37°C", "Formalin"], correct: 0, explanation: "Cold temperatures kill or inhibit fungi, so they stay at room temp." },
+            { id: 46, tag: "microbiology-wound", text: "What is the difference between a furuncle and a carbuncle?", options: ["Viral vs bacterial", "Furuncle is a single hair follicle infection; carbuncle is a coalescence of multiple interconnected furuncles", "Facial vs leg", "Epidermal vs bone", "Interchangeable"], correct: 1, explanation: "Carbuncles are deeper, coalesced masses of multiple furuncles." },
+            { id: 47, tag: "microbiology-wound", text: "Why do only certain Staph aureus strains cause SSSS?", options: ["Hemolysins", "Produce epidermolytic toxins A and B which cleave dermo-epidermal desmoglein-1", "M protein", "TSST-1", "Capsule"], correct: 1, explanation: "Exfoliative toxins A and B specifically cleave desmoglein-1." },
+            { id: 48, tag: "microbiology-wound", text: "What is the causative agent and vector of Rocky Mountain spotted fever?", options: ["Borrelia", "Rickettsia rickettsii transmitted by infected hard ticks", "Treponema", "Lice", "Cat scratch"], correct: 1, explanation: "Caused by Rickettsia rickettsii via hard ticks." },
+            { id: 49, tag: "microbiology-wound", text: "Name the causative agent and vector of Lyme disease.", options: ["Rickettsia", "Borrelia burgdorferi transmitted by blacklegged ticks", "Leptospira", "Yersinia", "Tularemia"], correct: 1, explanation: "Spirochete Borrelia burgdorferi transmitted by Ixodes ticks." },
+            { id: 50, tag: "microbiology-wound", text: "What bacterium is implicated in Acne vulgaris?", options: ["Staph epidermidis", "Propionibacterium acnes (Cutibacterium acnes)", "Corynebacterium", "Pseudomonas", "Strep pyogenes"], correct: 1, explanation: "Anaerobic resident skin bacterium colonizing sebum-rich follicles." },
+            { id: 51, tag: "microbiology-wound", text: "What are the roles of Hyaluronidase, M protein, and Pyrogenic exotoxin in Strep pyogenes?", options: ["Hyaluronidase spreads; M protein inhibits phagocytosis and aids adherence; Pyrogenic exotoxin acts as a superantigen", "Clotting", "Immunoglobulin binding", "Protein synthesis", "Matrix thickening"], correct: 0, explanation: "Hyaluronidase degrades matrix, M protein evades phagocytosis, exotoxin acts as a superantigen." },
+            { id: 52, tag: "microbiology-wound", text: "What is the immunological principle of the Weil-Felix test?", options: ["Hemagglutination", "Heterophile agglutination test based on cross-reacting antigens between Rickettsia and Proteus strains", "Precipitation", "Complement fixation", "ELISA"], correct: 1, explanation: "Uses cross-reactivity between Rickettsia and Proteus antigens." },
+            { id: 53, tag: "microbiology-wound", text: "What are standard drugs of choice for MRSA and resistant Gram-negative bacilli?", options: ["Penicillin", "Vancomycin for MRSA; Carbapenems or beta-lactam/beta-lactamase inhibitor combinations for resistant Gram-negatives", "Cephalexin", "Clindamycin", "Erythromycin"], correct: 1, explanation: "Vancomycin for MRSA, carbapenems/inhibitors for ESBL Gram-negatives." },
+            { id: 54, tag: "microbiology-wound", text: "What combination treats metallo-beta-lactamase Gram-negatives?", options: ["Vancomycin/tobramycin", "Aztreonam combined with avibactam (or cefiderocol)", "Ampicillin/sulbactam", "Ceftriaxone/metronidazole", "Polymyxin/erythromycin"], correct: 1, explanation: "Aztreonam resists metallo-beta-lactamases and is paired with avibactam." },
+            { id: 55, tag: "microbiology-wound", text: "What differentiates Staph aureus from Strep pyogenes?", options: ["Chains vs clusters", "S. aureus: clusters, catalase-positive, coagulase-positive, beta-hemolytic; S. pyogenes: chains, catalase-negative, beta-hemolytic, bacitracin-susceptible, PYR-positive", "Gram status", "Catalase only", "Aerobic status"], correct: 1, explanation: "Coagulase, catalase, and cluster formation distinguish Staph from Strep." },
+            { id: 56, tag: "microbiology-wound", text: "Why is discharge foul-smelling in Type 1 Necrotizing Fasciitis?", options: ["Fungi", "Polymicrobial infection involving anaerobic bacteria generating foul-smelling metabolic byproducts", "Necrosis", "Ointment", "Pyocyanin"], correct: 1, explanation: "Synergistic anaerobes produce foul-smelling gas and byproducts." },
+            { id: 57, tag: "microbiology-wound", text: "What differentiates CA-MRSA from HA-MRSA?", options: ["CA-MRSA occurs in healthy outpatients, carries SCCmec type IV, and produces PVL toxin; HA-MRSA is multiresistant in hospitalized patients", "Gram status", "Age group", "Vancomycin resistance", "None"], correct: 0, explanation: "CA-MRSA features SCCmec IV and PVL toxin in outpatients; HA-MRSA is hospital-acquired." },
+
+            // PATHOLOGY & ONCOLOGY (58-68)
+            { id: 58, tag: "pathology-oncology", text: "What are classic pathological findings in osteoarthritis?", options: ["Tophi", "Eburnated bone, subchondral cysts, and cartilage fibrillation/fissuring with chondrocyte loss", "Tan masses", "Hemorrhagic masses", "Malignant cartilage"], correct: 1, explanation: "Histology reveals cartilage fibrillation and fissuring with eburnated bone." },
+            { id: 59, tag: "pathology-oncology", text: "What features characterize gout?", options: ["Epithelial proliferation", "Chalky white tophi and needle-shaped urate crystals exhibiting negative birefringence under polarized light", "Keratin pearls", "Palisading", "Desmoplasia"], correct: 1, explanation: "Tophi with negatively birefringent urate crystals." },
+            { id: 60, tag: "pathology-oncology", text: "What microscopic feature distinguishes osteosarcoma?", options: ["Cartilage cap", "Fine, lace-like pattern of neoplastic bone (osteoid) produced by pleomorphic malignant osteoblasts", "Multinucleated giant cells", "Lacunae cells", "Basaloid cells"], correct: 1, explanation: "Malignant lace-like osteoid production is diagnostic." },
+            { id: 61, tag: "pathology-oncology", text: "What is the structure of an osteochondroma?", options: ["Malignant osteoclasts", "Bony surface projection capped by a smooth hyaline cartilage continuous with the underlying marrow cavity", "Ductal proliferation", "Squamous nests", "Epiphyseal expansion"], correct: 1, explanation: "Cartilage-capped bony projection continuous with medullary cavity." },
+            { id: 62, tag: "pathology-oncology", text: "What are characteristics of chondrosarcoma?", options: ["Bulky, lobulated tumor with glistening bluish-gray cartilage, myxoid areas, necrosis, and nuclear atypia in lacunae", "Red-black mass", "Firm desmoplastic mass", "Pearly papule", "Pigmented lesion"], correct: 0, explanation: "Malignant cartilaginous tumor with myxoid changes and atypia." },
+            { id: 63, tag: "pathology-oncology", text: "What is the characteristic microscopic finding in a Giant Cell Tumor of bone?", options: ["Lace-like osteoid", "Numerous uniformly distributed multinucleated osteoclast-type giant cells among mononuclear stromal cells", "Cartilage caps", "Infiltrating ducts", "Basaloid nests"], correct: 1, explanation: "Abundant osteoclast-like giant cells intermingled with mononuclear stroma." },
+            { id: 64, tag: "pathology-oncology", text: "What feature confirms cutaneous squamous cell carcinoma?", options: ["Basaloid palisading", "Invasive malignant squamous cells infiltrating the dermis with keratin pearl formation", "Atypical melanocytes", "Glandular ducts", "Desmoplasia"], correct: 1, explanation: "Dermal invasion by squamous cells forming keratin pearls." },
+            { id: 65, tag: "pathology-oncology", text: "What morphological features define Basal Cell Carcinoma?", options: ["Pearly, translucent papule with telangiectasia; microscopy shows basaloid nests with peripheral palisading and clefting", "Hyperkeratotic nodules", "Pigmented invasion", "Rubbery mass", "Desmoplastic stroma"], correct: 0, explanation: "Pearly papule with peripheral palisading and shrinkage clefts." },
+            { id: 66, tag: "pathology-oncology", text: "What microscopic finding is critical in diagnosing Melanoma?", options: ["Pericanalicular stroma", "Atypical melanocytes invading the dermis with cellular pleomorphism and intracellular melanin pigment", "Urate crystals", "Giant cells", "Keratinization"], correct: 1, explanation: "Vertical dermal invasion by pleomorphic melanocytes with melanin pigment." },
+            { id: 67, tag: "pathology-oncology", text: "What are the characteristics of a Fibroadenoma?", options: ["Infiltrative mass", "Well-circumscribed, rubbery, firm, grayish-white mass with proliferation of epithelial and stromal tissue", "Cartilage", "Hemorrhagic mass", "Ulcerated nodule"], correct: 1, explanation: "Benign biphasic breast tumor with glandular and stromal elements." },
+            { id: 68, tag: "pathology-oncology", text: "What characterizes Invasive Breast Carcinoma?", options: ["Well-demarcated ducts", "Irregular, firm, infiltrative mass with malignant ductal cells surrounded by a desmoplastic stromal reaction", "Basaloid palisading", "Hyaline caps", "Urate tophi"], correct: 1, explanation: "Infiltrative malignant ducts with desmoplastic stroma." }
+        ];
+
+        let currentTagFilter = 'all';
+        let currentStatusFilter = 'all';
+        const userState = {};
+
+        function renderQuiz() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            let answered = 0, correct = 0, incorrect = 0;
+
+            const filtered = questions.filter(q => {
+                const state = userState[q.id] || {};
+                if (currentTagFilter !== 'all' && q.tag !== currentTagFilter) return false;
+                if (currentStatusFilter === 'unanswered') return state.selected === undefined;
+                if (currentStatusFilter === 'incorrect') return state.selected !== undefined && state.selected !== q.correct;
+                if (currentStatusFilter === 'bookmarked') return state.bookmarked === true;
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="bg-white p-8 rounded-xl shadow-sm text-center text-slate-500">No questions match filters.</div>`;
+            }
+
+            filtered.forEach((q, index) => {
+                const state = userState[q.id] || {};
+                const isAnswered = state.selected !== undefined;
+                if (isAnswered) {
+                    answered++;
+                    if (state.selected === q.correct) correct++;
+                    else incorrect++;
+                }
+
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-xl shadow-sm border border-slate-200 p-6 transition";
+                
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    let btnClass = "w-full text-left p-3 rounded-lg border text-sm font-medium transition flex items-center justify-between ";
+                    if (!isAnswered) {
+                        btnClass += "border-slate-200 bg-white hover:bg-slate-50 text-slate-700";
+                    } else {
+                        if (optIndex === q.correct) btnClass += "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold";
+                        else if (optIndex === state.selected) btnClass += "border-rose-500 bg-rose-50 text-rose-900";
+                        else btnClass += "border-slate-200 bg-slate-50 text-slate-400 opacity-60";
+                    }
+                    optionsHtml += `
+                        <button onclick="handleSelect(${q.id}, ${optIndex})" ${isAnswered ? 'disabled' : ''} class="${btnClass}">
+                            <span><strong class="mr-2">${String.fromCharCode(65 + optIndex)}.</strong> ${opt}</span>
+                            ${isAnswered && optIndex === q.correct ? '<span class="text-emerald-600 font-bold">✓ Correct</span>' : ''}
+                            ${isAnswered && optIndex === state.selected && optIndex !== q.correct ? '<span class="text-rose-600 font-bold">✗ Choice</span>' : ''}
+                        </button>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">${q.tag.replace('-', ' ')}</span>
+                            <span class="text-xs text-slate-400">QID: ${q.id}</span>
+                        </div>
+                        <button onclick="toggleBookmark(${q.id})" class="text-slate-400 hover:text-amber-500 transition">${state.bookmarked ? '⭐' : '☆'}</button>
+                    </div>
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">${index + 1}. ${q.text}</h3>
+                    <div class="space-y-2 mb-4">${optionsHtml}</div>
+                    <div class="${isAnswered ? '' : 'hidden'} bg-slate-50 border-l-4 border-indigo-500 p-4 rounded-r-lg text-sm text-slate-700 mt-4">
+                        <strong class="text-indigo-900 block mb-1">Explanation:</strong> ${q.explanation}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            document.getElementById('stat-answered').innerText = answered;
+            document.getElementById('stat-total').innerText = questions.length;
+            document.getElementById('stat-accuracy').innerText = (answered > 0 ? Math.round((correct / answered) * 100) : 0) + '%';
+            document.getElementById('stat-correct').innerText = correct + ' C';
+            document.getElementById('stat-incorrect').innerText = incorrect + ' I';
+        }
+
+        function handleSelect(qId, optIndex) {
+            if (!userState[qId]) userState[qId] = {};
+            userState[qId].selected = optIndex;
+            renderQuiz();
+        }
+
+        function toggleBookmark(qId) {
+            if (!userState[qId]) userState[qId] = {};
+            userState[qId].bookmarked = !userState[qId].bookmarked;
+            renderQuiz();
+        }
+
+        function setTagFilter(tag) {
+            currentTagFilter = tag;
+            document.querySelectorAll('.tag-btn').forEach(b => {
+                b.className = b.dataset.tag === tag ? "tag-btn px-3 py-1 rounded-full font-medium transition bg-indigo-600 text-white" : "tag-btn px-3 py-1 rounded-full font-medium transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100";
+            });
+            renderQuiz();
+        }
+
+        function setStatusFilter(status) {
+            currentStatusFilter = status;
+            document.querySelectorAll('.status-btn').forEach(b => {
+                b.className = b.dataset.status === status ? "status-btn px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 font-semibold" : "status-btn px-2.5 py-1 rounded bg-white border border-slate-300 text-slate-600";
+            });
+            renderQuiz();
+        }
+
+        renderQuiz();
+    </script>
+</body>
+</html>
