@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CVS Mixed Question Bank</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--ink:#171a1f;--mute:#5a6371;--line:#d6dbe3;--acc:#2a56c6;--ok:#14784a;--okbg:#e2f4ea;--bad:#b3261e;--badbg:#fce8e6;--trk:#e3e7ee;--note:#fff4d6;--noteink:#6b4e00;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1318;--card:#171c23;--ink:#e8ebf0;--mute:#9aa4b2;--line:#2b333e;--acc:#7da2ff;--ok:#5fd394;--okbg:#10301f;--bad:#ff8a80;--badbg:#3a1714;--trk:#27303b;--note:#352b0c;--noteink:#f0d58a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1318;--card:#171c23;--ink:#e8ebf0;--mute:#9aa4b2;--line:#2b333e;--acc:#7da2ff;--ok:#5fd394;--okbg:#10301f;--bad:#ff8a80;--badbg:#3a1714;--trk:#27303b;--note:#352b0c;--noteink:#f0d58a;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 90px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--card);border-bottom:1px solid var(--line);padding:10px 16px 0}
+.bar{max-width:720px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.ttl b{display:block;font-size:16px}.ttl span{font-size:12.5px;color:var(--mute)}
+.ctl{display:flex;align-items:center;gap:10px}
+#cnt{font-size:14px;font-variant-numeric:tabular-nums}
+#rs{font:inherit;font-size:14px;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.trk{height:5px;background:var(--trk);margin:10px -16px 0}
+.trk i{display:block;height:100%;width:0;background:var(--acc);transition:width .25s}
+main,#sc{max-width:720px;margin:0 auto;padding:16px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+.qh{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.qn{font-weight:700;color:var(--acc);margin-right:4px}
+.chip{font-size:12px;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--mute)}
+.stem{margin:0 0 12px;font-weight:500}
+.qi{display:block;max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);margin:0 0 12px}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;margin:8px 0;cursor:pointer}
+.opt:focus-visible,#rs:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.row{display:flex;gap:10px;align-items:flex-start}
+.L{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:600}
+.t{flex:1}
+.mk{flex:none;font-size:12.5px;font-weight:700}
+.ex{display:none;margin:6px 0 0 36px;font-size:13.5px;color:var(--mute)}
+.done .opt{cursor:default}.done .ex{display:block}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}.opt.ok .L{background:var(--ok);border-color:var(--ok);color:var(--card)}.opt.ok .mk{color:var(--ok)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}.opt.bad .L{background:var(--bad);border-color:var(--bad);color:var(--card)}.opt.bad .mk{color:var(--bad)}
+.note{display:none;margin-top:10px;padding:9px 12px;border-radius:10px;background:var(--note);color:var(--noteink);font-size:13.5px}
+.done .note{display:block}
+#sc{padding-bottom:40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.big{font-size:44px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.vd{margin:6px 0 0;color:var(--mute)}
+.bk h3{margin:22px 0 8px;font-size:15px}
+.br{margin:10px 0}.bt{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.mu{color:var(--mute);font-size:12.5px}
+.bb{display:flex;height:8px;border-radius:99px;overflow:hidden;background:var(--trk);margin:4px 0 2px}
+.bb .g{background:var(--ok)}.bb .rd{background:var(--bad)}
+.flt{max-width:720px;margin:0 auto;padding:12px 16px 0}.fh{font-size:13px;color:var(--mute);margin-top:6px}.fr{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.fchip{font:inherit;font-size:13px;padding:5px 11px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}.fchip.on{background:var(--acc);border-color:var(--acc);color:var(--card)}
+.chip.hy{border-color:var(--bad);color:var(--bad);font-weight:700}.q[hidden]{display:none}
+</style></head><body>
+<header><div class="bar"><div class="ttl"><b>CVS Mixed Question Bank MME · (Bichem has topics outside syllabus)</b><span id="sub"></span></div><div class="ctl"><span id="cnt" aria-live="polite"></span><button id="rs" type="button">Reset</button></div></div><div class="trk"><i id="pg"></i></div></header>
+<section id="flt" class="flt"></section><main id="qs"></main><section id="sc" hidden></section>
+<script>
+const Q=(n,s,l,q,o,a,note,img,alt)=>({n,s,l,q,o,a,note,img,alt});
+const M=(n,s,l,q,r,e,w,note)=>{const o=w.map(x=>[x,``]),h=[...String(n)].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7),k=h%5;o.splice(k,0,[r,e]);return Q(n,s,l,q,o,k,note)};
+const RHD=`Rheumatic Heart Disease`,VAL=`Valvular Heart Diseases`,IHD=`Etiopathogenesis of Ischemic Heart Disease`,MYO=`Myocardial Disease`,HF=`Heart Failure`,PERI=`Pericardial Diseases`,RBC=`RBC Disorders and Anemias`,BLD=`Bleeding Disorders`,WBC=`WBC Disorders, Leukemias and Lymphomas`;
+const MED="Anatomy of Mediastinal Structures",PER="Pericardium and External Features of the Heart",INT="Anatomy of Internal Structures of the Heart",COR="Coronary Circulation",CON="Innervation and Conducting System of the Heart",E1="Embryology of the Heart & CHD-1",E2="Embryology of the Heart & CHD-2",PCM="Properties of the Cardiac Muscle",PCS="Physiology of the Conductive System of the Heart",PCO="Physiology of the Cardiac Output",ATH="Pathology of Atherosclerosis",VAS="Pathology of Vasculitis and Diseases of Veins",IE="Infective Endocarditis",MIC="Microbiome in CVS Diseases",ENR="Myocardial Energy Metabolism in Ischemia and Heart Failure",CHO="Disorders of Cholesterol Metabolism",PCC="Physiology of the Cardiac Cycle",VES="Anatomy of the Major Vessels",TUM="Pathology of Vascular Tumors and Diseases of Lymphatics",HTN="Pathology of Hypertension";
+const QS=[
+Q(`M9`,`Physiology`,PCM,`Potassium efflux through leak channels contributes to which part of the cardiac action potential?`,[
+[`Depolarization (phase 0)`,`No: phase 0 is rapid Na⁺ influx.`],
+[`Early repolarization (phase 1)`,`No: phase 1 is transient K⁺ efflux through voltage-gated channels.`],
+[`Plateau (phase 2)`,`No: the plateau is Ca²⁺ influx balanced by K⁺ efflux through voltage-gated channels.`],
+[`Rapid repolarization (phase 3)`,`No: phase 3 uses voltage-gated delayed rectifier K⁺ channels, not leak channels.`],
+[`Resting membrane potential (phase 4)`,`Yes: K⁺ leak (inward rectifier) channels hold the resting potential near the K⁺ equilibrium potential.`]],4,`Source had no options; I wrote five.`),
+Q(`M10`,`Physiology`,PCC,`What occurs during ventricular systole?`,[
+[`The aortic valve opens`,`Yes: when ventricular pressure exceeds aortic pressure the aortic valve opens and ejection begins.`],
+[`The mitral valve opens`,`No: it opens in diastole, when ventricular pressure falls below atrial pressure.`],
+[`Rapid ventricular filling`,`No: this is early diastole.`],
+[`Atrial contraction tops up ventricular filling`,`No: atrial systole occurs in late diastole.`],
+[`Isovolumetric relaxation`,`No: this follows aortic valve closure, at the start of diastole.`]],0,`Source had no options; I wrote five.`),
+Q(`M11`,`Physiology`,PCC,`Atrial pressure rises during atrial contraction. Which wave of the atrial pressure curve reflects this rise?`,[
+[`c wave`,`No: the c wave is the AV valve bulging into the atrium during isovolumetric ventricular contraction.`],
+[`v wave`,`No: the v wave is atrial filling against the closed AV valve.`],
+[`a wave`,`Yes: the a wave is the pressure rise from atrial contraction.`],
+[`x descent`,`No: the x descent reflects atrial relaxation and downward valve motion in systole.`],
+[`y descent`,`No: the y descent is rapid atrial emptying after the AV valve opens.`]],2,`FLAG: source answer was the c wave, but atrial contraction produces the a wave and the c wave comes from valve bulging. I used the a wave.`),
+Q(`M12`,`Physiology`,PCS,`Which part of the conduction system delivers the impulse directly to the ventricular myocardium?`,[
+[`SA node`,`No: it initiates the impulse in the right atrium.`],
+[`AV node`,`No: it delays the impulse before it reaches the bundle of His.`],
+[`Bundle of His`,`No: it carries the impulse from the AV node to the bundle branches.`],
+[`Purkinje fibers`,`Yes: Purkinje fibers conduct fastest and activate the ventricular muscle.`],
+[`Internodal pathways`,`No: they connect the SA and AV nodes within the atria.`]],3,`I reworded “conducts to the ventricular walls” to “delivers the impulse directly to the ventricular myocardium”, since the bundle of His also conducts toward the ventricles. Source had no options; I wrote five.`),
+Q(`M13`,`Physiology`,PCO,`An athlete has a resting heart rate of 55 bpm and a normal resting cardiac output. Which adaptation allows this?`,[
+[`Increased stroke volume`,`Yes: cardiac output = heart rate × stroke volume, so a larger stroke volume maintains output at a lower rate.`],
+[`Increased total peripheral resistance`,`No: this would not maintain output and is not an athletic adaptation.`],
+[`Decreased blood volume`,`No: training tends to raise plasma volume.`],
+[`Decreased end-diastolic volume`,`No: athletes have larger end-diastolic volumes.`],
+[`Increased sympathetic tone`,`No: athletes have lower resting sympathetic and higher vagal tone.`]],0,`Source answer kept. The bradycardia itself is mainly due to increased vagal tone, so I reworded the stem to ask which adaptation maintains cardiac output, so only one option fits.`),
+Q(`M14`,`Pathology`,HTN,`A 19-year-old’s blood pressure is 125/95 mmHg. Which statement describes it correctly?`,[
+[`Isolated systolic hypertension`,`No: the systolic pressure is not the raised value here.`],
+[`Increased diastolic pressure`,`Yes: a diastolic pressure of 95 mmHg is elevated (90 or above) while the systolic is not.`],
+[`Widened pulse pressure`,`No: the pulse pressure is 30 mmHg, which is narrow.`],
+[`Hypotension`,`No: both values are well above hypotensive ranges.`],
+[`Normal blood pressure`,`No: a diastolic pressure of 90 or above is abnormal.`]],1,`Source had no options; I wrote five. Tagged Pathology of Hypertension: confirm.`),
+Q(`M15`,`Physiology`,PCO,`After a person stands up quickly, blood pressure falls briefly and then returns to normal. Which reflex change restores it?`,[
+[`Increased firing of arterial baroreceptors`,`No: standing lowers pressure, so baroreceptor firing falls.`],
+[`Cushing reflex`,`No: this responds to raised intracranial pressure.`],
+[`Bainbridge reflex`,`No: it raises heart rate when atrial filling increases.`],
+[`Decreased firing of arterial baroreceptors`,`Yes: reduced firing lowers vagal tone and raises sympathetic outflow, increasing heart rate and vascular tone.`],
+[`Peripheral chemoreceptor reflex`,`No: it responds mainly to hypoxia, not postural pressure changes.`]],3,`Source had no options; I wrote five. Tagged Cardiac Output (neural control): confirm.`),
+Q(`M16`,`Physiology`,PCO,`In hypotension, which mechanism acts within seconds but is only strongly activated when mean arterial pressure falls below about 60 mmHg?`,[
+[`Renin–angiotensin–aldosterone system`,`No: it takes minutes to hours to act.`],
+[`CNS ischemic response`,`Yes: brainstem ischemia triggers intense sympathetic discharge within seconds, as a last-ditch response.`],
+[`Aldosterone-driven fluid retention`,`No: this acts over hours to days.`],
+[`Stress-relaxation of vessels`,`No: this develops over minutes.`],
+[`Fluid shift from interstitium into capillaries`,`No: this transcapillary shift takes minutes to hours.`]],1,`Source asked “which response is the fastest” with the CNS ischemic response as the answer, but the baroreceptor reflex also acts within seconds. I reworded the stem so the CNS ischemic response is the only fit. Tagged Cardiac Output: confirm.`),
+Q(`M17`,`Physiology`,PCO,`In a study on rats, diastolic blood pressure falls during exercise. What is the main reason?`,[
+[`Sympathetic vasoconstriction of skeletal muscle`,`No: muscle vessels dilate despite sympathetic activation.`],
+[`Decreased cardiac output`,`No: cardiac output rises in exercise.`],
+[`Local metabolic vasodilation in active skeletal muscle`,`Yes: adenosine, K⁺, CO₂ and lactate dilate muscle arterioles, lowering total peripheral resistance.`],
+[`Increased venous tone`,`No: this raises preload and does not lower diastolic pressure.`],
+[`Increased blood volume`,`No: blood volume does not rise acutely.`]],2,`FLAG: source answer was “increased sympathetic outflow to skeletal muscle”, but the standard explanation is local metabolic vasodilation lowering resistance (sympathetic outflow alone would constrict). I used the standard answer. Tagged Cardiac Output: confirm.`),
+Q(`M18`,`Physiology`,PCO,`A patient with heart failure has reduced myocardial contractility. Which parameter is expected to be elevated?`,[
+[`Stroke volume`,`No: stroke volume falls.`],
+[`Ejection fraction`,`No: it falls.`],
+[`Cardiac output`,`No: it falls, or is maintained only by compensation.`],
+[`End-systolic volume`,`Yes: weaker contraction leaves more blood in the ventricle after ejection.`],
+[`Maximum rate of pressure rise (dP/dt)`,`No: dP/dt reflects contractility and falls.`]],3,`Source had no options; I wrote five.`),
+Q(`M19`,`Physiology`,PCS,`Which statement about the ECG is correct?`,[
+[`The QRS complex represents ventricular repolarization`,`No: the QRS is ventricular depolarization.`],
+[`The T wave represents ventricular depolarization`,`No: the T wave is ventricular repolarization.`],
+[`The PR interval represents ventricular depolarization`,`No: the PR interval is atrial depolarization plus the AV nodal delay.`],
+[`The PR interval is shortened in first-degree heart block`,`No: it is prolonged.`],
+[`The P wave is absent in atrial fibrillation`,`Yes: disorganized atrial activity replaces P waves with fibrillatory waves.`]],4,`Source had no options; I wrote five.`),
+Q(`M20`,`Physiology`,PCS,`An ECG shows a PR interval of 0.24 seconds. What does this describe?`,[
+[`Mobitz type I (Wenckebach) block`,`No: the PR interval lengthens progressively until a beat is dropped.`],
+[`Mobitz type II block`,`No: beats are dropped with a constant PR interval.`],
+[`First-degree heart block`,`Yes: a PR interval above 0.20 s with every P wave conducted.`],
+[`Third-degree heart block`,`No: this is complete AV dissociation.`],
+[`Sinus bradycardia`,`No: it is defined by rate, not PR interval.`]],2,`Source had no options; I wrote five.`),
+Q(`M21`,`Physiology`,PCS,`What is the function of the AV nodal delay?`,[
+[`Simultaneous atrial and ventricular contraction`,`No: the delay separates the two contractions.`],
+[`Increased ventricular contractility`,`No: the delay does not change contractility.`],
+[`Initiation of ventricular repolarization`,`No: repolarization follows depolarization and plateau.`],
+[`Atrial contraction preceding ventricular contraction`,`Yes: the delay lets the atria finish emptying into the ventricles before ventricular systole.`],
+[`Faster SA node firing`,`No: the delay has no effect on SA node rate.`]],3,`Source had no options; I wrote five.`),
+Q(`M22`,`Physiology`,PCS,`Atrial fibrillation most commonly starts from ectopic triggers at which site?`,[
+[`Pulmonary vein ostia in the left atrium`,`Yes: ectopic firing from the muscle sleeves of the pulmonary veins triggers most AF, which is why ablation targets them.`],
+[`SA node`,`No: SA node dysfunction causes sick sinus syndrome, not AF.`],
+[`AV node`,`No: AV node disease causes heart block.`],
+[`Bundle of His`,`No: His bundle disease causes conduction block.`],
+[`Purkinje fibers`,`No: Purkinje disease produces ventricular, not atrial, rhythm disturbance.`]],0,`FLAG: source answer was the SA node, but AF is not caused by SA node damage (that gives sick sinus syndrome). I reworded the stem to ask for the usual trigger site, the pulmonary veins.`),
+Q(`M23`,`Pathology`,HTN,`A patient with rapidly progressing hypertension (200/120 mmHg) and renal failure has a renal biopsy showing necrosis and neutrophilic infiltration of the arterioles. What is the lesion?`,[
+[`Hyaline arteriolosclerosis`,`No: it shows homogeneous pink thickening without necrosis, in benign hypertension and diabetes.`],
+[`Hyperplastic arteriolosclerosis (onion-skin)`,`No: this is concentric laminated thickening; necrosis with neutrophils points to necrotizing arteriolitis.`],
+[`Necrotizing arteriolitis`,`Yes: fibrinoid necrosis with neutrophils in arteriolar walls is typical of malignant hypertension.`],
+[`Mönckeberg medial calcific sclerosis`,`No: it is medial calcification without luminal narrowing, mostly in the elderly.`],
+[`Atherosclerosis`,`No: it affects larger elastic and muscular arteries.`]],2,`Source had no options; I wrote five.`),
+Q(`M24`,`Pathology`,ATH,`At autopsy, a patient who died of cardiovascular disease has raised yellow-white plaques in the abdominal aorta. What microscopic findings are expected?`,[
+[`Cystic medial degeneration`,`No: this occurs in Marfan syndrome.`],
+[`Granulomatous inflammation with giant cells`,`No: this suggests giant cell or Takayasu arteritis.`],
+[`Fibrinoid necrosis with neutrophils`,`No: this suggests polyarteritis nodosa or malignant hypertension.`],
+[`Lipid deposition and smooth muscle cell proliferation`,`Yes: foam cells, extracellular lipid and a fibrous cap with proliferating smooth muscle cells.`],
+[`Hyaline thickening of arteriolar walls`,`No: this is hyaline arteriolosclerosis of small arterioles.`]],3,`Image-based in the source (no picture in your file), so I rewrote it as a text description. Source answer kept. Repeats an earlier atherosclerosis question.`),
+Q(`M25`,`Pathology`,VAS,`A 60-year-old has a headache and a painful, bulging, indurated temporal artery. What is the most likely long-term manifestation if this is left untreated?`,[
+[`Renal failure`,`No: giant cell arteritis spares the kidneys.`],
+[`Blindness`,`Yes: ophthalmic artery involvement can cause sudden permanent vision loss, the main reason for urgent steroids.`],
+[`Hemoptysis`,`No: lung hemorrhage is not a feature.`],
+[`Limb gangrene`,`No: peripheral gangrene is not typical (think Buerger disease).`],
+[`Pulmonary hypertension`,`No: it is not a typical outcome.`]],1,`Source had no options; I wrote five.`),
+Q(`M26`,`Pathology`,VAS,`In polyarteritis nodosa, which vessels are most likely affected?`,[
+[`Capillaries and venules`,`No: small-vessel vasculitis is seen in ANCA-associated disease.`],
+[`Aorta and its major branches`,`No: this is Takayasu or giant cell arteritis.`],
+[`Medium-sized muscular arteries`,`Yes: PAN affects medium muscular arteries, especially renal and visceral, with segmental necrotizing inflammation.`],
+[`Veins`,`No: veins are not the target.`],
+[`Cranial arteries only`,`No: cranial predominance describes giant cell arteritis.`]],2,`Source had no options; I wrote five. Close to an earlier PAN question.`),
+Q(`M27`,`Pathology`,TUM,`A patient with AIDS has red-purple skin nodules. Which virus causes these skin changes?`,[
+[`Epstein–Barr virus`,`No: EBV is linked to lymphomas and nasopharyngeal carcinoma.`],
+[`Cytomegalovirus`,`No: CMV causes retinitis and colitis in AIDS.`],
+[`Human papillomavirus`,`No: HPV causes warts and cervical cancer.`],
+[`Human herpesvirus 8`,`Yes: HHV-8 causes Kaposi sarcoma, red-purple vascular nodules in AIDS.`],
+[`Herpes simplex virus 1`,`No: it causes oral and genital vesicles.`]],3,`Source had no options; I wrote five.`),
+Q(`M28`,`Pathology`,ATH,`A patient with Marfan syndrome has sudden chest pain and an ascending aortic dissection. What underlying change caused it?`,[
+[`Rupture of an atherosclerotic plaque`,`No: that is the usual cause in atherosclerosis, not in Marfan syndrome.`],
+[`Degeneration of medial elastic fibers`,`Yes: fibrillin-1 defects weaken the media (cystic medial degeneration), letting blood dissect the wall.`],
+[`Granulomatous inflammation of the media`,`No: this is seen in giant cell and Takayasu arteritis.`],
+[`Immune complex deposition`,`No: this causes vasculitis, not Marfan dissection.`],
+[`Thrombosis of the intima`,`No: this is not the mechanism.`]],1,`Source had no options; I wrote five. Tagged Atherosclerosis (with aneurysms), the closest lecture: confirm.`),
+Q(`M29`,`Microbiology`,IE,`A patient has fever and fatigue, retinal hemorrhages and painful fingertip nodules. He has mitral valve damage from rheumatic heart disease and a recent dental procedure. What is the most likely causative organism?`,[
+[`Viridans streptococci`,`Yes: they infect previously damaged valves after dental procedures, with Roth spots and Osler nodes.`],
+[`Staphylococcus aureus`,`No: it causes acute disease on normal valves, often in IV drug users.`],
+[`Staphylococcus epidermidis`,`No: it targets prosthetic valves and catheters.`],
+[`Enterococcus faecalis`,`No: it follows GI or GU procedures.`],
+[`Streptococcus gallolyticus`,`No: it is linked to colon cancer.`]],0,`Source wrote “Streptococcus viridans”; I used viridans streptococci. Source had no options; I wrote five.`),
+Q(`M37`,`Anatomy`,MED,`A tumor in the posterior mediastinum is likely to compress which structure?`,[
+[`Ascending aorta`,`No: it lies in the middle mediastinum.`],
+[`Superior vena cava`,`No: it lies in the superior and middle mediastinum.`],
+[`Trachea`,`No: it lies in the superior mediastinum.`],
+[`Thymus`,`No: it lies in the anterior and superior mediastinum.`],
+[`Descending aorta`,`Yes: the descending thoracic aorta lies in the posterior mediastinum.`]],4,`Source answer kept. An earlier question has the same stem with the esophagus as the answer; both lie in the posterior mediastinum, so I left the esophagus out of the options here.`),
+Q(`M38`,`Anatomy`,PER,`Which parts of the heart form the left border of the heart on a chest X-ray, below the pulmonary trunk?`,[
+[`Right atrium and SVC`,`No: these form the right border.`],
+[`Right ventricle and right atrium`,`No: the right ventricle forms the anterior surface and inferior border.`],
+[`Left ventricle and left auricle`,`Yes: below the pulmonary trunk, the left auricle and left ventricle form the left border.`],
+[`Right atrium and IVC`,`No: these form the lower right border.`],
+[`Left atrium and pulmonary veins`,`No: they form the posterior surface (base).`]],2,`I added “below the pulmonary trunk”, since the aortic knob and pulmonary trunk also form the upper left border. Source had no options; I wrote five.`),
+Q(`M39`,`Anatomy`,PER,`During open-heart surgery the pericardial sac is opened with a longitudinal incision. If a horizontal incision were used instead, which structures might be transected?`,[
+[`Vagus nerves`,`No: they pass behind the lung roots, not on the sides of the pericardium.`],
+[`Phrenic nerves`,`Yes: the phrenic nerves descend on the lateral sides of the fibrous pericardium, so a transverse incision may cut them.`],
+[`Left coronary artery`,`No: coronary arteries lie on the heart surface within the pericardial cavity.`],
+[`Thoracic duct`,`No: it lies in the posterior mediastinum.`],
+[`Azygos vein`,`No: it lies posteriorly in the posterior mediastinum.`]],1,`Source had no options; I wrote five.`),
+Q(`M40`,`Anatomy`,INT,`Which internal feature is found in the right ventricle?`,[
+[`Pectinate muscles`,`No: these are in the right atrial wall and auricle.`],
+[`Crista terminalis`,`No: this is a ridge in the right atrium.`],
+[`Conus arteriosus (infundibulum)`,`Yes: the smooth outflow part of the right ventricle leading to the pulmonary valve.`],
+[`Fossa ovalis`,`No: this lies on the interatrial septum, in the right atrium.`],
+[`Opening of the coronary sinus`,`No: it opens into the right atrium.`]],2,`Source had no options; I wrote five.`),
+Q(`M41`,`Anatomy`,COR,`During coronary graft surgery, a surgeon accidentally sutures the graft to the vein that runs adjacent to the posterior interventricular artery. Which vein is it?`,[
+[`Great cardiac vein`,`No: it runs with the LAD in the anterior interventricular groove.`],
+[`Small cardiac vein`,`No: it runs with the right marginal artery in the coronary sulcus.`],
+[`Middle cardiac vein`,`Yes: it runs with the posterior interventricular artery in the posterior interventricular groove and drains into the coronary sinus.`],
+[`Anterior cardiac veins`,`No: they cross the right ventricle and drain directly into the right atrium.`],
+[`Oblique vein of the left atrium`,`No: it lies on the posterior left atrial wall.`]],2,`Source wording was garbled (“sutures the transplanted coronary artery the vein”); I read it as suturing the graft to the vein. Source had no options; I wrote five. Same fact as an earlier question in Exam 1.`),
+Q(`M42`,`Anatomy`,COR,`Which artery mainly supplies the apex of the heart?`,[
+[`Right coronary artery`,`No: it supplies the right atrium, right ventricle and inferior wall.`],
+[`Left circumflex artery`,`No: it supplies the lateral and posterior left ventricle.`],
+[`Posterior interventricular artery`,`No: it supplies the posterior septum and inferior wall.`],
+[`Anterior interventricular (LAD) artery`,`Yes: the LAD supplies the apex and anterior wall of the left ventricle.`],
+[`Right marginal artery`,`No: it supplies the inferior part of the right ventricle.`]],3,`Source had no options; I wrote five.`),
+Q(`M43`,`Embryology`,E2,`A newborn with cyanosis has dextro-transposition of the great arteries (d-TGA): the aorta arises from the right ventricle and the pulmonary artery from the left ventricle. Which embryologic process was disrupted?`,[
+[`Fusion of the endocardial cushions`,`No: failure causes AV septal defects.`],
+[`Anterosuperior displacement of the infundibular septum`,`No: this causes tetralogy of Fallot.`],
+[`Fusion of the septum primum with the septum secundum`,`No: failure leaves a patent foramen ovale.`],
+[`Closure of the ductus arteriosus`,`No: this is postnatal and unrelated to where the great arteries originate.`],
+[`Spiraling of the aorticopulmonary septum`,`Yes: the septum fails to spiral and runs straight, so the aorta stays with the right ventricle and the pulmonary trunk with the left.`]],4,`Source had no options; I wrote five. Lecture split (CHD-1 vs CHD-2) is my assumption.`),
+Q(`M44`,`Embryology`,E2,`A patient with tetralogy of Fallot is cyanotic. What is the cause of the cyanosis?`,[
+[`Left-to-right shunting through the VSD`,`No: left-to-right shunts increase pulmonary flow and are acyanotic.`],
+[`Right-to-left shunting that sends deoxygenated blood into the systemic circulation`,`Yes: right ventricular outflow obstruction pushes blood through the VSD into the overriding aorta.`],
+[`Pulmonary edema from left heart failure`,`No: this is not part of tetralogy.`],
+[`Low hemoglobin`,`No: cyanosis needs deoxygenated hemoglobin; anemia does not cause it.`],
+[`Impaired diffusion across the alveolar membrane`,`No: lung diffusion is normal in tetralogy.`]],1,`Source had no options; I wrote five.`),
+Q(`M45`,`Embryology`,E2,`A chest X-ray shows a boot-shaped heart. What causes the abnormal shape?`,[
+[`Left ventricular hypertrophy`,`No: it enlarges the left border but does not give a boot shape.`],
+[`Dilated pulmonary trunk`,`No: in the boot-shaped heart the pulmonary segment is concave because the trunk is small.`],
+[`Right ventricular hypertrophy`,`Yes: it lifts the cardiac apex upward, producing the boot (coeur en sabot) shape seen in tetralogy of Fallot.`],
+[`Left atrial enlargement`,`No: it straightens the left border, as in mitral stenosis.`],
+[`Right atrial enlargement`,`No: it enlarges the right heart border.`]],2,`Source had no options; I wrote five.`),
+Q(`M46`,`Anatomy`,VES,`Which of the following is a branch of the third part of the subclavian artery?`,[
+[`Thyrocervical trunk`,`No: it arises from the first part.`],
+[`Costocervical trunk`,`No: it arises from the second part on the right and the first part on the left.`],
+[`Vertebral artery`,`No: it arises from the first part.`],
+[`Dorsal scapular artery`,`Yes: it is the usual third-part branch (it can arise from the transverse cervical artery instead).`],
+[`Internal thoracic artery`,`No: it arises from the first part.`]],3,`Source had no options; I wrote five. Same question as in Exam 1.`),
+Q(`M47`,`Anatomy`,VES,`Which of the following veins drains directly into the azygos vein?`,[
+[`Right superior intercostal vein`,`Yes: it drains into the arch of the azygos vein.`],
+[`Left superior intercostal vein`,`No: it drains into the left brachiocephalic vein.`],
+[`Internal thoracic vein`,`No: it drains into the brachiocephalic vein.`],
+[`Right brachiocephalic vein`,`No: it joins the left brachiocephalic vein to form the SVC.`],
+[`Great cardiac vein`,`No: it drains into the coronary sinus.`]],0,`Source had no options; I wrote five.`),
+Q(`M48`,`Anatomy`,MED,`Which of the following occurs at the level of the sternal angle?`,[
+[`The esophagus passes through the diaphragm`,`No: this occurs at T10.`],
+[`The inferior vena cava passes through the diaphragm`,`No: this occurs at T8.`],
+[`Bifurcation of the trachea`,`Yes: the trachea divides at the carina at T4/T5, level with the sternal angle.`],
+[`The brachiocephalic veins unite to form the SVC`,`No: this occurs higher, behind the right first costal cartilage.`],
+[`The aorta passes through the diaphragm`,`No: this occurs at T12.`]],2,`Source had no options; I wrote five. Same topic as the sternal angle question in Exam 1. The aortic arch also begins at this level, so I kept it out of the options here.`),
+Q(`M49`,`Biochemistry`,CHO,`Which key product derived from cholesterol emulsifies dietary fats in the intestine?`,[
+[`Vitamin D`,`No: it comes from 7-dehydrocholesterol and regulates calcium; it does not emulsify fat.`],
+[`Bile acids`,`Yes: made from cholesterol in the liver, they emulsify fats and form micelles.`],
+[`Cortisol`,`No: it is a steroid hormone, not an emulsifier.`],
+[`Pancreatic lipase`,`No: it is an enzyme and not cholesterol-derived.`],
+[`Chylomicrons`,`No: they transport dietary fat; they are not cholesterol-derived emulsifiers.`]],1,`Source had no options; I wrote five.`),
+Q(`M50`,`Pathology`,ATH,`A patient with diabetes, hypertension, hyperlipidemia and a smoking habit has cardiovascular disease, and his father died of a myocardial infarction. Which is a non-modifiable risk factor in this patient?`,[
+[`Smoking`,`No: it can be stopped.`],
+[`Hypertension`,`No: it can be treated.`],
+[`Diabetes mellitus`,`No: it can be controlled with treatment and lifestyle.`],
+[`Hyperlipidemia`,`No: it can be treated with diet and drugs.`],
+[`Family history`,`Yes: genetic predisposition cannot be changed.`]],4,`Source had no options; I wrote five.`),
+Q(`P1`,`Anatomy`,INT,`Which valve prevents backflow of blood from the left ventricle into the left atrium during ventricular contraction?`,[
+[`Tricuspid valve`,`No: it guards the right AV opening.`],
+[`Pulmonary valve`,`No: it guards the right ventricular outflow.`],
+[`Aortic valve`,`No: it prevents backflow from the aorta into the left ventricle.`],
+[`Mitral valve`,`Yes: the mitral (bicuspid) valve closes in systole to stop regurgitation into the left atrium.`],
+[`Semilunar valve`,`No: semilunar valves guard the outflow tracts, not the AV openings.`]],3),
+Q(`P2`,`Anatomy`,INT,`Blood in the pulmonary veins is:`,[
+[`Deoxygenated`,`No: deoxygenated blood travels in the pulmonary arteries.`],
+[`Oxygenated`,`Yes: pulmonary veins carry oxygenated blood from the lungs to the left atrium.`],
+[`Mixed`,`No: blood is not mixed in a normal heart.`],
+[`Nutrient-rich`,`No: this describes portal blood after a meal.`],
+[`Waste-laden`,`No: this describes systemic venous return.`]],1),
+Q(`P3`,`Anatomy`,PER,`Which of the following is NOT a layer of the pericardium?`,[
+[`Fibrous pericardium`,`No: it is the tough outer layer.`],
+[`Parietal pericardium`,`No: it is the outer serous layer lining the fibrous pericardium.`],
+[`Visceral pericardium`,`No: it is the inner serous layer (epicardium).`],
+[`Serous pericardium`,`No: the serous pericardium has parietal and visceral layers.`],
+[`Muscular pericardium`,`Yes: there is no muscular pericardium; the muscle layer of the heart is the myocardium.`]],4),
+Q(`P4`,`Anatomy`,COR,`The coronary sinus drains into the:`,[
+[`Left atrium`,`No: pulmonary veins enter the left atrium.`],
+[`Right atrium`,`Yes: the coronary sinus opens into the right atrium, next to the IVC opening.`],
+[`Left ventricle`,`No: veins do not drain into the ventricles.`],
+[`Right ventricle`,`No: veins do not drain into the ventricles.`],
+[`Pulmonary trunk`,`No: this carries blood from the right ventricle to the lungs.`]],1),
+Q(`P5`,`Anatomy`,INT,`The moderator band is a muscular bridge that connects:`,[
+[`The interventricular septum to the anterior papillary muscle of the right ventricle`,`Yes: it crosses the right ventricle and carries the right bundle branch.`],
+[`The interatrial septum to the right atrial appendage`,`No: the moderator band is ventricular, not atrial.`],
+[`The left ventricular free wall to the interventricular septum`,`No: it is not in the left ventricle.`],
+[`The right atrial free wall to the coronary sinus`,`No: it has no atrial connection.`],
+[`The left atrial appendage to the left superior pulmonary vein`,`No: it is unrelated to the left atrium.`]],0,`Repeated several times in this paper, so HIGH YIELD.`),
+Q(`P6`,`Anatomy`,INT,`Which of the following prevents backflow of blood from the aorta into the left ventricle?`,[
+[`Tricuspid valve`,`No: it guards the right AV opening.`],
+[`Mitral valve`,`No: it prevents backflow into the left atrium.`],
+[`Pulmonary valve`,`No: it guards the right ventricular outflow.`],
+[`Aortic valve`,`Yes: the aortic valve closes at the end of systole and holds aortic blood out of the left ventricle.`],
+[`Thebesian valve`,`No: it guards the opening of the coronary sinus.`]],3),
+Q(`P7`,`Anatomy`,PER,`Which of the following structures might be cut if a horizontal incision was made in the pericardium?`,[
+[`Azygos vein`,`No: it lies in the posterior mediastinum.`],
+[`Inferior vena cava`,`No: it is not on the lateral pericardial wall.`],
+[`Internal thoracic artery`,`No: it descends on the anterior chest wall.`],
+[`Pericardiacophrenic vessels`,`Yes: they run with the phrenic nerve on the lateral fibrous pericardium.`],
+[`Vagus nerves`,`No: they pass behind the lung roots.`]],3,`Same idea as an earlier question (phrenic nerves), so HIGH YIELD.`),
+Q(`P8`,`Anatomy`,VES,`Which of the following is NOT a branch of the aortic arch?`,[
+[`Brachiocephalic trunk`,`No: it is the first branch of the arch.`],
+[`Left common carotid artery`,`No: it is the second branch.`],
+[`Left subclavian artery`,`No: it is the third branch.`],
+[`Pulmonary trunk`,`Yes: it arises from the right ventricle, not the aortic arch.`],
+[`Left vertebral artery (variant origin)`,`No: this is a recognized variant, arising directly from the arch in a minority.`]],3,`Source option E (descending aorta) is a continuation of the arch rather than a branch, so it was also arguably correct. I replaced it.`),
+Q(`P9`,`Anatomy`,INT,`The fossa ovalis is a remnant of:`,[
+[`Ductus arteriosus`,`No: it becomes the ligamentum arteriosum.`],
+[`Foramen ovale`,`Yes: the foramen ovale closes after birth, leaving the fossa ovalis.`],
+[`Ductus venosus`,`No: it becomes the ligamentum venosum.`],
+[`Umbilical vein`,`No: it becomes the ligamentum teres.`],
+[`Eustachian valve`,`No: this is the valve of the IVC.`]],1),
+Q(`P10`,`Anatomy`,INT,`Which of the following is the correct sequence of blood flow through the heart?`,[
+[`RA → RV → Lungs → LA → LV → Body`,`Yes: systemic venous blood passes through the right heart to the lungs, then the left heart to the body.`],
+[`LA → LV → Lungs → RA → RV → Body`,`No: it starts on the wrong side.`],
+[`RA → LA → RV → LV → Lungs → Body`,`No: it skips the lungs and crosses between atria.`],
+[`RV → RA → Lungs → LV → LA → Body`,`No: the ventricle cannot come before the atrium.`],
+[`LA → RA → LV → RV → Lungs → Body`,`No: the chamber order is wrong.`]],0),
+Q(`P11`,`Anatomy`,PER,`Which is the correct sequence of the layers of the heart from exterior to interior?`,[
+[`Fibrous pericardium, parietal pericardium, visceral pericardium, myocardium, endocardium`,`Yes: from outside in, the fibrous layer, then the two serous layers, then muscle, then the lining.`],
+[`Parietal pericardium, fibrous pericardium, visceral pericardium, myocardium, endocardium`,`No: the fibrous layer is outermost.`],
+[`Fibrous pericardium, visceral pericardium, parietal pericardium, endocardium, myocardium`,`No: the parietal layer lies outside the visceral layer, and the myocardium is outside the endocardium.`],
+[`Visceral pericardium, parietal pericardium, fibrous pericardium, endocardium, myocardium`,`No: this runs from inside out.`],
+[`Parietal pericardium, visceral pericardium, fibrous pericardium, myocardium, endocardium`,`No: the fibrous pericardium is not third.`]],0),
+Q(`P12`,`Anatomy`,INT,`The moderator band is found in the:`,[
+[`Left atrium`,`No: the atria have no moderator band.`],
+[`Right atrium`,`No: it has pectinate muscles instead.`],
+[`Left ventricle`,`No: it is a right ventricular feature.`],
+[`Right ventricle`,`Yes: it crosses the right ventricular cavity from the septum to the anterior papillary muscle.`],
+[`Interventricular septum`,`No: it springs from the septum but crosses the right ventricular cavity.`]],3,`Repeated in this paper, so HIGH YIELD.`),
+Q(`P13`,`Anatomy`,COR,`Which artery supplies the sinoatrial node in most people?`,[
+[`Left coronary artery`,`No: this is the main stem, not the usual SA nodal source.`],
+[`Right coronary artery`,`Yes: the SA nodal artery arises from the RCA in about 60% of people.`],
+[`Circumflex artery`,`No: it supplies the SA node in a minority (about 40%).`],
+[`Left anterior descending artery`,`No: it does not usually supply the SA node.`],
+[`Posterior interventricular artery`,`No: it supplies the posterior septum and, in right dominance, the AV node.`]],1,`Repeated several times in this paper, so HIGH YIELD.`),
+Q(`P14`,`Anatomy`,INT,`During auscultation, a murmur is loudest at the second right intercostal space. Which valve is most likely involved?`,[
+[`Tricuspid valve`,`No: it is heard at the lower left sternal border.`],
+[`Pulmonary valve`,`No: it is heard at the second left intercostal space.`],
+[`Mitral valve`,`No: it is heard at the apex.`],
+[`Aortic valve`,`Yes: the aortic area is the second right intercostal space beside the sternum.`],
+[`Eustachian valve`,`No: it is a fetal remnant at the IVC opening, not an auscultation site.`]],3),
+Q(`P15`,`Anatomy`,INT,`A catheter has reached the left ventricle from the aorta. Which additional valve must it cross to enter the left atrium?`,[
+[`Tricuspid valve`,`No: it lies between the right atrium and right ventricle.`],
+[`Pulmonary valve`,`No: it lies between the right ventricle and the pulmonary trunk.`],
+[`Mitral valve`,`Yes: the mitral valve lies between the left ventricle and left atrium.`],
+[`Aortic valve`,`No: it was already crossed to reach the left ventricle.`],
+[`Eustachian valve`,`No: it is a right atrial remnant.`]],2,`Source stem was muddled: going from the aorta to the left atrium crosses both the aortic and mitral valves. I reworded it so only the mitral valve fits.`),
+Q(`P16`,`Anatomy`,PER,`Which structure forms the inferior border of the heart?`,[
+[`Right atrium`,`No: it forms the right border.`],
+[`Left atrium`,`No: it forms most of the base (posterior surface).`],
+[`Right ventricle`,`Yes: the right ventricle forms the inferior border.`],
+[`Left ventricle`,`No: it forms the left border and apex.`],
+[`Pulmonary trunk`,`No: it is a vessel at the top of the heart.`]],2,`Asked twice in this paper, so HIGH YIELD.`),
+Q(`P17`,`Embryology`,E1,`An echocardiogram shows a defect in the interatrial septum. Which embryonic structure failed to close properly?`,[
+[`Foramen ovale`,`Yes: failure of the foramen ovale to close after birth leaves a patent foramen ovale.`],
+[`Ductus arteriosus`,`No: failure leaves a patent ductus arteriosus between the aorta and pulmonary trunk.`],
+[`Ductus venosus`,`No: it shunts umbilical blood past the liver.`],
+[`Truncus arteriosus`,`No: it divides into the aorta and pulmonary trunk.`],
+[`Sinus venosus`,`No: it forms the smooth right atrium and coronary sinus.`]],0,`Lecture split (CHD-1 vs CHD-2) is my assumption.`),
+Q(`P18`,`Anatomy`,PER,`Which parts form the left border of the heart?`,[
+[`Right atrium and left atrium`,`No: these form the right border and base.`],
+[`Left ventricle and left auricle`,`Yes: the left ventricle and left auricle form the left border (with the aortic knob and pulmonary trunk above).`],
+[`Right atrium`,`No: it forms the right border.`],
+[`Left atrium`,`No: it forms the base.`],
+[`Right ventricle and apex`,`No: the right ventricle forms the anterior surface and inferior border.`]],1,`Asked twice in this paper and similar to an earlier question, so HIGH YIELD.`),
+Q(`P19`,`Anatomy`,INT,`A procedure to treat atrial fibrillation isolates the pulmonary veins. In which chamber is it performed?`,[
+[`Right atrium`,`No: the pulmonary veins do not enter it.`],
+[`Left atrium`,`Yes: the pulmonary veins enter the posterior left atrium.`],
+[`Right ventricle`,`No: it is not related to the pulmonary veins.`],
+[`Left ventricle`,`No: the veins enter the atrium, not the ventricle.`],
+[`Pericardial space`,`No: this is not a heart chamber.`]],1),
+Q(`P20`,`Anatomy`,VES,`During cardiac catheterization, the catheter enters a large vein that drains the head, neck and upper limbs directly into the right atrium. Which vessel is it?`,[
+[`Inferior vena cava`,`No: it drains the lower body.`],
+[`Coronary sinus`,`No: it drains the heart itself.`],
+[`Azygos vein`,`No: it drains into the SVC.`],
+[`Superior vena cava`,`Yes: the SVC returns blood from the head, neck and upper limbs to the right atrium.`],
+[`Pulmonary vein`,`No: pulmonary veins enter the left atrium.`]],3,`Source asked for any large vein draining directly into the right atrium, but the SVC, IVC and coronary sinus all do. I added “draining the head, neck and upper limbs” so only the SVC fits.`),
+Q(`P21`,`Anatomy`,COR,`What are the contents of the groove on the anterior surface of the heart?`,[
+[`Left anterior descending artery and great cardiac vein`,`Yes: the anterior interventricular groove holds the LAD and great cardiac vein.`],
+[`Posterior descending artery and middle cardiac vein`,`No: these lie in the posterior interventricular groove.`],
+[`Coronary sinus`,`No: it lies in the posterior atrioventricular groove.`],
+[`Right coronary artery`,`No: it lies in the right atrioventricular groove.`],
+[`Circumflex artery and small cardiac vein`,`No: the circumflex lies in the left AV groove and the small cardiac vein in the right.`]],0),
+Q(`P22`,`Anatomy`,INT,`Which of the following is associated with the internal surface of the right ventricle?`,[
+[`Fossa ovalis`,`No: it lies in the right atrium.`],
+[`Pectinate muscles`,`No: they line the right atrial wall.`],
+[`Aortic vestibule`,`No: it is part of the left ventricle.`],
+[`Crista terminalis`,`No: it lies in the right atrium.`],
+[`Three papillary muscles`,`Yes: the right ventricle has anterior, posterior and septal papillary muscles.`]],4),
+Q(`P23`,`Anatomy`,PER,`Which space within the pericardium lies directly posterior to the left atrium?`,[
+[`Transverse pericardial sinus`,`No: it lies behind the aorta and pulmonary trunk, above the left atrium.`],
+[`Oblique pericardial sinus`,`Yes: the oblique sinus is the blind recess behind the left atrium.`],
+[`Costomediastinal recess`,`No: this is a pleural recess.`],
+[`Anterior mediastinum`,`No: it lies in front of the pericardium.`],
+[`Posterior mediastinum`,`No: it lies behind the pericardium, outside it.`]],1,`Source asked for the best surgical route to the left atrium with the oblique sinus as the answer, but the transverse sinus is also used surgically to reach the left atrial roof. I reworded the stem to the anatomical relation so only one option fits.`),
+Q(`P24`,`Anatomy`,COR,`A 45-year-old patient with angina has significant stenosis of the artery supplying the sinoatrial node. Which artery is most likely affected?`,[
+[`Left anterior descending artery`,`No: it supplies the anterior wall and septum.`],
+[`Left circumflex artery`,`No: it supplies the SA node in a minority of people.`],
+[`Right coronary artery`,`Yes: the SA nodal artery arises from the RCA in most people.`],
+[`Posterior interventricular artery`,`No: it supplies the posterior septum.`],
+[`Obtuse marginal artery`,`No: it supplies the lateral left ventricle.`]],2,`Repeated several times in this paper, so HIGH YIELD.`),
+Q(`P25`,`Anatomy`,VES,`During coronary bypass surgery, the surgeon harvests the internal thoracic artery. Which structure is most at risk of injury?`,[
+[`Phrenic nerve`,`Yes: the phrenic nerve crosses the internal thoracic artery near its origin and is the classic nerve at risk.`],
+[`Vagus nerve`,`No: it lies deeper in the mediastinum.`],
+[`Thoracic duct`,`No: injury is possible near the left venous angle but it is not the classic risk.`],
+[`Azygos vein`,`No: it lies on the right posteriorly.`],
+[`Subclavian vein`,`No: it is close to the origin but not the classic injury.`]],0,`Source answer kept.`),
+Q(`P26`,`Anatomy`,COR,`A patient with long-standing hypertension develops an aortic dissection that extends into the right coronary artery ostium. Which area of the heart is most likely affected?`,[
+[`Anterior wall of the left ventricle`,`No: the LAD supplies it.`],
+[`Lateral wall of the left ventricle`,`No: the circumflex supplies it.`],
+[`Inferior wall of the right ventricle`,`Yes: the RCA supplies the right ventricle, including its inferior wall.`],
+[`Septum`,`No: the LAD supplies most of the septum.`],
+[`Left atrium`,`No: the circumflex branches supply it.`]],2),
+Q(`P27`,`Anatomy`,COR,`Which vein lies in the posterior interventricular groove?`,[
+[`Anterior cardiac vein`,`No: it drains directly into the right atrium.`],
+[`Coronary sinus`,`No: it lies in the posterior atrioventricular groove.`],
+[`Small cardiac vein`,`No: it runs with the right marginal artery in the right AV groove.`],
+[`Great cardiac vein`,`No: it runs in the anterior interventricular groove, then the left AV groove.`],
+[`Middle cardiac vein`,`Yes: it runs with the posterior interventricular artery in the posterior interventricular groove.`]],4,`Same fact as an earlier question, so HIGH YIELD.`),
+Q(`P28`,`Anatomy`,INT,`During a minimally invasive mitral valve repair, a surgeon needs to reach the left atrium through the right side of the chest. Which route is most appropriate?`,[
+[`Through the right atrium and across the interatrial septum`,`Yes: the right atrium can be entered and the interatrial septum crossed to reach the left atrium.`],
+[`Through the transverse sinus of the pericardium`,`No: the transverse sinus lies above the left atrium and is not an entry route through the right chest.`],
+[`Between the superior and inferior vena cavae`,`No: no passage between the venae cavae reaches the left atrium.`],
+[`Through the oblique sinus of the pericardium`,`No: it is a pericardial recess, not a route into the chamber.`],
+[`Between the superior vena cava and right pulmonary artery`,`No: this space does not lead into the left atrium.`]],0,`Source answer kept: it is the best of the listed routes, although many surgeons use the interatrial groove instead, which isn’t offered.`),
+Q(`P29`,`Anatomy`,VES,`A surgeon implants a left ventricular assist device (LVAD) and must create the outflow graft anastomosis. Which location is most appropriate?`,[
+[`Ascending aorta`,`Yes: the outflow graft is usually sewn to the ascending aorta.`],
+[`Aortic arch`,`No: it is not the standard site and carries branch vessels.`],
+[`Descending thoracic aorta`,`No: it is used only in selected redo cases.`],
+[`Left atrium`,`No: it is an inflow, not an outflow, site.`],
+[`Pulmonary artery`,`No: it would send blood to the lungs, not the body.`]],0),
+Q(`P30`,`Anatomy`,PER,`The groove that separates the atria from the ventricles is called:`,[
+[`Anterior interventricular sulcus`,`No: it separates the two ventricles anteriorly.`],
+[`Posterior interventricular sulcus`,`No: it separates the ventricles posteriorly.`],
+[`Coronary sulcus`,`Yes: the coronary (atrioventricular) sulcus separates the atria from the ventricles.`],
+[`Oblique pericardial sinus`,`No: this is a pericardial recess.`],
+[`Transverse pericardial sinus`,`No: this is a pericardial passage behind the great arteries.`]],2),
+Q(`P31`,`Anatomy`,COR,`Which of the following structures is found in the coronary sulcus?`,[
+[`Left anterior descending artery`,`No: it lies in the anterior interventricular groove.`],
+[`Posterior vein of the left ventricle`,`No: it runs on the diaphragmatic surface of the left ventricle, not in the sulcus.`],
+[`Middle cardiac vein`,`No: it lies in the posterior interventricular groove.`],
+[`Circumflex branch of the left coronary artery`,`Yes: the circumflex runs in the left part of the coronary sulcus.`],
+[`Posterior interventricular artery`,`No: it lies in the posterior interventricular groove.`]],3,`Source option “great cardiac vein” also lies in the left coronary sulcus, so I replaced it.`),
+Q(`P32`,`Anatomy`,INT,`The thickest layer of the heart wall is the:`,[
+[`Epicardium`,`No: it is a thin outer layer.`],
+[`Myocardium`,`Yes: the muscular layer is by far the thickest.`],
+[`Endocardium`,`No: it is a thin inner lining.`],
+[`Pericardium`,`No: it is the sac around the heart, not a wall layer.`],
+[`Visceral pericardium`,`No: it is the same as the epicardium, a thin layer.`]],1),
+Q(`P33`,`Anatomy`,PER,`Which chamber forms most of the sternocostal surface of the heart?`,[
+[`Right atrium`,`No: it forms the right border.`],
+[`Left atrium`,`No: it forms the base.`],
+[`Right ventricle`,`Yes: the right ventricle forms most of the anterior (sternocostal) surface.`],
+[`Left ventricle`,`No: it forms a smaller strip on the left.`],
+[`Both ventricles equally`,`No: the right ventricle forms the greater part.`]],2,`Asked several times in this paper, so HIGH YIELD.`),
+Q(`P34`,`Anatomy`,PER,`Which of the following is NOT one of the surfaces of the heart?`,[
+[`Sternocostal surface`,`No: this is the anterior surface.`],
+[`Diaphragmatic surface`,`No: this is the inferior surface.`],
+[`Pulmonary surface`,`No: the left and right surfaces face the lungs.`],
+[`Coronary surface`,`Yes: there is no coronary surface; the coronary sulcus is a groove.`],
+[`Base`,`No: the base is the posterior surface.`]],3),
+Q(`P35`,`Anatomy`,INT,`A distinct murmur is heard at the left 5th intercostal space, slightly below the nipple. Severe stenosis of which valve is most likely?`,[
+[`Aortic`,`No: it is heard at the second right intercostal space.`],
+[`Mitral`,`Yes: the mitral area is the apex, at the left 5th intercostal space.`],
+[`Pulmonary`,`No: it is heard at the second left intercostal space.`],
+[`Tricuspid`,`No: it is heard at the lower left sternal border.`],
+[`Eustachian`,`No: this is not a heart valve with an auscultation site.`]],1),
+Q(`P36`,`Anatomy`,COR,`Which artery is the main source of arterial blood supply to the apex of the heart?`,[
+[`Anterior interventricular artery`,`Yes: the LAD supplies the apex and anterior wall.`],
+[`Coronary sinus`,`No: it is a vein.`],
+[`Circumflex artery`,`No: it supplies the lateral and posterior left ventricle.`],
+[`Posterior interventricular artery`,`No: it supplies the posterior septum and inferior wall.`],
+[`Left oblique artery`,`No: this is not a coronary artery.`]],0,`Repeats an earlier question, so HIGH YIELD.`),
+Q(`P37`,`Anatomy`,INT,`Elevated systolic blood pressure in the right ventricle suggests stenosis of which valve?`,[
+[`Aortic`,`No: it raises left ventricular pressure.`],
+[`Mitral`,`No: it raises left atrial pressure.`],
+[`Pulmonary`,`Yes: pulmonary stenosis obstructs right ventricular outflow and raises right ventricular systolic pressure.`],
+[`Tricuspid`,`No: it raises right atrial pressure.`],
+[`Thebesian`,`No: it guards the coronary sinus, not a heart valve.`]],2),
+Q(`P38`,`Anatomy`,INT,`A stethoscope on the left second intercostal space just lateral to the sternum is best placed to detect sounds from which valve?`,[
+[`Aortic`,`No: it is heard at the second right intercostal space.`],
+[`Pulmonary`,`Yes: the pulmonary area is the second left intercostal space.`],
+[`Mitral`,`No: it is heard at the apex.`],
+[`Tricuspid`,`No: it is heard at the lower left sternal border.`],
+[`Eustachian`,`No: it is a fetal remnant, not an auscultation site.`]],1,`Source had 4 options; I added a fifth.`),
+Q(`P39`,`Anatomy`,PER,`Which chamber’s anterior wall forms most of the sternocostal surface of the heart?`,[
+[`Left atrium`,`No: it forms the base.`],
+[`Left ventricle`,`No: it forms a smaller left strip.`],
+[`Right atrium`,`No: it forms the right border.`],
+[`Right ventricle`,`Yes: the right ventricle forms most of this surface.`],
+[`Both ventricles equally`,`No: the right ventricle forms the greater part.`]],3,`Source had 4 options; I added a fifth. Repeats P33, so HIGH YIELD.`),
+Q(`P40`,`Physiology`,PCC,`Which valves are open during ventricular systole?`,[
+[`Aortic and pulmonary`,`Yes: both semilunar valves open when ventricular pressure exceeds arterial pressure.`],
+[`Aortic and tricuspid`,`No: the tricuspid valve is closed in systole.`],
+[`Mitral and aortic`,`No: the mitral valve is closed in systole.`],
+[`Tricuspid and mitral`,`No: both AV valves are closed in systole.`],
+[`Tricuspid and pulmonary`,`No: the tricuspid valve is closed in systole.`]],0,`Repeats an earlier question on systole, so HIGH YIELD.`),
+Q(`P41`,`Anatomy`,PER,`The fibrous pericardium is continuous with which of the following?`,[
+[`Adventitia of the great vessels`,`Yes: the fibrous pericardium blends with the adventitia of the great vessels at the heart’s base.`],
+[`Endocardium of the heart`,`No: the endocardium lines the chambers.`],
+[`Visceral layer of the serous pericardium`,`No: the serous layers are separate from the fibrous layer.`],
+[`Diaphragmatic fascia`,`No: it fuses with the central tendon of the diaphragm, not its fascia.`],
+[`Pleural membrane`,`No: the mediastinal pleura lies outside it.`]],0),
+Q(`P42`,`Anatomy`,PER,`Which best describes the relationship between the parietal and visceral layers of the serous pericardium?`,[
+[`They are separated by the fibrous pericardium`,`No: the fibrous layer lies outside both.`],
+[`They are continuous with each other at the cardiac root`,`Yes: the serous layer reflects from parietal to visceral at the roots of the great vessels.`],
+[`They are separated by the myocardium`,`No: the myocardium lies deep to the visceral layer.`],
+[`They are fused throughout their surface`,`No: they are separated by the pericardial cavity.`],
+[`They are separated by the endocardium`,`No: the endocardium lines the chambers.`]],1),
+Q(`P43`,`Anatomy`,PER,`Which of the following is NOT a function of the pericardium?`,[
+[`Prevents overfilling of the heart`,`No: the fibrous layer limits overdistension.`],
+[`Lubricates the heart’s movements`,`No: serous fluid reduces friction.`],
+[`Fixes the heart in the mediastinum`,`No: the pericardium anchors the heart.`],
+[`Generates electrical impulses for heart contraction`,`Yes: the pericardium does not generate impulses; the SA node does.`],
+[`Provides a barrier against infection`,`No: the sac helps limit spread of infection from adjacent structures.`]],3),
+Q(`P44`,`Anatomy`,PER,`The fibrous pericardium is related posteriorly to which structure?`,[
+[`Sternum`,`No: it is an anterior relation.`],
+[`Principal bronchi`,`Yes: the posterior relations include the principal bronchi, esophagus and descending aorta.`],
+[`Thymus`,`No: it lies anteriorly and superiorly.`],
+[`Ribs`,`No: they form the anterior chest wall.`],
+[`Lungs`,`No: they are lateral relations, separated by pleura.`]],1),
+Q(`P45`,`Anatomy`,PER,`How much serous fluid does the pericardial cavity normally contain?`,[
+[`5–10 mL`,`No: this is less than the normal amount.`],
+[`15–50 mL`,`Yes: the normal pericardial fluid volume is about 15–50 mL.`],
+[`75–100 mL`,`No: this would suggest an effusion.`],
+[`150–200 mL`,`No: this is a significant effusion.`],
+[`250–300 mL`,`No: this is a large effusion.`]],1),
+Q(`P46`,`Anatomy`,PER,`Along which layer of the pericardium do the phrenic nerves run?`,[
+[`Visceral layer of the serous pericardium`,`No: this layer is on the heart surface.`],
+[`Parietal layer of the serous pericardium`,`No: it lies deep to the fibrous layer, where the nerves do not run.`],
+[`Fibrous pericardium`,`Yes: the phrenic nerves descend on the outer surface of the fibrous pericardium.`],
+[`Epicardium`,`No: this is the visceral serous layer.`],
+[`Endocardium`,`No: this lines the heart chambers.`]],2,`Source asked which layer the nerves are “associated with”, but the phrenic nerves also supply the parietal serous pericardium. I reworded to “run along” so only the fibrous layer fits.`),
+Q(`P47`,`Anatomy`,INT,`Which is NOT a function of the trabeculae carneae?`,[
+[`Increase surface area for blood oxygenation`,`Yes: oxygenation occurs in the lungs, not the heart.`],
+[`Aid in holding AV valves closed`,`No: papillary muscles, a type of trabecula carnea, tension the chordae.`],
+[`Strengthen ventricular walls`,`No: they reinforce the walls.`],
+[`Assist in blood flow through ventricles`,`No: they help direct flow and prevent suction.`],
+[`Provide attachment points for chordae tendineae`,`No: the chordae attach to the papillary muscles.`]],0),
+Q(`P48`,`Anatomy`,INT,`The inner lining of the endocardium is formed by:`,[
+[`Cardiac muscle cells`,`No: these form the myocardium.`],
+[`Simple squamous epithelium (endothelium)`,`Yes: the endocardium is lined by a simple squamous endothelium.`],
+[`Connective tissue`,`No: subendothelial connective tissue lies beneath the lining but is not the lining.`],
+[`Smooth muscle cells`,`No: these form vessel media, not the endocardial lining.`],
+[`Transitional epithelium`,`No: it lines the urinary tract.`]],1,`Source asked what the endocardium is “composed primarily of”, but subendothelial connective tissue is also a component. I reworded to “inner lining” so only one option fits.`),
+Q(`P49`,`Anatomy`,INT,`What is the primary function of the endocardium?`,[
+[`Provides structural support to the heart chambers`,`No: the myocardium does this.`],
+[`Lines the inner chambers and covers the heart valves`,`Yes: the endocardium is the smooth lining of the chambers and valves.`],
+[`Produces electrical impulses for contraction`,`No: the SA node and conducting tissue do this.`],
+[`Protects against infection`,`No: this is not its primary function.`],
+[`Pumps blood by contraction`,`No: the myocardium contracts.`]],1,`Source had 4 options; I added a fifth.`),
+Q(`P50`,`Anatomy`,INT,`What is the function of the papillary muscles in relation to the heart valves?`,[
+[`They open and close the valves during diastole and systole`,`No: the cusps open and close passively with pressure.`],
+[`They prevent valve prolapse by anchoring the chordae tendineae`,`Yes: they tension the chordae so the cusps do not evert into the atrium.`],
+[`They generate electrical impulses for contraction`,`No: conducting tissue does this.`],
+[`They assist in pumping blood out of the ventricles`,`No: they mainly tension the chordae.`],
+[`They supply blood to the myocardium`,`No: coronary arteries do this.`]],1,`Source had 4 options; I added a fifth.`),
+Q(`P51`,`Anatomy`,COR,`Which artery is primarily responsible for supplying blood to the left ventricle?`,[
+[`Right coronary artery`,`No: it mainly supplies the right heart.`],
+[`Left anterior descending artery`,`Yes: the LAD supplies the anterior left ventricular wall and most of the septum.`],
+[`Circumflex artery`,`No: it supplies the lateral wall.`],
+[`Posterior descending artery`,`No: it supplies the inferior wall and posterior septum.`],
+[`Conus artery`,`No: it supplies the right ventricular outflow tract.`]],1,`Source had 4 options; I added a fifth.`),
+Q(`P52`,`Anatomy`,COR,`The right coronary artery (RCA) supplies blood to which of the following?`,[
+[`Left atrium and left ventricle`,`No: these are supplied mainly by the left coronary system.`],
+[`Right atrium and right ventricle`,`True but incomplete: the RCA also supplies the nodal tissue.`],
+[`AV node and SA node`,`True but incomplete: the RCA also supplies the right heart chambers.`],
+[`Both B and C`,`Yes: the RCA supplies the right atrium and ventricle and the nodal tissue.`],
+[`Anterior wall of the left ventricle`,`No: the LAD supplies it.`]],3,`Source had 4 options; I added a fifth.`),
+Q(`P53`,`Anatomy`,COR,`In a right-dominant coronary circulation, which artery supplies the posterior descending artery (PDA)?`,[
+[`Left anterior descending artery`,`No: it runs in the anterior interventricular groove.`],
+[`Circumflex artery`,`No: it gives the PDA only in left dominance.`],
+[`Right coronary artery`,`Yes: in right dominance the RCA gives the PDA.`],
+[`Left main coronary artery`,`No: it divides into the LAD and circumflex.`],
+[`Conus artery`,`No: it supplies the right ventricular outflow tract.`]],2,`Source had 4 options; I added a fifth. Repeated (see P56), so HIGH YIELD.`),
+Q(`P54`,`Anatomy`,COR,`The left main coronary artery bifurcates into which two major branches?`,[
+[`Right coronary artery and circumflex artery`,`No: the RCA arises separately from the aorta.`],
+[`Left anterior descending artery and right posterior descending artery`,`No: the posterior descending artery is not a left main branch.`],
+[`Left anterior descending artery and circumflex artery`,`Yes: the left main divides into the LAD and circumflex.`],
+[`Right marginal artery and left circumflex artery`,`No: the right marginal arises from the RCA.`],
+[`Diagonal and obtuse marginal arteries`,`No: these are branches of the LAD and circumflex.`]],2,`Source had 4 options; I added a fifth.`),
+Q(`P55`,`Anatomy`,COR,`Which coronary artery is primarily responsible for supplying the interventricular septum?`,[
+[`Left anterior descending artery`,`Yes: the LAD supplies the anterior two-thirds of the septum.`],
+[`Right coronary artery`,`No: it supplies the posterior third through the PDA.`],
+[`Circumflex artery`,`No: it supplies the lateral wall.`],
+[`Posterior descending artery`,`No: it supplies only the posterior third.`],
+[`Left marginal artery`,`No: it supplies the lateral wall.`]],0,`Source had 4 options; I added a fifth.`),
+Q(`P56`,`Anatomy`,COR,`In a right-dominant system, the posterior descending artery (PDA) typically arises from which coronary artery?`,[
+[`Left anterior descending artery`,`No: it runs anteriorly.`],
+[`Left circumflex artery`,`No: it gives the PDA only in left dominance.`],
+[`Right coronary artery`,`Yes: the RCA gives the PDA in about 70% of people.`],
+[`Left main coronary artery`,`No: it divides into the LAD and circumflex.`],
+[`Conus artery`,`No: it supplies the right ventricular outflow tract.`]],2,`Source had 4 options; I added a fifth. Repeats P53, so HIGH YIELD.`),
+Q(`P57`,`Anatomy`,COR,`What is the primary purpose of collateral circulation in the coronary arteries?`,[
+[`To supply blood to the lungs during respiratory distress`,`No: collaterals link coronary arteries; they do not supply the lungs.`],
+[`To provide an alternative route for blood flow if an artery is blocked`,`Yes: collaterals offer alternate pathways around a blockage.`],
+[`To drain deoxygenated blood from the heart muscle`,`No: the cardiac veins do this.`],
+[`To regulate heart rate during exercise`,`No: this is autonomic control.`],
+[`To increase cardiac output`,`No: collaterals do not change output.`]],1,`Source had 4 options; I added a fifth.`),
+Q(`P58`,`Anatomy`,INT,`To listen for the tricuspid valve, the stethoscope should be placed on the:`,[
+[`2nd right intercostal space, parasternal`,`No: this is the aortic area.`],
+[`2nd left intercostal space, parasternal`,`No: this is the pulmonary area.`],
+[`4th left intercostal space, parasternal`,`Yes: the tricuspid area is the lower left sternal border.`],
+[`5th left intercostal space, midclavicular line`,`No: this is the mitral area.`],
+[`3rd left intercostal space, parasternal`,`No: this is Erb’s point.`]],2,`FLAG: the source highlighted “4th right intercostal space, parasternal”, which is not the tricuspid area (it is the 4th–5th LEFT parasternal space). I replaced that option with the left-sided one.`),
+Q(`P59`,`Anatomy`,PER,`Which chamber forms most of the left border of the heart as seen on a chest X-ray?`,[
+[`Right atrium`,`No: it forms the right border.`],
+[`Left atrium`,`No: it forms the base.`],
+[`Right ventricle`,`No: it forms the anterior surface and inferior border.`],
+[`Left ventricle`,`Yes: the left ventricle forms most of the left border (with the left auricle above).`],
+[`Pulmonary trunk`,`No: it forms only the upper part of the border and is not a chamber.`]],3,`Source asked which structure forms the left border, but the pulmonary trunk also forms its upper part. I reworded to “which chamber forms most of”. Asked repeatedly, so HIGH YIELD.`),
+Q(`P60`,`Anatomy`,INT,`The interventricular septum is formed of:`,[
+[`Major membranous and minor muscular parts`,`No: this reverses the proportions.`],
+[`Major muscular and minor membranous parts`,`Yes: most of it is muscular, with a small membranous part near the aortic valve.`],
+[`Pectinate muscles and trabeculae carneae`,`No: these are chamber wall features.`],
+[`Smooth and rough parts`,`No: this describes chamber walls.`],
+[`None of the above`,`No: one option is correct.`]],1),
+Q(`P61`,`Anatomy`,INT,`The pulmonary veins enter the heart at which chamber?`,[
+[`Right atrium`,`No: the venae cavae and coronary sinus enter it.`],
+[`Left atrium`,`Yes: four pulmonary veins enter the posterior left atrium.`],
+[`Right ventricle`,`No: veins do not enter the ventricles.`],
+[`Left ventricle`,`No: veins do not enter the ventricles.`],
+[`Pulmonary trunk`,`No: it carries blood away from the heart.`]],1),
+Q(`P62`,`Anatomy`,VES,`Which arteries are branches of the ascending aorta?`,[
+[`Brachiocephalic, left common carotid and left subclavian arteries`,`No: these arise from the aortic arch.`],
+[`Right common carotid and right subclavian arteries`,`No: these arise from the brachiocephalic trunk.`],
+[`Right coronary and left coronary arteries`,`Yes: the coronary arteries arise from the aortic sinuses of the ascending aorta.`],
+[`Esophageal and bronchial arteries`,`No: these arise from the descending aorta.`],
+[`Right and left pulmonary arteries`,`No: these arise from the pulmonary trunk.`]],2),
+Q(`P63`,`Anatomy`,INT,`The moderator band is found in which chamber of the heart?`,[
+[`Right atrium`,`No: the atria have no moderator band.`],
+[`Left atrium`,`No: the atria have no moderator band.`],
+[`Right ventricle`,`Yes: it crosses the right ventricular cavity from the septum to the anterior papillary muscle.`],
+[`Left ventricle`,`No: it is a right ventricular feature.`],
+[`Interventricular septum`,`No: it springs from the septum but crosses the right ventricular cavity.`]],2,`Repeated in this paper, so HIGH YIELD.`),
+Q(`P64`,`Anatomy`,INT,`The anterior papillary muscle is attached to the interventricular septum by:`,[
+[`Chordae tendineae`,`No: chordae attach papillary muscles to the valve cusps.`],
+[`Moderator band`,`Yes: the moderator band connects the septum to the anterior papillary muscle.`],
+[`Pectinate muscle`,`No: pectinate muscles are atrial.`],
+[`Trabecula carnea`,`No: this is a general ventricular ridge, not the specific bridge.`],
+[`Crista terminalis`,`No: it is in the right atrium.`]],1,`Repeated in this paper, so HIGH YIELD.`),
+Q(`P65`,`Anatomy`,COR,`A cardiac MRI shows that a patient’s left circumflex artery supplies the posterior descending artery. What term best describes this coronary pattern?`,[
+[`Right dominant`,`No: right dominance means the RCA gives the PDA.`],
+[`Left dominant`,`Yes: left dominance means the circumflex gives the PDA.`],
+[`Co-dominant`,`No: codominance means both arteries contribute to the posterior wall.`],
+[`Balanced dominant`,`No: this is the same as codominant.`],
+[`Non-dominant`,`No: this is not a recognized pattern.`]],1),
+Q(`P66`,`Anatomy`,PER,`Which part of the heart forms its inferior border?`,[
+[`Right atrium`,`No: it forms the right border.`],
+[`Left atrium`,`No: it forms the base.`],
+[`Right ventricle`,`Yes: the right ventricle forms the inferior border.`],
+[`Left ventricle`,`No: it forms the left border and apex.`],
+[`Pulmonary trunk`,`No: it is a vessel at the top of the heart.`]],2,`Repeats P16, so HIGH YIELD.`),
+Q(`P67`,`Anatomy`,INT,`Which of the following structures is NOT found in the right atrium?`,[
+[`Crista terminalis`,`No: it is a right atrial ridge.`],
+[`Fossa ovalis`,`No: it lies on the interatrial septum.`],
+[`Eustachian valve`,`No: it guards the IVC opening.`],
+[`Thebesian valve`,`No: it guards the coronary sinus opening.`],
+[`Conus arteriosus`,`Yes: it is the smooth outflow part of the right ventricle.`]],4),
+Q(`P68`,`Anatomy`,INT,`To listen for the pulmonary valve, the stethoscope should be placed on the:`,[
+[`2nd right intercostal space, parasternal`,`No: this is the aortic area.`],
+[`2nd left intercostal space, parasternal`,`Yes: the pulmonary area is the second left intercostal space.`],
+[`4th right intercostal space, parasternal`,`No: this is not a standard auscultation area.`],
+[`5th left intercostal space, midclavicular line`,`No: this is the mitral area.`],
+[`3rd left intercostal space, parasternal`,`No: this is Erb’s point.`]],1),
+Q(`P69`,`Anatomy`,PER,`A CT review indicates a structure on the posterior surface of the heart. Which is most likely?`,[
+[`Anterior interventricular sulcus`,`No: it lies on the anterior surface.`],
+[`Posterior interventricular sulcus`,`Yes: it marks the ventricles on the posterior (diaphragmatic) surface.`],
+[`Right marginal artery`,`No: it runs along the inferior border.`],
+[`Left atrial appendage`,`No: it is seen on the left, anterior to the left atrium.`],
+[`Conus arteriosus`,`No: it is the outflow tract on the anterior surface.`]],1),
+Q(`P70`,`Anatomy`,VES,`Which are the branches of the arch of the aorta?`,[
+[`Brachiocephalic, left common carotid and left subclavian arteries`,`Yes: these are the three classic branches of the aortic arch.`],
+[`Right common carotid and right subclavian arteries`,`No: these arise from the brachiocephalic trunk.`],
+[`Right coronary and left coronary arteries`,`No: these arise from the ascending aorta.`],
+[`Esophageal and bronchial arteries`,`No: these arise from the descending aorta.`],
+[`Right and left pulmonary arteries`,`No: these arise from the pulmonary trunk.`]],0),
+Q(`P71`,`Anatomy`,PER,`Which structure forms the right border of the heart?`,[
+[`Left ventricle`,`No: it forms the left border.`],
+[`Right ventricle`,`No: it forms the anterior surface and inferior border.`],
+[`Left atrium`,`No: it forms the base.`],
+[`Right atrium`,`Yes: the right atrium forms the right border.`],
+[`Pulmonary trunk`,`No: it is at the top of the heart.`]],3),
+Q(`P72`,`Anatomy`,INT,`Which openings are found in the left atrium?`,[
+[`Pulmonary artery and tricuspid valve`,`No: the pulmonary artery arises from the right ventricle.`],
+[`Pulmonary veins and mitral valve`,`Yes: pulmonary veins enter and the mitral valve opens into the left ventricle.`],
+[`Coronary sinus and SVC`,`No: these enter the right atrium.`],
+[`Ascending aorta and mitral valve`,`No: the aorta arises from the left ventricle.`],
+[`SVC, IVC and tricuspid valve`,`No: these are right atrial openings.`]],1),
+Q(`P73`,`Anatomy`,VES,`In an echocardiogram, which is the largest vein entering the heart?`,[
+[`Superior vena cava`,`No: it is shorter and narrower than the IVC.`],
+[`Inferior vena cava`,`Yes: the IVC is the largest vein and returns the most blood.`],
+[`Pulmonary vein`,`No: the pulmonary veins are smaller.`],
+[`Coronary sinus`,`No: it is much smaller.`],
+[`Azygos vein`,`No: it drains into the SVC.`]],1,`Source answer kept; the IVC is generally taken as the largest vein by caliber.`),
+Q(`P74`,`Anatomy`,COR,`What are the branches of the left coronary artery?`,[
+[`Left anterior descending and left posterior descending arteries`,`No: there is no separate left posterior descending branch.`],
+[`Circumflex and left anterior descending arteries`,`Yes: the left main divides into the LAD and circumflex.`],
+[`Left superior intercostal artery`,`No: it arises from the costocervical trunk.`],
+[`Left superior and inferior pulmonary arteries`,`No: these come from the pulmonary trunk.`],
+[`None of the above`,`No: one option is correct.`]],1),
+Q(`P75`,`Anatomy`,PER,`Which structure forms most of the sternocostal surface?`,[
+[`Right atrium`,`No: it forms the right border.`],
+[`Left atrium`,`No: it forms the base.`],
+[`Right ventricle`,`Yes: the right ventricle forms most of this surface.`],
+[`Left ventricle`,`No: it forms a smaller left strip.`],
+[`Both ventricles equally`,`No: the right ventricle forms the greater part.`]],2,`Asked several times in this paper, so HIGH YIELD.`),
+Q(`P76`,`Anatomy`,COR,`During cardiac surgery, the surgeon needs to locate the circumflex artery. In which groove is it most likely found?`,[
+[`Anterior interventricular sulcus`,`No: this holds the LAD.`],
+[`Posterior interventricular sulcus`,`No: this holds the posterior interventricular artery.`],
+[`Right atrioventricular groove`,`No: this holds the RCA.`],
+[`Left atrioventricular groove`,`Yes: the circumflex runs in the left AV groove.`],
+[`Interatrial groove`,`No: this separates the atria.`]],3),
+Q(`P77`,`Anatomy`,INT,`In the right atrium, which opening lies next to the IVC opening and has its own valve?`,[
+[`Superior vena cava`,`No: it opens at the top of the atrium without a valve.`],
+[`Right coronary artery`,`No: arteries do not open into the atrium.`],
+[`Coronary sinus`,`Yes: it opens beside the IVC and is guarded by the Thebesian valve.`],
+[`Pulmonary artery`,`No: it arises from the right ventricle.`],
+[`Pulmonary vein`,`No: it enters the left atrium.`]],2),
+Q(`P78`,`Anatomy`,COR,`The posterior wall of the left ventricle and the posterior third of the interventricular septum are commonly supplied by:`,[
+[`Left anterior descending artery`,`No: it supplies the anterior two-thirds of the septum.`],
+[`Left circumflex artery`,`No: it supplies the lateral wall (the posterior wall only in left dominance).`],
+[`Right coronary artery`,`Yes: via the posterior descending artery in right dominance.`],
+[`Left marginal artery`,`No: it supplies the lateral wall.`],
+[`Conus artery`,`No: it supplies the right ventricular outflow tract.`]],2,`Source options D and E were not retained; I wrote them. Repeats an earlier question, so HIGH YIELD.`),
+Q(`P79`,`Anatomy`,COR,`During bypass surgery, the surgeon needs to locate the right coronary artery. In which groove is it found?`,[
+[`Anterior interventricular sulcus`,`No: this holds the LAD.`],
+[`Posterior interventricular sulcus`,`No: this holds the posterior interventricular artery.`],
+[`Left atrioventricular groove`,`No: this holds the circumflex.`],
+[`Right atrioventricular groove`,`Yes: the RCA runs in the right AV groove.`],
+[`Interatrial groove`,`No: this separates the atria.`]],3,`Source distractors not retained verbatim; I wrote the options, answer unchanged.`),
+Q(`P80`,`Anatomy`,INT,`To listen for the mitral valve, the stethoscope should be placed on the:`,[
+[`2nd right intercostal space, parasternal`,`No: this is the aortic area.`],
+[`2nd left intercostal space, parasternal`,`No: this is the pulmonary area.`],
+[`4th left intercostal space, parasternal`,`No: this is the tricuspid area.`],
+[`5th left intercostal space, midclavicular line`,`Yes: the mitral area is the cardiac apex.`],
+[`3rd left intercostal space, parasternal`,`No: this is Erb’s point.`]],3),
+Q(`P81`,`Anatomy`,INT,`Which internal structure of the right atrium corresponds to the sulcus terminalis on the external surface?`,[
+[`Pectinate muscles`,`No: they run off the crista terminalis.`],
+[`Fossa ovalis`,`No: it lies on the interatrial septum.`],
+[`Crista terminalis`,`Yes: the internal ridge matches the external sulcus terminalis.`],
+[`Opening of the coronary sinus`,`No: it lies near the IVC.`],
+[`Trabeculae carneae`,`No: they are ventricular.`]],2),
+Q(`P82`,`Anatomy`,PER,`Which small ear-shaped projection is seen on the left side of the heart?`,[
+[`Right auricle`,`No: it lies on the right side.`],
+[`Left atrial appendage`,`Yes: the left auricle projects from the left atrium onto the left border.`],
+[`Moderator band`,`No: it lies inside the right ventricle.`],
+[`Conus arteriosus`,`No: it is the right ventricular outflow tract.`],
+[`Coronary sinus`,`No: it lies on the posterior surface.`]],1,`Source distractors not retained verbatim; I wrote the options, answer unchanged.`),
+Q(`P83`,`Anatomy`,COR,`Which artery supplies the sinoatrial node in most people?`,[
+[`Left anterior descending artery`,`No: it supplies the anterior wall and septum.`],
+[`Circumflex artery`,`No: it supplies the SA node in a minority.`],
+[`Right coronary artery`,`Yes: the SA nodal artery arises from the RCA in most people.`],
+[`Posterior interventricular artery`,`No: it supplies the posterior septum.`],
+[`Obtuse marginal artery`,`No: it supplies the lateral left ventricle.`]],2,`Repeated several times in this paper, so HIGH YIELD.`),
+Q(`P84`,`Anatomy`,INT,`A 65-year-old has a harsh systolic murmur at the right upper sternal border radiating to the carotids. Which valve is most likely involved?`,[
+[`Tricuspid valve`,`No: it is heard at the lower left sternal border.`],
+[`Pulmonary valve`,`No: it is heard at the second left intercostal space.`],
+[`Mitral valve`,`No: it is heard at the apex.`],
+[`Aortic valve`,`Yes: aortic stenosis gives an ejection systolic murmur radiating to the carotids.`],
+[`Eustachian valve`,`No: it is a fetal remnant, not a murmur site.`]],3),
+Q(`P85`,`Anatomy`,INT,`In mitral valve prolapse, which structure is most likely involved?`,[
+[`Chordae tendineae`,`Yes: elongated or ruptured chordae and redundant leaflets let the cusp bulge into the atrium.`],
+[`Pectinate muscles`,`No: they are in the atrial wall.`],
+[`Crista terminalis`,`No: it is a right atrial ridge.`],
+[`Moderator band`,`No: it lies in the right ventricle.`],
+[`Fossa ovalis`,`No: it lies on the interatrial septum.`]],0,`Source distractors not retained verbatim; I wrote the options, answer unchanged.`),
+Q(`P86`,`Anatomy`,PER,`Which surface of the heart is formed mainly by the right atrium and right ventricle?`,[
+[`Diaphragmatic surface`,`No: it is formed mainly by the ventricles, chiefly the left.`],
+[`Sternocostal surface`,`Yes: the right atrium and right ventricle form most of the anterior surface.`],
+[`Pulmonary surface`,`No: it is formed by the left ventricle.`],
+[`Base`,`No: it is formed mainly by the left atrium.`],
+[`Apex`,`No: it is formed by the left ventricle.`]],1,`Source distractors not retained verbatim; I wrote the options, answer unchanged.`),
+Q(`P87`,`Anatomy`,PER,`Excess fluid accumulates in the pericardial cavity. What is this called?`,[
+[`Pericarditis`,`No: this is inflammation of the pericardium.`],
+[`Cardiac tamponade`,`No: this is an effusion causing hemodynamic compromise, not simply the accumulation.`],
+[`Pericardial effusion`,`Yes: pericardial effusion is excess fluid in the pericardial cavity.`],
+[`Myocardial infarction`,`No: this is myocardial necrosis.`],
+[`Coronary artery disease`,`No: this is narrowing of the coronary arteries.`]],2,`FLAG: source answer was cardiac tamponade, but that describes hemodynamic compromise. I used pericardial effusion.`),
+Q(`P88`,`Anatomy`,INT,`Which landmark lies on the interatrial septum in the right atrium?`,[
+[`Aortic vestibule`,`No: it is part of the left ventricle.`],
+[`Moderator band`,`No: it lies in the right ventricle.`],
+[`Fossa ovalis`,`Yes: the fossa ovalis is the remnant of the foramen ovale.`],
+[`Trabeculae carneae`,`No: they are ventricular.`],
+[`Papillary muscle`,`No: it is ventricular.`]],2,`Source options not retained; I reworded the stem to the septal landmark, answer unchanged.`),
+Q(`P89`,`Anatomy`,INT,`Which muscular ridge separates the smooth and rough parts of the right atrium?`,[
+[`Pectinate muscles`,`No: they are the rough part, arising from the ridge.`],
+[`Moderator band`,`No: it lies in the right ventricle.`],
+[`Crista terminalis`,`Yes: it divides the smooth sinus venarum from the rough pectinate part.`],
+[`Trabeculae carneae`,`No: they are ventricular.`],
+[`Septomarginal trabecula`,`No: this is another name for the moderator band.`]],2,`Source asked for a muscular ridge, but the pectinate muscles are also ridges. I reworded the stem so only the crista terminalis fits.`),
+Q(`P90`,`Anatomy`,PER,`Which groove lies on the anterior surface of the heart between the ventricles?`,[
+[`Anterior interventricular sulcus`,`Yes: it holds the LAD and great cardiac vein.`],
+[`Posterior interventricular sulcus`,`No: it lies on the diaphragmatic surface.`],
+[`Left atrioventricular groove`,`No: it separates the left atrium and ventricle.`],
+[`Right atrioventricular groove`,`No: it separates the right atrium and ventricle.`],
+[`Interatrial groove`,`No: it separates the atria.`]],0,`Source distractors not retained verbatim; I wrote the options, answer unchanged.`),
+Q(`P91`,`Anatomy`,PER,`The apex of the heart is located at which position?`,[
+[`4th left intercostal space, parasternal`,`No: this is the tricuspid area.`],
+[`5th left intercostal space, midclavicular line`,`Yes: the apex beat is at the left 5th intercostal space in the midclavicular line.`],
+[`2nd left intercostal space, parasternal`,`No: this is the pulmonary area.`],
+[`3rd right intercostal space`,`No: this is not a cardiac landmark.`],
+[`6th left intercostal space, anterior axillary line`,`No: this is too lateral and low.`]],1,`Source distractors not retained verbatim; I wrote the options, answer unchanged.`),
+Q(`EM1`,`Embryology`,E2,`A newborn has a ventricular septal defect (VSD). Which embryologic structure most likely failed to develop correctly?`,[
+[`Aorticopulmonary septum`,`No: it divides the outflow tract, though it contributes to the membranous septum.`],
+[`Endocardial cushions`,`Yes: cushion tissue helps close the membranous septum, the commonest VSD site.`],
+[`Septum secundum`,`No: it is an atrial septum.`],
+[`Sinus venosus`,`No: it forms the smooth right atrium.`],
+[`Primitive atrium`,`No: it forms the trabeculated atria.`]],1,`Source answer kept; the aorticopulmonary septum also contributes to the membranous septum.`),
+Q(`EM2`,`Embryology`,E2,`An infant has tetralogy of Fallot. This is associated with anterior malalignment of which embryologic structure?`,[
+[`Aorticopulmonary septum`,`Yes: displacement of the (infundibular) outflow septum produces the four features.`],
+[`Septum primum`,`No: it is an atrial septum.`],
+[`Ductus arteriosus`,`No: it is a fetal shunt.`],
+[`Right horn of the sinus venosus`,`No: it forms the smooth right atrium.`],
+[`Bulbus cordis`,`No: it forms the smooth outflow parts; it is the septum that is malaligned.`]],0,`Often taught as anterosuperior displacement of the infundibular septum; source option kept. Repeats other tetralogy questions, so HIGH YIELD.`),
+Q(`EM3`,`Embryology`,E2,`A fetus has transposition of the great arteries on ultrasound. This typically results from failure of which process?`,[
+[`Fusion of the endocardial cushions`,`No: failure causes AV septal defects.`],
+[`Septation of the bulbus cordis`,`No: failure causes a VSD.`],
+[`Spiraling of the aorticopulmonary septum`,`Yes: the septum runs straight instead of spiraling.`],
+[`Formation of the foramen ovale`,`No: unrelated.`],
+[`Development of the sinus venosus`,`No: unrelated.`]],2,`Repeats other TGA questions, so HIGH YIELD.`),
+Q(`EM4`,`Embryology`,E2,`A 2-week-old with severe cyanosis has persistent truncus arteriosus. Which developmental failure most likely caused it?`,[
+[`Neural crest cell migration and formation of the aorticopulmonary septum`,`Yes: neural crest cells form the truncal and bulbar ridges.`],
+[`Division of the AV canal by the endocardial cushions`,`No: this gives AV septal defects.`],
+[`Regression of the left common cardinal vein`,`No: this relates to the coronary sinus and oblique vein.`],
+[`Development of the sinus venosus into the smooth right atrium`,`No: unrelated.`],
+[`Fusion of the septum primum with the endocardial cushions`,`No: this gives an ostium primum defect.`]],0,`Repeats EM6, so HIGH YIELD.`),
+Q(`EM5`,`Embryology`,E2,`An infant has Ebstein anomaly with atrialization of the right ventricle. Which process, if disrupted, most likely caused it?`,[
+[`Formation of the septum secundum`,`No: an atrial septum.`],
+[`Remodeling of the sinus venosus into the right atrium`,`No: forms the smooth right atrium.`],
+[`Division and positioning of the endocardial cushions`,`No: gives AV septal defects.`],
+[`Development and downward positioning of the tricuspid valve leaflets`,`Yes: the leaflets fail to delaminate from the ventricular wall.`],
+[`Migration and differentiation of neural crest cells`,`No: this relates to truncus arteriosus.`]],3,`Repeats EM14, so HIGH YIELD.`),
+Q(`EM6`,`Embryology`,E2,`A neonate has persistent truncus arteriosus, often associated with DiGeorge syndrome. What is the primary embryological defect?`,[
+[`Failure of the septum primum to close`,`No: causes an ASD.`],
+[`Incomplete fusion of the endocardial cushions`,`No: causes AV canal defects.`],
+[`Absence of neural crest migration affecting the truncal ridges`,`Yes: the ridges fail to form the aorticopulmonary septum.`],
+[`Failure of the sinus venosus to divide`,`No: unrelated.`],
+[`Malformation of the ductus arteriosus`,`No: unrelated.`]],2,`Repeats EM4, so HIGH YIELD.`),
+Q(`EM7`,`Embryology`,E2,`A newborn has d-TGA: the aorta arises from the right ventricle and the pulmonary artery from the left ventricle. Which process is most likely disrupted?`,[
+[`Correct alignment of the endocardial cushions`,`No: gives AV canal defects.`],
+[`Normal spiraling of the aorticopulmonary septum`,`Yes: the septum runs straight rather than spiraling.`],
+[`Migration of the sinus venosus into the right atrium`,`No: unrelated.`],
+[`Development of the septum secundum`,`No: an atrial septum.`],
+[`Closure of the foramen ovale`,`No: unrelated.`]],1,`Repeats EM3 and an earlier TGA question, so HIGH YIELD.`),
+Q(`EM8`,`Embryology`,E2,`A newborn has a VSD, pulmonary stenosis, right ventricular hypertrophy and an overriding aorta. What is this condition?`,[
+[`Ebstein anomaly`,`No: apically displaced tricuspid valve.`],
+[`Ventricular septal defect (VSD)`,`No: this is only one of the four features.`],
+[`Patent ductus arteriosus (PDA)`,`No: unrelated.`],
+[`Tetralogy of Fallot`,`Yes: the four features define tetralogy.`],
+[`Coarctation of the aorta`,`No: aortic narrowing.`]],3,`Source option B was a typo (“(VSD)”); I wrote it out. Repeats other tetralogy questions, so HIGH YIELD.`),
+Q(`EM9`,`Embryology`,E1,`Which structure is most likely to develop from the septum primum?`,[
+[`Fossa ovalis`,`Yes: the floor of the fossa ovalis derives from the septum primum.`],
+[`Limbus of the fossa ovalis`,`No: it derives from the septum secundum.`],
+[`Left auricle`,`No: it derives from the primitive atrium.`],
+[`Crista terminalis`,`No: it derives from the right venous valve.`],
+[`Trabeculae carneae`,`No: ventricular structures.`]],0,`Source had no answer marked; I used the standard answer.`),
+Q(`EM10`,`Embryology`,E1,`Which embryonic structure gives rise to the aortic vestibule?`,[
+[`Primitive ventricle`,`No: it forms the trabeculated left ventricle.`],
+[`Primitive atrium`,`No: it forms the trabeculated atria.`],
+[`Sinus venosus`,`No: it forms the smooth right atrium.`],
+[`Bulbus cordis`,`Yes: its smooth outflow part forms the aortic vestibule (and the conus arteriosus).`],
+[`Truncus arteriosus`,`No: it forms the ascending aorta and pulmonary trunk.`]],3,`Source had no answer marked; I used the standard answer.`),
+Q(`EM11`,`Embryology`,E2,`A 2-year-old has a systolic murmur and “blue spells”. Echocardiography shows a narrowed pulmonary valve. What is this condition?`,[
+[`Atrial septal defect (ASD)`,`No: left-to-right shunt, usually acyanotic.`],
+[`Ventricular septal defect (VSD)`,`No: left-to-right shunt.`],
+[`Patent ductus arteriosus (PDA)`,`No: continuous murmur.`],
+[`Pulmonary stenosis (PS)`,`Yes: a narrowed pulmonary valve is pulmonary stenosis.`],
+[`Coarctation of the aorta`,`No: aortic narrowing.`]],3,`Source had no answer marked. Blue spells are more typical of tetralogy of Fallot, but only pulmonary stenosis is offered.`),
+Q(`EM12`,`Embryology`,E2,`Which congenital anomaly can cause notching of the ribs?`,[
+[`Atrial septal defect`,`No: no rib changes.`],
+[`Ventricular septal defect`,`No: no rib changes.`],
+[`Patent ductus arteriosus`,`No: no rib changes.`],
+[`Pulmonary stenosis`,`No: no rib changes.`],
+[`Coarctation of the aorta`,`Yes: dilated intercostal collaterals erode the lower rib margins.`]],4,`Source had no answer marked; I used the standard answer. Repeats EM13, so HIGH YIELD.`),
+Q(`EM13`,`Embryology`,E2,`A 10-year-old has leg pain on exercise, upper-limb hypertension and weak lower-limb pulses. Imaging shows narrowing of the aortic arch beyond the left subclavian artery. What is the anomaly?`,[
+[`Atrial septal defect`,`No: does not cause this picture.`],
+[`Coarctation of the aorta`,`Yes: postductal coarctation causes upper-limb hypertension and weak femoral pulses.`],
+[`Tetralogy of Fallot`,`No: cyanotic.`],
+[`Persistent truncus arteriosus`,`No: cyanotic.`],
+[`Transposition of the great arteries`,`No: cyanotic.`]],1,`Source had no answer marked; I used the standard answer. Repeats EM12, so HIGH YIELD.`),
+Q(`EM14`,`Embryology`,E2,`A 2-day-old has cyanosis, a holosystolic murmur at the left lower sternal border, hepatomegaly and a box-shaped heart. Echocardiography shows apical displacement of the tricuspid valve leaflets with atrialization of the right ventricle. What is the diagnosis?`,[
+[`Hypoplastic left heart syndrome`,`No: a small left heart.`],
+[`Ebstein anomaly`,`Yes: displaced tricuspid leaflets with an atrialized right ventricle.`],
+[`Tetralogy of Fallot`,`No: a boot-shaped heart.`],
+[`Tricuspid atresia`,`No: no right AV connection.`],
+[`Double outlet right ventricle`,`No: both great arteries from the right ventricle.`]],1,`Source had no answer marked; I used the standard answer. Repeats EM5, so HIGH YIELD.`),
+Q(`EM15`,`Embryology`,E1,`A 25-year-old woman has exertional dyspnea and palpitations. Echocardiography shows left-to-right shunting at the atrial level with right atrial and right ventricular enlargement. What is the most likely diagnosis?`,[
+[`Ostium secundum ASD`,`Yes: the commonest ASD, giving a left-to-right shunt and right heart volume load.`],
+[`Sinus venosus ASD`,`No: less common and typically high in the septum.`],
+[`Patent foramen ovale`,`No: usually small with no sustained shunt.`],
+[`Coronary sinus ASD`,`No: rare.`],
+[`Ventricular septal defect`,`No: it loads the left heart.`]],0),
+Q(`B1`,`Biochemistry`,ENR,`Which is the correct sequence of reactions in each cycle of β-oxidation of fatty acids?`,[
+[`Hydration → Dehydrogenation → Cleavage → Oxidation`,`No: the cycle begins with dehydrogenation.`],
+[`Dehydrogenation → Hydration → Oxidation → Cleavage`,`Yes: FAD-linked dehydrogenation, hydration, NAD-linked oxidation, thiolytic cleavage.`],
+[`Oxidation → Hydration → Dehydrogenation → Cleavage`,`No: wrong order.`],
+[`Dehydrogenation → Oxidation → Hydration → Cleavage`,`No: hydration comes before the second oxidation.`],
+[`Cleavage → Dehydrogenation → Hydration → Oxidation`,`No: cleavage is last.`]],1,`Source had 4 options; I added a fifth. Pages 21–25 (fatty acid oxidation) are tagged to the energy metabolism lecture: my assumption.`),
+Q(`B2`,`Biochemistry`,ENR,`A child has vomiting, lethargy and hypoglycemia after prolonged fasting, with low ketones and normal carnitine. Which enzyme deficiency is most likely?`,[
+[`Pyruvate dehydrogenase`,`No: gives lactic acidosis.`],
+[`Medium-chain acyl-CoA dehydrogenase (MCAD)`,`Yes: hypoketotic hypoglycemia with normal carnitine.`],
+[`Carnitine palmitoyltransferase I`,`No: free carnitine would be high with low acylcarnitines.`],
+[`Glucose-6-phosphatase`,`No: ketogenesis is intact.`],
+[`Ornithine transcarbamylase`,`No: a urea cycle defect.`]],1,`Source had 4 options; I added a fifth. Repeats B4, so HIGH YIELD.`),
+Q(`B3`,`Biochemistry`,ENR,`A 4-year-old with MCAD deficiency has hypoglycemia, hyperammonemia and elevated medium-chain fatty acids. Why does hyperammonemia occur?`,[
+[`Toxic fatty acid metabolites impair the urea cycle in the liver`,`Yes: they damage hepatocytes and the mitochondrial urea cycle.`],
+[`Increased ammonia production by intestinal bacteria`,`No: not the cause.`],
+[`Enhanced conversion of ammonia to urea`,`No: that would lower ammonia.`],
+[`Excess glucose production overwhelms the urea cycle`,`No: the patient is hypoglycemic.`],
+[`Decreased ketone production causes ammonia build-up`,`No: not the mechanism.`]],0),
+Q(`B4`,`Biochemistry`,ENR,`Which metabolic finding is expected in MCAD deficiency?`,[
+[`Hyperketonemia`,`No: ketone production is low.`],
+[`Hypoglycemia with hypoketosis`,`Yes: fatty acids cannot be oxidized to make ketones.`],
+[`Lactic acidosis with hyperketonemia`,`No: wrong pattern.`],
+[`Hyperglycemia with hyperketosis`,`No: wrong pattern.`],
+[`Hypoglycemia with hyperketosis`,`No: ketones are low.`]],1,`Source had 4 options; I added a fifth. Repeats B2, so HIGH YIELD.`),
+Q(`B5`,`Biochemistry`,ENR,`Carnitine palmitoyltransferase I (CPT-I) deficiency primarily affects:`,[
+[`Transport of fatty acids into mitochondria`,`Yes: CPT-I starts the carnitine shuttle for long-chain fatty acids.`],
+[`Activation of fatty acids in the cytoplasm`,`No: this is acyl-CoA synthetase.`],
+[`Degradation of fatty acids in peroxisomes`,`No: not CPT-I.`],
+[`Oxidation of fatty acids in mitochondria`,`No: CPT-I acts before oxidation.`],
+[`Utilization of ketone bodies`,`No: not affected.`]],0,`Source had 4 options; I added a fifth.`),
+Q(`B6`,`Biochemistry`,ENR,`Which clinical sign is least likely in long-chain fatty acid oxidation defects?`,[
+[`Cardiomyopathy`,`No: the heart relies on fatty acid oxidation.`],
+[`Hypoketotic hypoglycemia`,`No: a typical finding.`],
+[`Hepatomegaly`,`No: a typical finding.`],
+[`Polyuria`,`Yes: it is not part of the picture; it points to diabetes mellitus or insipidus.`],
+[`Muscle weakness`,`No: a typical finding.`]],3,`Source had 4 options; I added a fifth.`),
+Q(`B7`,`Biochemistry`,ENR,`What is the common diagnostic finding in MCAD deficiency?`,[
+[`Elevated blood glucose and lactate`,`No: hypoglycemia is typical.`],
+[`Increased urine dicarboxylic acids and medium-chain acylcarnitines`,`Yes: accumulating fatty acids undergo ω-oxidation.`],
+[`Decreased ketones with elevated glucose`,`No: glucose is low.`],
+[`Hyperammonemia with high long-chain fatty acids`,`No: not the diagnostic finding.`],
+[`Elevated urinary ketones`,`No: ketones are low.`]],1,`Source had 4 options; I added a fifth.`),
+Q(`B8`,`Biochemistry`,ENR,`Beta-oxidation of a 16-carbon fatty acid (palmitate) generates how many acetyl-CoA molecules?`,[
+[`6`,`No: too few.`],
+[`8`,`Yes: 7 cycles give 8 acetyl-CoA.`],
+[`10`,`No: too many.`],
+[`12`,`No: too many.`],
+[`16`,`No: too many.`]],1,`Source had 4 options; I added a fifth.`),
+Q(`B9`,`Biochemistry`,ENR,`In disorders of fatty acid oxidation, patients are advised to:`,[
+[`Consume high-fat, low-carbohydrate diets`,`No: this worsens the defect.`],
+[`Avoid fasting and eat frequent carbohydrate-rich meals`,`Yes: this prevents reliance on fat oxidation.`],
+[`Take exogenous glucose only during illness`,`No: insufficient.`],
+[`Exercise intensely to improve mitochondrial function`,`No: this can trigger crises.`],
+[`Fast to induce ketosis`,`No: hazardous.`]],1,`Source had 4 options; I added a fifth.`),
+Q(`B10`,`Biochemistry`,ENR,`Which enzyme is responsible for the rate-limiting step of fatty acid oxidation?`,[
+[`Carnitine acyltransferase I (CPT-I)`,`Yes: it admits long-chain fatty acids to mitochondria and is inhibited by malonyl-CoA.`],
+[`Carnitine–acylcarnitine translocase`,`No: it is not the regulated step.`],
+[`Acyl-CoA dehydrogenase`,`No: not the rate-limiting step.`],
+[`Carnitine acyltransferase II (CPT-II)`,`No: it is not regulated.`],
+[`Fatty acid synthase`,`No: it makes fatty acids.`]],0),
+Q(`B11`,`Biochemistry`,ENR,`Which type of fatty acids undergo β-oxidation in peroxisomes?`,[
+[`Medium-chain fatty acids`,`No: oxidized in mitochondria.`],
+[`Long-chain fatty acids`,`No: oxidized in mitochondria.`],
+[`Very-long-chain fatty acids`,`Yes: they are shortened in peroxisomes before entering mitochondria.`],
+[`Branched-chain fatty acids`,`No: these first need α-oxidation.`],
+[`Short-chain fatty acids`,`No: oxidized in mitochondria.`]],2,`Source option “polyunsaturated” replaced; I reworded the stem to “β-oxidation” since branched-chain acids are also handled in peroxisomes by α-oxidation. Repeats B13, so HIGH YIELD.`),
+Q(`B12`,`Biochemistry`,ENR,`A 25-year-old man has ataxia, scaly skin and elevated phytanic acid. Which pathway is defective?`,[
+[`β-Oxidation of long-chain fatty acids`,`No: not the defect.`],
+[`α-Oxidation of branched-chain fatty acids`,`Yes: Refsum disease.`],
+[`Peroxisomal oxidation of VLCFAs`,`No: that is adrenoleukodystrophy and Zellweger.`],
+[`Mitochondrial transport of fatty acids`,`No: carnitine shuttle.`],
+[`Ketogenesis`,`No: not the defect.`]],1),
+Q(`B13`,`Biochemistry`,ENR,`A neonate with hypotonia and demyelination has elevated very-long-chain fatty acids. Which organelle is most likely defective?`,[
+[`Mitochondria`,`No: they oxidize shorter fatty acids.`],
+[`Endoplasmic reticulum`,`No: not the site.`],
+[`Golgi apparatus`,`No: not the site.`],
+[`Peroxisomes`,`Yes: peroxisomal defects such as Zellweger syndrome cause VLCFA accumulation.`],
+[`Lysosomes`,`No: not the site.`]],3,`Repeats B11, so HIGH YIELD.`),
+Q(`B14`,`Biochemistry`,ENR,`A 5-year-old has cardiomyopathy, hepatomegaly, low plasma carnitine and a defect in the carnitine uptake protein. Which best describes primary carnitine deficiency?`,[
+[`Impaired synthesis of carnitine in the liver`,`No: the defect is cellular uptake.`],
+[`Defective transport of long-chain fatty acids into the mitochondrial matrix`,`Yes: without carnitine, long-chain fatty acids cannot enter.`],
+[`Defective β-oxidation of short-chain fatty acids`,`No: these enter without carnitine.`],
+[`Accumulation of ketone bodies`,`No: ketones are low.`],
+[`Excessive breakdown of carnitine in the kidneys`,`No: loss is through failed reabsorption.`]],1,`Source listed the correct statement twice (options B and F); I removed the duplicate.`),
+Q(`B15`,`Biochemistry`,ENR,`In which condition is glucose utilization by the adult heart most likely to increase?`,[
+[`Fasting state`,`No: the heart uses fatty acids.`],
+[`Prolonged exercise`,`No: lactate and fatty acids are used.`],
+[`Postprandial state`,`Yes: insulin stimulates GLUT4 uptake.`],
+[`Starvation`,`No: ketones and fatty acids dominate.`],
+[`High-fat ketogenic diet`,`No: fatty acids and ketones dominate.`]],2,`Repeats B26, so HIGH YIELD.`),
+Q(`B16`,`Biochemistry`,ENR,`Fatty acid utilization by the well-oxygenated adult heart is most prominent in which condition?`,[
+[`Fasting or resting state`,`Yes: fatty acids are the main fuel at rest.`],
+[`Postprandial state`,`No: glucose use rises.`],
+[`High-carbohydrate diet`,`No: glucose use rises.`],
+[`Acute hypoglycemia`,`No: not the main driver.`],
+[`Short-duration exercise`,`No: lactate and glucose rise.`]],0),
+Q(`B17`,`Biochemistry`,ENR,`Which process generates the highest ATP yield per molecule oxidized in the heart?`,[
+[`Glucose oxidation`,`No: lower than fatty acids.`],
+[`Glycolysis`,`No: gives only a few ATP.`],
+[`Lactate metabolism`,`No: lower than fatty acids.`],
+[`Fatty acid oxidation`,`Yes: a long-chain fatty acid yields the most ATP.`],
+[`Amino acid oxidation`,`No: minor.`]],3),
+Q(`B18`,`Biochemistry`,ENR,`Why does the heart predominantly use glucose during fetal development?`,[
+[`Glucose is more energy-dense than fatty acids`,`No: fatty acids are more energy-dense.`],
+[`Fatty acid oxidation requires more oxygen than glucose oxidation`,`Yes: the relatively hypoxic fetus favors glucose.`],
+[`Glucose oxidation produces fewer reactive oxygen species`,`No: not the reason.`],
+[`Glycogen stores are higher in the fetal heart`,`No: not the main reason.`],
+[`Ketone bodies are unavailable during fetal development`,`No: not the main reason.`]],1),
+Q(`B19`,`Biochemistry`,ENR,`What metabolic change occurs in the hypertrophied heart?`,[
+[`Increased reliance on fatty acid oxidation`,`No: it falls.`],
+[`Increased oxidative phosphorylation`,`No: it falls.`],
+[`Shift to glucose metabolism`,`Yes: a fetal-like shift toward glucose use.`],
+[`Enhanced lactate production for anaerobic energy`,`No: not the key change.`],
+[`Increased amino acid oxidation`,`No: minor.`]],2),
+Q(`B20`,`Biochemistry`,ENR,`Which transporter is primarily responsible for insulin-regulated glucose uptake in cardiac muscle?`,[
+[`GLUT1`,`No: basal uptake, insulin-independent.`],
+[`GLUT2`,`No: liver and pancreatic β cells.`],
+[`GLUT3`,`No: neurons.`],
+[`GLUT4`,`Yes: insulin moves GLUT4 to the membrane.`],
+[`GLUT5`,`No: fructose transporter.`]],3),
+Q(`B21`,`Biochemistry`,ENR,`Which condition is most likely associated with increased ketone body use by the heart?`,[
+[`Postprandial state`,`No: glucose use rises.`],
+[`Stress and β-adrenergic stimulation`,`Yes: lipolysis and ketogenesis rise.`],
+[`High-protein meal`,`No: not a driver.`],
+[`Glycogen storage disease`,`No: not a driver.`],
+[`Early exercise`,`No: not a driver.`]],1,`Source answer kept; fasting and heart failure are also classic settings but are not offered.`),
+Q(`B22`,`Biochemistry`,ENR,`Which substrate is most likely used by the heart under hypoxic or ischemic conditions?`,[
+[`Glucose`,`Yes: glycolysis can proceed without oxygen.`],
+[`Fatty acids`,`No: oxidation needs oxygen.`],
+[`Ketone bodies`,`No: oxidation needs oxygen.`],
+[`Glycogen`,`No: a minor store.`],
+[`Amino acids`,`No: minor.`]],0,`Related to B29, so HIGH YIELD.`),
+Q(`B23`,`Biochemistry`,ENR,`In heart failure, ketone bodies become a critical energy source because they:`,[
+[`Require less oxygen for oxidation than fatty acids and glucose`,`Yes: more ATP per oxygen consumed.`],
+[`Are the only substrate under hypoxic conditions`,`No: glucose via glycolysis also works.`],
+[`Replace fatty acids to prevent lipotoxicity`,`No: not the reason.`],
+[`Bypass the Krebs cycle`,`No: they enter it as acetyl-CoA.`],
+[`Inhibit glycolysis, sparing glucose`,`No: not the reason.`]],0),
+Q(`B24`,`Biochemistry`,ENR,`Why does stress increase ketone body production in a patient with heart failure?`,[
+[`β-adrenergic stimulation activates hormone-sensitive lipase, releasing fatty acids`,`Yes: more fatty acids go to the liver for ketogenesis.`],
+[`Stress promotes glycolysis, causing acetyl-CoA accumulation`,`No: it is driven by fatty acid supply.`],
+[`β-adrenergic stimulation inhibits fatty acid oxidation`,`No: it increases it.`],
+[`Insulin activation stimulates ketone synthesis`,`No: insulin suppresses ketogenesis.`],
+[`Stress reduces oxygen consumption in skeletal muscle`,`No: not the mechanism.`]],0),
+Q(`B25`,`Biochemistry`,ENR,`Under which condition does the heart increase its use of lactic acid as a fuel?`,[
+[`Resting state`,`No: fatty acids dominate.`],
+[`Intense exercise`,`Yes: muscle lactate is oxidized by the heart.`],
+[`Postprandial state`,`No: glucose dominates.`],
+[`Prolonged fasting`,`No: fatty acids and ketones dominate.`],
+[`Hypoglycemia`,`No: not the driver.`]],1,`Source had no answer marked; the explanation supports intense exercise.`),
+Q(`B26`,`Biochemistry`,ENR,`How does insulin influence substrate utilization by the heart?`,[
+[`Promotes fatty acid oxidation`,`No: it favors glucose.`],
+[`Increases glucose uptake and utilization`,`Yes: via GLUT4.`],
+[`Enhances ketone body oxidation`,`No: not its effect.`],
+[`Inhibits glycolysis`,`No: it stimulates it.`],
+[`Stimulates amino acid catabolism`,`No: not its effect.`]],1,`Repeats B15, so HIGH YIELD.`),
+Q(`B27`,`Biochemistry`,ENR,`A triathlete completes a strenuous race and the heart sustains its output without depleting energy reserves. Which adaptation allows this?`,[
+[`Using lactic acid as a fuel`,`Yes: the heart oxidizes the lactate released by muscle.`],
+[`Shifting to aerobic metabolism`,`No: it is already aerobic.`],
+[`Increasing reliance on ketone bodies`,`No: not the key fuel here.`],
+[`Consuming stored cardiac glycogen`,`No: stores are small.`],
+[`Reducing oxygen demand`,`No: demand rises.`]],0),
+Q(`B28`,`Biochemistry`,ENR,`Why does myocardial glucose use increase after dobutamine in heart failure?`,[
+[`Inotropic agents stimulate GLUT4 translocation via β-adrenergic receptors`,`Yes: raised cAMP signaling and workload increase glucose uptake.`],
+[`They inhibit fatty acid oxidation`,`No: not the mechanism.`],
+[`They reduce oxygen availability`,`No: they raise demand.`],
+[`They activate insulin secretion`,`No: not the mechanism.`],
+[`They trigger gluconeogenesis for the heart`,`No: the heart does not rely on this.`]],0,`Source answer kept.`),
+Q(`B29`,`Biochemistry`,ENR,`In chronic ischemic heart disease with hypoxia, which metabolic process becomes predominant in the heart?`,[
+[`Fatty acid oxidation`,`No: needs oxygen.`],
+[`Glycogenolysis`,`No: not the main process.`],
+[`Ketogenesis`,`No: a liver process.`],
+[`Anaerobic glycolysis`,`Yes: it makes ATP without oxygen, producing lactate.`],
+[`Lactate oxidation`,`No: needs oxygen.`]],3,`Source had a missing option letter; I labelled options. Related to B22, so HIGH YIELD.`),
+Q(`B30`,`Biochemistry`,CHO,`What is the normal serum cholesterol?`,[
+[`150–200 mg/dL`,`Yes: desirable total cholesterol is below 200 mg/dL.`],
+[`200–250 mg/dL`,`No: borderline high to high.`],
+[`100–150 mg/dL`,`No: lower than typical.`],
+[`75–300 mg/dL`,`No: far too wide.`],
+[`300–350 mg/dL`,`No: markedly raised.`]],0,`Source had no answer marked; I used the standard answer. Source had 4 options; I added a fifth.`),
+Q(`B31`,`Biochemistry`,CHO,`All of the following inhibit cholesterol synthesis EXCEPT:`,[
+[`Insulin`,`Yes: insulin stimulates HMG-CoA reductase.`],
+[`Cholesterol`,`No: it inhibits by feedback.`],
+[`Glucagon`,`No: it inhibits via phosphorylation.`],
+[`Glucocorticoids`,`No: they inhibit synthesis.`],
+[`Fasting`,`No: it lowers synthesis.`]],0,`Source had no answer marked; I used the standard answer and replaced the unclear “growth hormone” option.`),
+Q(`B32`,`Biochemistry`,CHO,`Which key product derived from cholesterol emulsifies dietary fats in the intestine?`,[
+[`Fatty acids`,`No: they are digestion products, not derived from cholesterol.`],
+[`Phospholipids`,`No: not cholesterol-derived.`],
+[`Bile salts`,`Yes: made from cholesterol in the liver.`],
+[`VLDL`,`No: a lipoprotein carrying triglycerides.`],
+[`Ketone bodies`,`No: not cholesterol-derived.`]],2,`Source had no answer marked; I used the standard answer. Repeats M49, so HIGH YIELD.`),
+Q(`B33`,`Biochemistry`,CHO,`A 35-year-old man has high cholesterol and steatorrhea with reduced bile acid production. Deficiency of which enzyme is most likely?`,[
+[`7α-Hydroxylase`,`Yes: the rate-limiting enzyme of bile acid synthesis.`],
+[`HMG-CoA synthase`,`No: part of ketogenesis and cholesterol synthesis.`],
+[`HMG-CoA reductase`,`No: the cholesterol synthesis enzyme.`],
+[`Squalene synthase`,`No: a later step of cholesterol synthesis.`],
+[`Lipoprotein lipase`,`No: clears triglycerides.`]],0,`Source had no answer marked; I used the standard answer.`),
+Q(`I1`,`Microbiology`,IE,`Which organism is most commonly associated with nosocomial infective endocarditis?`,[
+[`Streptococcus viridans`,``],
+[`Staphylococcus aureus`,`Linked to prosthetic valves and indwelling devices.`],
+[`Haemophilus influenzae`,``],
+[`Candida albicans`,``],
+[`Escherichia coli`,``]],1),
+Q(`I2`,`Microbiology`,IE,`Which valve is most commonly involved in infective endocarditis in IV drug users?`,[
+[`Mitral valve`,``],
+[`Aortic valve`,``],
+[`Pulmonary valve`,``],
+[`Tricuspid valve`,`Direct inoculation of the right heart.`],
+[`Prosthetic valve`,``]],3,`Source asked for the “predisposing condition”, which was awkward. I reworded it to “which valve”. Source had 5 options; I replaced two.`),
+Q(`I3`,`Microbiology`,IE,`What is the typical first step in diagnosing infective endocarditis?`,[
+[`Chest X-ray`,``],
+[`Transthoracic echocardiogram`,``],
+[`Complete blood count`,``],
+[`CT angiography`,``],
+[`Blood culture`,`Identifies the causative organism.`]],4),
+Q(`I4`,`Microbiology`,IE,`Which is a major criterion in the Duke criteria for infective endocarditis?`,[
+[`Fever above 38°C`,``],
+[`Positive blood culture for S. aureus`,`A typical organism from separate cultures.`],
+[`Osler nodes`,``],
+[`Elevated ESR`,``],
+[`New heart murmur`,``]],1),
+Q(`I5`,`Microbiology`,IE,`Which is a minor criterion for infective endocarditis according to Duke?`,[
+[`Vegetation on echocardiogram`,``],
+[`Two positive blood cultures for HACEK organisms`,``],
+[`Fever above 38°C`,`Fever is a minor criterion.`],
+[`Abscess formation`,``],
+[`Heart failure`,``]],2),
+Q(`I6`,`Microbiology`,IE,`Which regimen is recommended for native valve endocarditis caused by penicillin-sensitive streptococci?`,[
+[`Vancomycin alone`,``],
+[`Amoxicillin for 1 week`,``],
+[`Ceftriaxone plus gentamicin for 2 weeks`,`The shortest effective regimen.`],
+[`Linezolid for 4 weeks`,``],
+[`Daptomycin for 6 weeks`,``]],2),
+Q(`I7`,`Microbiology`,IE,`Which complication is most commonly associated with left-sided endocarditis?`,[
+[`Pulmonary embolism`,``],
+[`Splenic infarction`,``],
+[`Cerebral embolism`,`Vegetations embolize to cerebral arteries.`],
+[`Intracranial abscess`,``],
+[`Mycotic aneurysm`,``]],2),
+Q(`I8`,`Microbiology`,IE,`Which painless, nonblanching hemorrhagic macules on the palms and soles are classic for infective endocarditis?`,[
+[`Roth spots`,``],
+[`Osler nodes`,``],
+[`Subungual hemorrhages`,``],
+[`Janeway lesions`,`Painless hemorrhagic lesions of the palms and soles.`],
+[`New murmur`,``]],3,`Source asked which finding is “pathognomonic”, but none strictly is (Osler nodes and Roth spots are also specific). I reworded it to the description of Janeway lesions.`),
+Q(`I9`,`Microbiology`,IE,`Which pathogen should raise suspicion of underlying colorectal carcinoma in infective endocarditis?`,[
+[`Enterococcus faecalis`,``],
+[`Staphylococcus aureus`,``],
+[`Streptococcus gallolyticus`,`Associated with colorectal malignancy.`],
+[`Haemophilus parainfluenzae`,``],
+[`Candida albicans`,``]],2),
+Q(`I10`,`Microbiology`,IE,`Which echocardiographic finding strongly suggests infective endocarditis?`,[
+[`Diffuse left ventricular hypertrophy`,``],
+[`Pericardial effusion`,``],
+[`Dilated right atrium`,``],
+[`Wall motion abnormalities`,``],
+[`Vegetations on the mitral valve`,`Vegetations are the hallmark.`]],4),
+Q(`I11`,`Microbiology`,IE,`Which is a common neurological complication of infective endocarditis?`,[
+[`Meningitis`,``],
+[`Ischemic stroke`,`Embolization from left-sided vegetations.`],
+[`Cerebral abscess`,``],
+[`Intracerebral hemorrhage`,``],
+[`Mycotic aneurysm rupture`,``]],1),
+Q(`I12`,`Microbiology`,IE,`What is the role of transesophageal echocardiography (TEE) in diagnosing endocarditis?`,[
+[`First-line diagnostic tool`,``],
+[`More sensitive than transthoracic echocardiography`,`Used when TTE is inconclusive.`],
+[`Replaced by advanced CT imaging`,``],
+[`Reserved for pediatric patients`,``],
+[`Contraindicated in suspected endocarditis`,``]],1),
+Q(`I13`,`Microbiology`,IE,`Which antimicrobial agent is essential for treating MRSA endocarditis?`,[
+[`Ceftriaxone`,``],
+[`Amoxicillin`,``],
+[`Vancomycin`,`Standard treatment for MRSA.`],
+[`Linezolid`,``],
+[`Azithromycin`,``]],2),
+Q(`I14`,`Microbiology`,IE,`What is the recommended duration of antibiotic therapy for prosthetic valve endocarditis?`,[
+[`2 weeks`,``],
+[`4 weeks`,``],
+[`6 weeks`,`Prosthetic infections need longer therapy.`],
+[`8 weeks`,``],
+[`12 weeks`,``]],2),
+Q(`I15`,`Microbiology`,IE,`Which vascular phenomenon is considered a minor criterion for infective endocarditis?`,[
+[`Mycotic aneurysm`,``],
+[`Splenic infarction`,``],
+[`Septic pulmonary infarct`,``],
+[`Major arterial emboli`,``],
+[`All of the above`,`All are vascular phenomena in the minor criteria.`]],4),
+Q(`S1`,`Microbiology`,IE,`Select the correct statement about streptolysin O (SLO) and streptolysin S (SLS).`,[
+[`SLS is oxygen stable, of large molecular weight and antigenic`,``],
+[`SLS is oxygen stable, of low molecular weight and antigenic`,``],
+[`SLO is oxygen labile, of large molecular weight and antigenic`,`SLO is the antigenic one (anti-streptolysin O titer).`],
+[`SLO is oxygen labile, of low molecular weight and not antigenic`,``],
+[`SLS is oxygen stable, of large molecular weight and non-antigenic`,``]],2,`Same as an earlier held question on rheumatic heart disease; included here from the lecture slides.`),
+Q(`S2`,`Microbiology`,IE,`Molecular mimicry between Streptococcus pyogenes antigens and heart tissue may lead to:`,[
+[`Aortic valve prolapse`,``],
+[`Mitral valve prolapse`,``],
+[`Mitral valve stenosis`,`Rheumatic heart disease classically scars the mitral valve.`],
+[`Aortic valve regurgitation`,``],
+[`Aortic valve stenosis`,``]],2,`Same as an earlier held question on rheumatic heart disease; included here from the lecture slides.`),
+Q(`MC1`,`Microbiology`,MIC,`A 52-year-old man on a Westernized diet has atherosclerosis. Which gut-microbe-derived metabolite is likely responsible?`,[
+[`Butyrate`,``],
+[`Short-chain fatty acids`,``],
+[`Trimethylamine-N-oxide (TMAO)`,`Red meat raises TMA, converted to TMAO in the liver; it promotes foam cells.`],
+[`Bile acids`,``],
+[`Coprostanol`,``]],2,`Your lecture teaches TMAO. This differs from Exam 1 Q15, which I kept as ImP; tell me if you want that switched.`),
+Q(`MC2`,`Microbiology`,MIC,`A 45-year-old woman with high cholesterol has few SCFA-producing gut bacteria. How do SCFAs help lower cholesterol?`,[
+[`Increasing cholesterol absorption`,``],
+[`Promoting TMA production`,``],
+[`Reducing bile acid excretion`,``],
+[`Increasing HDL levels only`,``],
+[`Downregulating cholesterol biosynthesis enzymes`,`SCFAs such as butyrate suppress the key enzymes.`]],4),
+Q(`MC3`,`Microbiology`,MIC,`What evidence supports a role for the gut microbiota in atherosclerosis?`,[
+[`Increased SCFA levels in dysbiosis`,``],
+[`Transfer of dysbiosis by microbiota transplantation induces atherosclerosis in mice`,`Dysbiosis can be transferred, raising inflammation and plaque.`],
+[`Foam cell formation independent of gut microbes`,``],
+[`Only genetic factors contribute`,``],
+[`Gut microbiota decreases systemic inflammation`,``]],1),
+Q(`MC4`,`Microbiology`,MIC,`A scientist wants to measure the gut microbiome of CVD patients without culturing bacteria. Which technique should be used?`,[
+[`Koch’s postulates`,``],
+[`Western blot`,``],
+[`Gram staining`,``],
+[`16S rRNA gene sequencing`,`A culture-independent method for unculturable bacteria.`],
+[`ELISA for TMAO`,``]],3),
+M(`D1`,`Anatomy`,COR,`A 72-year-old woman with complete heart block has stenosis of the artery supplying the AV node. Which artery most commonly supplies the AV node?`,`Right coronary artery`,`The AV nodal artery arises from the RCA in most people.`,[`Left anterior descending artery`,`Left circumflex artery`,`Conus artery`,`Diagonal branch of the LAD`],`Source option “posterior interventricular artery” is an RCA branch, so I replaced it.`),
+M(`D2`,`Anatomy`,COR,`Which artery is primarily responsible for perfusing the anterior wall of the left ventricle?`,`Left anterior descending artery`,`The LAD supplies the anterior wall and septum.`,[`Right coronary artery`,`Left circumflex artery`,`Posterior interventricular artery`,`Marginal branch of the RCA`]),
+M(`D3`,`Anatomy`,COR,`Which best describes the role of coronary collaterals?`,`They provide alternative routes for blood flow during occlusion`,`Collaterals bypass a blockage and can keep a patient asymptomatic.`,[`They prevent plaque formation`,`They increase myocardial oxygen demand`,`They are congenital and never change with disease`,`They are responsible for coronary dominance`]),
+M(`D4`,`Anatomy`,COR,`Which vein is the primary venous drainage of the myocardium?`,`Coronary sinus`,`It collects most cardiac veins and opens into the right atrium.`,[`Great cardiac vein`,`Middle cardiac vein`,`Small cardiac vein`,`Anterior cardiac veins`],`Source stem mentioned a large vein near the IVC, which was confusing. I removed it.`),
+M(`D5`,`Anatomy`,INT,`Which part of the interatrial septum is most commonly affected in a secundum ASD?`,`Fossa ovalis`,`A secundum ASD is a defect at the fossa ovalis.`,[`Septum primum`,`Crista terminalis`,`Valve of the inferior vena cava`,`Opening of the coronary sinus`],`Source option “septum secundum” was removed so only the fossa ovalis fits.`),
+M(`D6`,`Anatomy`,INT,`Which part of the interventricular septum is most commonly involved in congenital VSDs?`,`Membranous part`,`Most congenital VSDs are membranous.`,[`Muscular part`,`Infundibular part`,`Septal band`,`Apical part`]),
+M(`D7`,`Anatomy`,INT,`Which structure connects the mitral valve cusps to the papillary muscles?`,`Chordae tendineae`,`Tendinous cords tether the cusps and prevent prolapse.`,[`Trabeculae carneae`,`Moderator band`,`Left atrial appendage`,`Pectinate muscles`],`Source asked which structure is “directly involved in closure”, but the papillary muscles are too. I reworded the stem.`),
+M(`D8`,`Anatomy`,CON,`Which part of the conduction system carries the impulse from the AV node into the interventricular septum?`,`Bundle of His`,`It passes the impulse on to the bundle branches.`,[`SA node`,`Purkinje fibers`,`Bachmann’s bundle`,`Internodal pathway`],`Source stem had no question; I wrote one, answer unchanged.`),
+M(`D9`,`Anatomy`,INT,`Which structure separates the smooth and rough parts of the right atrium?`,`Crista terminalis`,`It divides the sinus venarum from the pectinate part.`,[`Fossa ovalis`,`Eustachian valve`,`Coronary sinus`,`Pectinate muscles`]),
+M(`D10`,`Anatomy`,PER,`A stab wound enters the left 5th intercostal space at the midclavicular line. Which chamber is most likely injured?`,`Left ventricle`,`The apex region is formed by the left ventricle.`,[`Right atrium`,`Right ventricle`,`Left atrium`,`Pulmonary trunk`]),
+M(`D11`,`Anatomy`,PER,`A groove separates the atria from the ventricles. What is its name?`,`Coronary sulcus`,`The coronary sulcus is the atrioventricular groove.`,[`Interventricular sulcus`,`Transverse sinus`,`Oblique sinus`,`Sulcus terminalis`],`Source also listed “atrioventricular groove”, a synonym, so I replaced it.`),
+M(`D12`,`Anatomy`,PER,`Which chamber forms most of the anterior surface of the heart?`,`Right ventricle`,`The right ventricle forms most of the sternocostal surface.`,[`Left atrium`,`Right atrium`,`Left ventricle`,`Pulmonary artery`]),
+M(`D13`,`Anatomy`,PER,`Which chamber forms most of the diaphragmatic surface?`,`Left ventricle`,`Both ventricles form it, mostly the left.`,[`Right atrium`,`Left atrium`,`Right ventricle`,`Pulmonary veins`]),
+M(`D14`,`Anatomy`,PER,`Which chamber primarily forms the base of the heart?`,`Left atrium`,`The left atrium forms most of the posterior base.`,[`Right atrium`,`Right ventricle`,`Left ventricle`,`Pulmonary trunk`]),
+M(`D15`,`Anatomy`,CON,`The pacemaker of the heart is:`,`Sinoatrial node`,`It has the fastest spontaneous rate.`,[`Atrioventricular node`,`Purkinje fibers`,`Bundle of His`,`Moderator band`]),
+M(`D16`,`Anatomy`,CON,`The AV node is located in which part of the heart?`,`Interatrial septum near the coronary sinus opening`,`It lies in the triangle of Koch.`,[`Wall of the right atrium near the SVC`,`Upper part of the interventricular septum`,`Apex of the left ventricle`,`Right atrial appendage`]),
+M(`D17`,`Anatomy`,CON,`Which part of the conduction system directly stimulates the ventricular myocardium?`,`Purkinje fibers`,`They activate the ventricular muscle.`,[`SA node`,`AV node`,`Bundle of His`,`Moderator band`]),
+M(`D18`,`Anatomy`,CON,`The parasympathetic innervation of the heart is provided by:`,`Vagus nerve`,`The vagus slows the SA and AV nodes.`,[`Sympathetic chain (T1–T4)`,`Phrenic nerve`,`Glossopharyngeal nerve`,`Intercostal nerves`]),
+M(`D19`,`Anatomy`,CON,`Which effect is caused by sympathetic stimulation of the heart?`,`Coronary vasodilation and increased heart rate`,`Sympathetic tone raises rate and dilates coronaries.`,[`Bradycardia`,`Decreased conduction velocity`,`Decreased contractility`,`Decreased cardiac output`]),
+M(`D20`,`Anatomy`,PER,`The best initial imaging modality for evaluating cardiac chambers and valve function is:`,`Echocardiography`,`It shows chambers, valves and flow without radiation.`,[`CT`,`MRI`,`PET scan`,`Chest X-ray`],`Imaging items (D20–D24) are tagged to the external-features lecture: my assumption.`),
+M(`D21`,`Anatomy`,PER,`The gold standard imaging modality for coronary artery anatomy is:`,`Coronary angiography`,`It directly shows coronary stenoses.`,[`Ultrasonography`,`Cardiac MRI`,`Chest X-ray`,`Echocardiography`]),
+M(`D22`,`Anatomy`,PER,`A 55-year-old hypertensive man has an enlarged left ventricular silhouette on chest X-ray. Which condition is most likely?`,`Left ventricular hypertrophy`,`Chronic hypertension thickens the left ventricle.`,[`Mitral regurgitation`,`Pulmonary hypertension`,`Aortic stenosis`,`Tricuspid regurgitation`]),
+M(`D23`,`Anatomy`,PER,`An ice-bag (globular) heart on chest X-ray is seen in which complication?`,`Pericardial effusion`,`Fluid expands the pericardial sac symmetrically.`,[`Pleural effusion`,`Consolidation of the lung`,`Dextrocardia`,`Situs inversus`],`Source had no answer marked; I used the standard answer.`),
+M(`D24`,`Embryology`,E2,`A 5-day-old newborn has cyanosis and a narrow mediastinum with an egg-shaped cardiac silhouette on chest X-ray. What is the most likely diagnosis?`,`Transposition of the Great Arteries`,`Egg-on-a-string heart is classic for TGA.`,[`Tetralogy of Fallot`,`Ventricular Septal Defect`,`Coarctation of the Aorta`,`Patent Ductus Arteriosus`],`Source had no answer marked; I used the standard answer.`),
+M(`D25`,`Embryology`,E2,`A newborn with a vascular ring and a double aortic arch has abnormal persistence of which structure?`,`Fourth aortic arch`,`The right dorsal aorta and fourth arch persist.`,[`First aortic arch`,`Second aortic arch`,`Third aortic arch`,`Sixth aortic arch`]),
+M(`D26`,`Embryology`,E2,`A 2-week-old infant has a harsh systolic murmur and echocardiography shows a VSD. Failure of which structure is most likely responsible?`,`Endocardial cushions`,`Cushion tissue helps close the membranous septum.`,[`Bulbus cordis`,`Sinus venosus`,`Primitive atrium`,`Truncus arteriosus`],`Source stem said “cyanosis”, but a VSD is acyanotic. I removed it.`),
+M(`D27`,`Embryology`,E2,`Which cell population is primarily responsible for forming the aorticopulmonary septum?`,`Neural crest cells`,`They form the truncal and bulbar ridges.`,[`Endoderm`,`Somites`,`Splanchnic mesoderm`,`Intermediate mesoderm`]),
+M(`D28`,`Embryology`,E2,`A newborn has persistent truncus arteriosus. Failure of which process caused it?`,`Division of the truncus arteriosus by the aorticopulmonary septum`,`The truncus fails to divide into aorta and pulmonary trunk.`,[`Formation of the endocardial cushions`,`Fusion of the atrial septum`,`Regression of the left sinus horn`,`Formation of the interventricular septum`]),
+M(`D29`,`Embryology`,E2,`What is the normal fate of the ductus arteriosus after birth?`,`Becomes the ligamentum arteriosum`,`It closes and becomes a fibrous cord.`,[`Becomes the ligamentum venosum`,`Becomes the round ligament of the liver`,`Becomes the fossa ovalis`,`Becomes the median umbilical ligament`]),
+M(`D30`,`Embryology`,E1,`A 6-month-old has an interrupted IVC on imaging. This is due to abnormal development of which embryonic vein system?`,`Cardinal vein system`,`The IVC forms partly from the subcardinal and supracardinal veins.`,[`Vitelline vein`,`Umbilical vein`,`Hepatic vein`,`Ductus venosus`],`Source also offered “subcardinal vein”, part of the cardinal system, so I replaced it.`),
+M(`D31`,`Embryology`,E2,`A neonate with transposition of the great arteries needs prostaglandin E1. Which structure is it used to keep open to allow mixing?`,`Ductus arteriosus`,`PGE1 keeps the ductus open for survival.`,[`Foramen ovale`,`Umbilical vein`,`Sinus venosus`,`Ductus venosus`],`Source asked which adaptation is critical, but the foramen ovale also allows mixing. I reworded so only the ductus fits.`),
+M(`D32`,`Embryology`,E2,`A surgeon plans a truncus arteriosus repair. Which embryological event explains the defect?`,`Incomplete neural crest cell migration`,`Neural crest cells form the outflow septum.`,[`Failure of endocardial cushion fusion`,`Abnormal regression of the left sinus horn`,`Persistence of the vitelline vein`,`Failure of atrial septum formation`]),
+M(`D33`,`Anatomy`,VES,`Which artery arises posterior to the manubrium, anterior to the trachea, and divides at the right sternoclavicular joint?`,`Brachiocephalic artery`,`It divides into the right common carotid and subclavian arteries.`,[`Left common carotid artery`,`Left subclavian artery`,`Ascending aorta`,`Thyroid ima artery`]),
+M(`D34`,`Anatomy`,VES,`Which statement accurately describes the thoracic aorta?`,`Lies posterior to the left lung root, pericardium and esophagus`,`The descending aorta lies behind these structures.`,[`Ends at T10 and passes through the aortic hiatus`,`Runs anterior to the thoracic duct and azygos vein`,`Begins at the diaphragm and ends at the aortic arch`,`Originates from the right ventricle`]),
+M(`D35`,`Anatomy`,VES,`Which artery arises from the first part of the subclavian artery and gives off the inferior thyroid artery?`,`Thyrocervical trunk`,`The inferior thyroid is a branch of the thyrocervical trunk.`,[`Dorsal scapular artery`,`Vertebral artery`,`Costocervical trunk`,`Internal thoracic artery`]),
+M(`D36`,`Anatomy`,VES,`Which vein, formed by the right ascending lumbar and right subcostal veins, arches over the right lung root?`,`Azygos vein`,`The azygos arches over the right hilum into the SVC.`,[`Hemiazygos vein`,`Accessory hemiazygos vein`,`Left superior intercostal vein`,`Brachiocephalic vein`]),
+M(`D37`,`Anatomy`,VES,`Which vein is formed posterior to the sternoclavicular joint and crosses anterior to the origins of the aortic arch branches?`,`Brachiocephalic vein`,`The left brachiocephalic vein crosses the arch branches.`,[`Internal jugular vein`,`Subclavian vein`,`Thoracic duct`,`Azygos vein`],`Source option “left common carotid vein” does not exist; I replaced it.`),
+M(`D38`,`Anatomy`,MED,`Which nerve in the superior mediastinum loops under the aortic arch and ascends toward the larynx?`,`Left recurrent laryngeal nerve`,`It hooks around the ligamentum arteriosum.`,[`Phrenic nerve`,`Right vagus nerve`,`Sympathetic trunk`,`Accessory nerve`]),
+M(`D39`,`Anatomy`,MED,`Which nerve gives rise to a branch that loops under the aortic arch and supplies thoracic viscera?`,`Left vagus nerve`,`It gives off the left recurrent laryngeal nerve.`,[`Phrenic nerve`,`Sympathetic trunk`,`Right vagus nerve`,`Accessory nerve`],`Source also offered the recurrent laryngeal nerve itself; I removed it.`),
+M(`D40`,`Anatomy`,MED,`Which lymphatic duct drains the right upper body into the junction of the right internal jugular and subclavian veins?`,`Right lymphatic duct`,`It drains the right upper body.`,[`Thoracic duct`,`Left lymphatic duct`,`Cisterna chyli`,`Jugular lymphatic trunk`]),
+M(`D41`,`Anatomy`,MED,`A thoracic tumor near the left pleural apex threatens a lymphatic vessel that starts at the cisterna chyli, passes the aortic hiatus and drains into the left jugulo-subclavian junction. Which structure is at risk?`,`Thoracic duct`,`It begins at the cisterna chyli and drains at the left venous angle.`,[`Right lymphatic duct`,`Cisterna chyli`,`Accessory thoracic duct`,`Left bronchomediastinal trunk`]),
+M(`D42`,`Anatomy`,MED,`A mass lies between the sternum and pericardium, anterior to the heart. In which mediastinal compartment is it?`,`Anterior mediastinum`,`It lies in front of the pericardium.`,[`Middle mediastinum`,`Posterior mediastinum`,`Superior mediastinum`,`Pleural cavity`],`Source option “prevascular mediastinum” is a radiological synonym for anterior, so I replaced it.`),
+M(`MD1`,`Microbiology`,MIC,`Which microbiome has been most studied for its role in cardiovascular disease?`,`Gut microbiome`,`The gut microbiome is the best studied.`,[`Oral microbiome`,`Skin microbiome`,`Vaginal microbiome`,`Nasal microbiome`]),
+M(`MD2`,`Microbiology`,MIC,`Gut dysbiosis can contribute to cardiovascular disease by producing:`,`Trimethylamine N-oxide (TMAO)`,`TMAO promotes atherosclerosis.`,[`Short-chain fatty acids`,`Lactic acid`,`Urea`,`Bile acids`]),
+M(`MD3`,`Microbiology`,IE,`Which bacterium is often linked with infective endocarditis?`,`Streptococcus viridans`,`Viridans streptococci are a leading cause.`,[`Escherichia coli`,`Mycobacterium tuberculosis`,`Clostridium difficile`,`Vibrio cholerae`],`Source option “S. epidermidis” also causes endocarditis, so I replaced it.`),
+M(`MD4`,`Microbiology`,MIC,`Which mechanism best explains how gut dysbiosis contributes to atherosclerosis?`,`Production of TMAO, promoting cholesterol accumulation and arterial inflammation`,`TMAO drives foam cell formation.`,[`Direct invasion of arterial walls by gut bacteria`,`Increased bile acids that reduce LDL cholesterol`,`Gut bacteria produce antibiotics that reduce vascular inflammation`,`Increased vitamin K causing thrombosis`]),
+M(`MD5`,`Microbiology`,MIC,`Regarding the oral microbiome and cardiovascular disease, which is true?`,`Periodontal pathogens like Porphyromonas gingivalis can induce systemic inflammation contributing to atherosclerosis`,`Oral pathogens add to systemic inflammation.`,[`Oral microbiome changes do not influence heart disease risk`,`Oral bacteria only cause local dental infections`,`Vaccination against oral bacteria prevents cardiovascular disease`,`The oral microbiome is unrelated to immune modulation`]),
+M(`MD6`,`Microbiology`,RHD,`Which bacterium primarily triggers rheumatic heart disease?`,`Streptococcus pyogenes (Group A Streptococcus)`,`GAS pharyngitis precedes rheumatic fever.`,[`Staphylococcus aureus`,`Streptococcus pneumoniae`,`Neisseria meningitidis`,`Mycobacterium tuberculosis`]),
+M(`MD7`,`Microbiology`,RHD,`Rheumatic heart disease is a complication of:`,`Untreated streptococcal pharyngitis`,`It follows untreated GAS throat infection.`,[`Viral myocarditis`,`Tuberculous pericarditis`,`Infective endocarditis`,`Viral endocarditis`]),
+M(`MD8`,`Microbiology`,RHD,`What is the main immunological mechanism in rheumatic heart disease?`,`Autoimmune cross-reactivity between streptococcal antigens and heart tissue`,`Molecular mimicry with M protein.`,[`Direct bacterial invasion of heart valves`,`Immune complex deposition in coronary arteries`,`Viral cytopathic effects on myocardium`,`Hypersensitivity to fungal antigens`]),
+M(`MD9`,`Microbiology`,RHD,`Which finding is most characteristic of rheumatic fever?`,`Aschoff bodies in cardiac tissue, indicating immune-mediated damage`,`Aschoff bodies are the hallmark.`,[`Direct colonization of heart valves by Group A Streptococcus`,`Positive blood cultures in the chronic phase`,`Viral particles in myocardium`,`Caseating granulomas in cardiac tissue`]),
+M(`MD10`,`Microbiology`,RHD,`Which statement about preventing and diagnosing rheumatic heart disease is correct?`,`Early antibiotic treatment of streptococcal pharyngitis reduces the risk of rheumatic fever and RHD`,`Primary prevention treats the throat infection.`,[`RHD can be diagnosed by blood culture in latent phases`,`A GAS vaccine is widely used routinely`,`Rheumatic fever has no immunological basis`,`Echocardiography cannot detect RHD valve damage`]),
+M(`MD11`,`Microbiology`,IE,`Which bacterium is the most common cause of infective endocarditis?`,`Staphylococcus aureus`,`S. aureus is the leading cause overall.`,[`Streptococcus viridans`,`Enterococcus faecalis`,`Pseudomonas aeruginosa`,`Haemophilus influenzae`]),
+M(`MD12`,`Microbiology`,IE,`The main pathological feature of infective endocarditis is:`,`Vegetations on heart valves composed of bacteria and fibrin`,`Vegetations are the lesion.`,[`Myocardial necrosis`,`Pericardial effusion`,`Coronary artery thrombosis`,`Myocarditis`]),
+M(`MD13`,`Microbiology`,IE,`What is the usual route of infection in infective endocarditis?`,`Hematogenous spread of bacteria to the heart valves`,`Bacteremia seeds damaged valves.`,[`Direct invasion from lung infection`,`Lymphatic spread from skin infections`,`Congenital heart defects alone cause infection`,`Autoimmune response`]),
+M(`MD14`,`Microbiology`,IE,`Which is true about the microbiological diagnosis of infective endocarditis?`,`Culture-negative endocarditis is often caused by fastidious or intracellular organisms like Coxiella burnetii`,`Fastidious organisms often give negative cultures.`,[`Blood cultures are always positive`,`Gram stain of vegetations is the most reliable method`,`Viral infections frequently cause infective endocarditis`,`Antibiotics before culture do not affect results`],`Source option “nearly all cases are culture-positive” is also roughly true, so I reworded it to “always”.`),
+M(`MD15`,`Microbiology`,IE,`Which statement about the causes and clinical features of infective endocarditis is correct?`,`Staphylococcus aureus commonly causes acute endocarditis with rapid progression`,`S. aureus gives acute, destructive disease.`,[`Streptococcus viridans causes infection only in prosthetic valves`,`Enterococcus faecalis is an uncommon cause`,`Fungal endocarditis is the most common type`,`Infective endocarditis does not involve systemic embolization`]),
+M(`RV1`,`Biochemistry`,CHO,`All of the following are true about cholesterol EXCEPT:`,`Normal plasma cholesterol is 400–500 mg%`,`Normal total plasma cholesterol is about 150–200 mg%.`,[`It is a sterol and an essential component of cell membranes`,`It is present only in foods of animal origin`,`It is transported in blood as part of lipoproteins`,`Acetyl-CoA is the primary substrate for its synthesis`]),
+M(`RV2`,`Biochemistry`,CHO,`Which is the rate-limiting enzyme of cholesterol synthesis, competitively inhibited by statins?`,`HMG-CoA reductase`,`Statins block this step.`,[`HMG-CoA synthase`,`HMG-CoA lyase`,`Squalene synthase`,`Mevalonate kinase`]),
+M(`RV3`,`Biochemistry`,CHO,`After weeks of high-dose statin, hepatic cholesterol is low. What cellular response occurs?`,`SREBP is cleaved and raises transcription of the HMG-CoA reductase and LDL receptor genes`,`SCAP–SREBP moves to the Golgi, so more LDL is taken up.`,[`SCAP–SREBP stays in the ER and represses the LDL receptor`,`INSIG binds SREBP and blocks its release`,`LDL receptor expression falls`,`Bile acid synthesis rises sharply`]),
+M(`RV4`,`Biochemistry`,CHO,`Which pair inhibits HMG-CoA reductase?`,`Glucagon and glucocorticoids`,`Cholesterol, steroid hormones, glucagon and glucocorticoids inhibit it.`,[`Insulin and estrogen`,`Insulin and thyroxine`,`Estrogen and thyroxine`,`Insulin and glucagon`]),
+M(`RV5`,`Biochemistry`,CHO,`Which group lists compounds all made from cholesterol?`,`Vitamin D, bile acids and steroid hormones`,`All three derive from cholesterol.`,[`Vitamin K, bile acids and steroid hormones`,`Bilirubin, bile acids and steroid hormones`,`Vitamin D, prostaglandins and steroid hormones`,`Vitamin A, vitamin E and bile acids`]),
+M(`RV6`,`Biochemistry`,CHO,`SREBPs are activated when:`,`The SCAP–SREBP complex moves from the ER to the Golgi and is cleaved, in response to low cholesterol`,`Low cholesterol releases SREBP for cleavage.`,[`Cholesterol in the ER membrane is high`,`The SCAP–SREBP complex stays in the ER`,`INSIG binds SREBP and sends it to the nucleus`,`LDL receptor levels are very high`]),
+M(`RV7`,`Biochemistry`,CHO,`How does SREBP respond to low cholesterol levels?`,`Its N-terminal domain enters the nucleus and raises HMG-CoA reductase and LDL receptor transcription`,`This restores cholesterol supply.`,[`It stays in the ER and reduces transcription`,`It is degraded in lysosomes`,`It lowers LDL receptor expression`,`It inhibits HMG-CoA reductase`]),
+M(`RV8`,`Biochemistry`,CHO,`Why does cholesterol rise in diabetes mellitus?`,`More free fatty acids give more acetyl-CoA, raising hepatic cholesterol synthesis`,`Added to reduced VLDL breakdown from low lipoprotein lipase.`,[`Acetyl-CoA availability falls`,`Lipoprotein lipase activity rises and clears VLDL`,`NADPH availability falls`,`More cholesterol is converted to bile acids`]),
+M(`RV9`,`Biochemistry`,CHO,`Why is hypercholesterolemia seen in hypothyroidism?`,`Decreased LDL receptor expression and reduced conversion to bile acids`,`Both slow LDL clearance and cholesterol removal.`,[`Increased LDL receptor expression`,`Increased conversion to bile acids`,`Reduced hepatic cholesterol synthesis`,`Increased lipoprotein lipase activity`]),
+M(`RV10`,`Biochemistry`,CHO,`Why does serum cholesterol rise in obstructive jaundice?`,`Reduced conversion of cholesterol to bile acids due to reduced bile flow`,`Cholesterol cannot leave via bile.`,[`Increased LDL receptor expression`,`Increased intestinal bile acid absorption`,`Reduced hepatic cholesterol synthesis`,`Increased lipoprotein lipase activity`]),
+M(`RV11`,`Biochemistry`,CHO,`Why is hypercholesterolemia seen in nephrotic syndrome?`,`Albumin loss stimulates hepatic lipoprotein synthesis`,`The liver compensates by making more lipoproteins.`,[`Increased LDL receptor expression`,`Reduced hepatic cholesterol synthesis`,`Increased bile acid synthesis`,`Increased lipoprotein lipase activity`]),
+M(`RV12`,`Biochemistry`,ENR,`Why does the heart need continuous ATP production?`,`SERCA and ion pumps must constantly restore ionic gradients; impaired ATP causes diastolic dysfunction`,`SERCA cannot reuptake Ca²⁺ without ATP.`,[`Contractile proteins need ATP only during systole`,`ATP is needed only for new myofibril synthesis`,`ATP is stored in large amounts in myocardium`,`The heart primarily uses anaerobic glycolysis`]),
+M(`RV13`,`Biochemistry`,ENR,`What is the main fuel of the adult myocardium at rest, with good oxygenation?`,`Fatty acids`,`β-oxidation gives about 60–70% of ATP.`,[`Glucose`,`Lactate`,`Ketone bodies`,`Amino acids`]),
+M(`RV14`,`Biochemistry`,ENR,`What is the main source of fatty acids for the heart?`,`Free fatty acids bound to albumin and lipoprotein-derived fatty acids`,`Delivered through the coronary circulation.`,[`Fatty acids synthesized in cardiomyocytes`,`Ketone bodies only`,`Amino acid breakdown`,`Glycogen breakdown`]),
+M(`RV15`,`Biochemistry`,ENR,`In the fed state or with increased workload, which fuel contributes more to cardiac ATP?`,`Glucose`,`Insulin and workload raise glucose use.`,[`Fatty acids`,`Ketone bodies`,`Amino acids`,`Glycerol`]),
+M(`RV16`,`Biochemistry`,ENR,`Which fuel contributes significantly to cardiac energy during exercise, released by muscle?`,`Lactate`,`Muscle lactate is oxidized by the heart.`,[`Glucose only`,`Ketone bodies`,`Amino acids`,`Glycerol`]),
+M(`RV17`,`Biochemistry`,ENR,`Under normal conditions, which is the least important fuel for the adult heart?`,`Amino acids`,`They contribute only a minor share.`,[`Fatty acids`,`Glucose`,`Lactate`,`Ketone bodies`]),
+M(`RV18`,`Biochemistry`,ENR,`Ketone bodies become a more significant cardiac fuel in which conditions?`,`Fasting, starvation, uncontrolled diabetes and heart failure`,`Ketone supply and use rise in these states.`,[`Postprandial state`,`High-carbohydrate diet`,`Acute hypoglycemia only`,`Short-duration exercise`]),
+M(`RV19`,`Biochemistry`,ENR,`In advanced heart failure, what advantage makes the failing heart use more ketone bodies?`,`They are oxidized more efficiently per unit of oxygen than fatty acids or glucose`,`Ketone transporters and ketolytic enzymes are upregulated.`,[`They bypass the TCA cycle`,`They need no mitochondria`,`They are the only fuel under hypoxia`,`They inhibit glycolysis`]),
+M(`RV20`,`Biochemistry`,ENR,`How do cardiomyocytes use lactate to make ATP?`,`Conversion to pyruvate, then acetyl-CoA, entering the TCA cycle`,`Lactate is oxidized, not stored.`,[`Conversion to glucose by gluconeogenesis`,`Direct conversion to glycogen`,`Conversion to fatty acids`,`Conversion to ketone bodies`]),
+M(`RV21`,`Biochemistry`,ENR,`Which enzyme on the heart’s capillary endothelium hydrolyses triglycerides in chylomicrons and VLDL to release fatty acids?`,`Lipoprotein lipase`,`It frees fatty acids for the heart.`,[`Hormone-sensitive lipase`,`Pancreatic lipase`,`Hepatic lipase`,`Lecithin–cholesterol acyltransferase`]),
+M(`RV22`,`Biochemistry`,ENR,`Which hormones stimulate adipose hormone-sensitive lipase, raising free fatty acid delivery to the heart?`,`Catecholamines and glucagon`,`Both raise lipolysis.`,[`Insulin and growth hormone`,`Insulin and estrogen`,`Thyroxine and insulin`,`Insulin and glucagon`]),
+M(`RV23`,`Biochemistry`,ENR,`What is the importance of glycogen stored in cardiomyocytes?`,`An energy reserve in hypoxia, ischemia or increased workload, mainly feeding anaerobic glycolysis`,`It is broken down to glucose-6-phosphate.`,[`The main fuel at rest`,`A store for gluconeogenesis`,`A source of fatty acids`,`A buffer against lactic acidosis`]),
+M(`RV24`,`Biochemistry`,ENR,`Why is the heart considered metabolically flexible?`,`It can shift between multiple fuels depending on nutritional and physiological state`,`The heart changes fuel with its needs.`,[`It uses only fatty acids`,`It can synthesize glucose`,`It stores large amounts of fuel`,`It relies on anaerobic metabolism`]),
+M(`RV25`,`Biochemistry`,ENR,`What is the primary fuel of the fetal heart, and why?`,`Glucose, because its oxidation needs less oxygen than fatty acid oxidation`,`The fetus is relatively hypoxic.`,[`Fatty acids, because they are more energy dense`,`Ketones, because they are abundant`,`Lactate, because it is not oxidized`,`Amino acids, because of low glucose`]),
+M(`RV26`,`Biochemistry`,ENR,`What fuel shift occurs in the hypertrophied heart (e.g., chronic hypertension)?`,`Shift toward greater glucose use, resembling the fetal pattern`,`Fatty acid oxidation falls.`,[`Shift toward greater fatty acid use`,`Shift toward ketone bodies`,`Shift toward amino acids`,`No change`]),
+M(`RV27`,`Biochemistry`,ENR,`What fuel shift occurs in myocardial ischemia, and why?`,`Greater glucose use, because it gives more ATP per oxygen than fatty acids`,`Glucose is more oxygen-efficient.`,[`Greater fatty acid use, because it gives more ATP`,`Greater ketone use, because they need no oxygen`,`Greater amino acid use`,`No shift occurs`]),
+M(`RV28`,`Biochemistry`,ENR,`Which glucose transporter provides basal glucose uptake in cardiomyocytes?`,`GLUT1`,`GLUT1 works at baseline without insulin.`,[`GLUT2`,`GLUT3`,`GLUT4`,`GLUT5`]),
+M(`RV29`,`Biochemistry`,ENR,`Which transporter is insulin-regulated and raises glucose uptake into cardiac muscle during high energy demand?`,`GLUT4`,`Insulin moves GLUT4 to the membrane.`,[`GLUT1`,`GLUT2`,`GLUT3`,`GLUT5`]),
+M(`RV30`,`Biochemistry`,ENR,`Which fuel yields the most ATP per molecule when completely oxidized?`,`Palmitate`,`A long-chain fatty acid yields the most.`,[`Glucose`,`Ketone bodies`,`Lactate`,`Alanine`]),
+M(`PA1`,`Pathology`,ATH,`Which is the initial event in the pathogenesis of atherosclerosis?`,`Endothelial injury`,`Response to injury begins with endothelial dysfunction.`,[`Smooth muscle cell proliferation`,`Foam cell formation`,`Platelet aggregation`,`Fibrous cap formation`]),
+M(`PA2`,`Pathology`,VAS,`Which mechanism is most commonly involved in non-infectious vasculitis?`,`Immune complex-mediated inflammation`,`Immune mechanisms drive most vasculitis.`,[`Direct bacterial invasion of vessel walls`,`Deposition of uric acid crystals`,`Mechanical trauma to vessels`,`Vitamin deficiency`]),
+M(`PA3`,`Pathology`,TUM,`A 62-year-old male smoker has a pulsatile abdominal mass below the renal arteries. What is the most likely underlying cause?`,`Atherosclerosis`,`Infrarenal aortic aneurysms are atherosclerotic.`,[`Hypertension`,`Syphilitic aortitis`,`Marfan syndrome`,`Trauma`],`Source filed this under the vascular tumors lecture heading; tag kept as given: confirm.`),
+M(`PA4`,`Pathology`,VAL,`Which best defines valvular stenosis?`,`Failure of a valve to open completely, obstructing forward flow`,`Stenosis obstructs forward flow.`,[`Failure of a valve to close completely, causing backflow`,`Dilatation of the valve annulus causing leakage`,`Inflammation of the valve leaflets`,`Prolapse of the valve into the atrium`]),
+M(`PA5`,`Pathology`,HTN,`A 60-year-old with long-standing benign hypertension and diabetes has renal insufficiency. Biopsy shows thickened arteriolar walls with homogeneous pink hyaline material. What is the lesion?`,`Hyaline arteriolosclerosis`,`Typical of benign hypertension and diabetes.`,[`Hyperplastic arteriolosclerosis`,`Fibrinoid necrosis`,`Atherosclerosis`,`Necrotizing vasculitis`]),
+M(`PA6`,`Pathology`,IHD,`A 68-year-old develops severe mitral regurgitation three days after an acute MI. Which mechanism best explains it?`,`Papillary muscle rupture due to coagulative necrosis`,`Rupture occurs days 2–7 after infarction.`,[`Pericardial inflammation (Dressler syndrome)`,`Mural thrombus formation`,`Left ventricular aneurysm`,`Fibrosis of the mitral valve`]),
+M(`PA7`,`Pathology`,RHD,`A 16-year-old girl dies with a pansystolic murmur and cardiomegaly. Autopsy shows mononuclear cells around deposits of eosinophilic collagen and fibrinoid material in the myocardium. What is the diagnosis?`,`Rheumatic heart disease`,`These are Aschoff bodies.`,[`Acute bacterial endocarditis`,`Subacute bacterial endocarditis`,`Systemic lupus erythematosus`,`Viral myocarditis`]),
+M(`PA8`,`Pathology`,MYO,`A 50-year-old man has a heart transplant for refractory heart failure. The heart weighs 950 g with no coronary atherosclerosis. Histology shows hypertrophic myocytes and fibrosis without inflammation or myofiber disarray. What is the diagnosis?`,`Dilated cardiomyopathy`,`A heavy dilated heart with fibrosis and no disarray.`,[`Cardiac amyloidosis`,`Hypertrophic cardiomyopathy`,`Restrictive cardiomyopathy`,`Ventricular aneurysm`],`Source referred to an image of the heart; I rewrote it as text.`),
+M(`PA9`,`Pathology`,HF,`At autopsy, a 73-year-old has an enlarged liver and spleen with chronic congestion and pitting leg edema but no pleural fluid. Which is the most likely underlying source?`,`Pulmonary fibrosis`,`Lung disease causes right-sided failure.`,[`Coronary artery atherosclerosis`,`Systemic hypertension`,`A calcified bicuspid aortic valve`,`Hypertrophic cardiomyopathy`]),
+M(`PA10`,`Pathology`,PERI,`Which fluid is most characteristic of pericardial effusion due to congestive heart failure?`,`Serous`,`Transudate in heart failure.`,[`Serofibrinous`,`Fibrinous`,`Purulent`,`Hemorrhagic`]),
+M(`PA11`,`Pathology`,RBC,`A 25-year-old woman has fatigue, pallor, pagophagia, low hemoglobin, microcytic hypochromic RBCs, low ferritin and high TIBC. What is the most likely cause?`,`Chronic blood loss and poor dietary iron intake`,`This is iron deficiency anemia.`,[`Decreased erythropoietin production`,`Vitamin B12 deficiency`,`Bone marrow failure`,`Hemolytic anemia`]),
+M(`PA12`,`Pathology`,RBC,`A 35-year-old man has dark morning urine, intravascular hemolysis, pancytopenia and CD59 loss on RBCs. What is the underlying abnormality?`,`Mutation in the PIGA gene causing GPI-anchored protein deficiency`,`This is PNH.`,[`Mutation in the spectrin gene`,`Mutation in the β-globin gene`,`Defective NADPH synthesis`,`IgM autoantibodies active at low temperatures`]),
+M(`PA13`,`Pathology`,BLD,`A 9-year-old has widespread petechiae a week after a flu-like illness, platelets 20,000/mL and more megakaryocytes, normal after 2 months. What is the diagnosis?`,`Idiopathic thrombocytopenic purpura`,`Acute post-viral ITP resolves on its own.`,[`Antiphospholipid antibody syndrome`,`Disseminated intravascular coagulation`,`Hemolytic-uremic syndrome`,`Thrombotic thrombocytopenic purpura`]),
+M(`PA14`,`Pathology`,WBC,`Auer rods are cytoplasmic structures seen in:`,`Myeloblast`,`Auer rods mark myeloid blasts.`,[`Lymphoblast`,`Red blood cells`,`Reed–Sternberg cells`,`Megakaryocytes`]),
+M(`PA15`,`Pathology`,WBC,`A lymph node biopsy shows effaced architecture with sheets of small round lymphocytes; blood shows lymphocytosis and smudge cells. What is the diagnosis?`,`Chronic lymphocytic leukemia/small lymphocytic lymphoma`,`Smudge cells are typical of CLL.`,[`Burkitt’s lymphoma`,`Follicular lymphoma`,`Acute myeloid leukemia`,`Diffuse large B-cell lymphoma`]),
+M(`PH1`,`Physiology`,PCS,`Which neurotransmitter is primarily released by postganglionic sympathetic neurons innervating the heart?`,`Norepinephrine`,`It acts on cardiac β1 receptors.`,[`Acetylcholine`,`Dopamine`,`Serotonin`,`GABA`]),
+M(`PH2`,`Physiology`,PCS,`Which structure is the primary pacemaker of the heart?`,`Sinoatrial (SA) node`,`It has the fastest intrinsic rate.`,[`Atrioventricular node`,`Bundle of His`,`Purkinje fibers`,`Right atrial appendage`]),
+M(`PH3`,`Physiology`,PCO,`Which factor is the most important determinant of stroke volume at rest?`,`Preload (end-diastolic volume)`,`Greater filling gives greater stroke volume.`,[`Heart rate`,`Afterload`,`Myocardial contractility`,`Systemic vascular resistance`]),
+M(`PH4`,`Physiology`,PCO,`Which factor primarily increases cardiac output during exercise?`,`Increase in heart rate`,`Heart rate is the major contributor.`,[`Reduction in preload`,`Decrease in myocardial contractility`,`Decrease in venous return`,`Increase in systemic vascular resistance`],`Source option “decrease in SVR” also occurs in exercise, so I replaced it.`),
+M(`PH5`,`Physiology`,PCO,`Which mechanism primarily regulates short-term changes in blood pressure?`,`Baroreceptor reflex`,`It acts within seconds.`,[`Renin–angiotensin system`,`Aldosterone secretion`,`Long-term renal fluid retention`,`Vasopressin release`]),
+M(`PH6`,`Physiology`,PCO,`Which hormone has a key role in long-term blood pressure regulation through sodium and water retention?`,`Aldosterone`,`It retains Na⁺ and water.`,[`Epinephrine`,`Norepinephrine`,`Atrial natriuretic peptide`,`Endothelin`]),
+M(`PH7`,`Physiology`,PCC,`During which phase does ventricular pressure exceed atrial pressure, closing the AV valves?`,`Isovolumetric contraction`,`The AV valves close at its start.`,[`Ventricular filling`,`Isovolumetric relaxation`,`Ventricular ejection`,`Passive atrial filling`]),
+M(`PH8`,`Physiology`,PCC,`During which phase are the semilunar valves open and blood ejected?`,`Ventricular ejection`,`Ventricular pressure exceeds arterial pressure.`,[`Isovolumetric relaxation`,`Atrial systole`,`Ventricular filling`,`Isovolumetric contraction`]),
+M(`PH9`,`Physiology`,PCM,`Which ion is primarily responsible for phase 0 in ventricular myocytes?`,`Sodium (Na⁺) influx`,`Fast Na⁺ channels open.`,[`Calcium (Ca²⁺) influx`,`Potassium (K⁺) efflux`,`Chloride (Cl⁻) influx`,`Magnesium (Mg²⁺) influx`]),
+M(`PH10`,`Physiology`,PCS,`Which arrhythmia has chaotic atrial electrical activity without effective atrial contraction?`,`Atrial fibrillation`,`Disorganized atrial activity replaces contraction.`,[`Ventricular tachycardia`,`Sinus bradycardia`,`First-degree AV block`,`Ventricular fibrillation`]),
+M(`PH11`,`Physiology`,PCC,`Which event generates the second heart sound?`,`Closure of the semilunar valves`,`Aortic and pulmonary valve closure.`,[`Closure of the atrioventricular valves`,`Passive ventricular filling`,`Atrial systole`,`Ejection of blood into the aorta`]),
+M(`PH12`,`Physiology`,PCC,`What occurs during ventricular systole?`,`Blood is ejected from the ventricles into the pulmonary artery and aorta`,`Systole is ejection.`,[`The atria contract, pushing blood into the ventricles`,`The semilunar valves close, preventing backflow`,`The AV valves open, filling the ventricles`,`The ventricles relax and fill with blood`]),
+M(`PH13`,`Physiology`,PCC,`Which phase has falling ventricular pressure with the ventricles relaxed and all valves closed?`,`Isovolumetric relaxation`,`All valves are closed as pressure falls.`,[`Ventricular diastole`,`Ventricular systole`,`Isovolumetric contraction`,`Atrial diastole`]),
+M(`PH14`,`Physiology`,PCO,`What does cardiac output represent?`,`Volume of blood ejected by each ventricle per minute`,`Cardiac output = heart rate × stroke volume.`,[`Pressure exerted by the heart on the vessels`,`Rate of blood flow through the capillaries`,`Amount of oxygen carried by the blood`,`Volume of blood returned to the heart per minute`]),
+M(`PH15`,`Physiology`,PCO,`Which condition would likely increase cardiac output?`,`Exercise`,`Exercise raises heart rate and stroke volume.`,[`Hypertension`,`Bleeding`,`Sleep`,`Hypothermia`]),
+M(`PH16`,`Physiology`,PCO,`Which leads to a decrease in heart rate?`,`Parasympathetic stimulation`,`Vagal stimulation slows the SA node.`,[`Exercise`,`Hyperthyroidism`,`Sympathetic stimulation`,`Exposure to hot weather`]),
+M(`PH17`,`Physiology`,PCO,`What causes an increase in venous return to the heart?`,`Inspiration`,`The thoracic pump aids venous return.`,[`Expiration`,`Standing from a sitting position`,`Bleeding`,`Venodilation`]),
+M(`PH18`,`Physiology`,PCO,`According to the Frank–Starling law, the force of contraction is directly proportional to:`,`Initial length of the muscle fiber`,`Greater stretch gives a stronger contraction.`,[`Systolic blood pressure`,`Diastolic blood pressure`,`Oxygen delivery to tissues`,`Heart rate`]),
+M(`PH19`,`Physiology`,PCC,`Which statement about the cardiac cycle is correct?`,`About 70% of ventricular filling occurs by passive flow from the atria`,`Most filling is passive; atrial systole adds the rest.`,[`Atrial systole is the major cause of ventricular filling`,`The maximum right ventricular pressure is 100 mmHg`,`The first heart sound results from opening of the semilunar valves`,`120 ml of blood remains in each ventricle after systole`],`Standard texts give about 70–80%; source answer kept.`),
+M(`PH20`,`Physiology`,PCO,`How does exercise typically affect cardiac output?`,`Increases it due to increased heart rate and stroke volume`,`Both rise in exercise.`,[`Decreases it due to increased heart rate and reduced oxygen demand`,`Increases it due to decreased heart rate and increased stroke volume`,`Decreases it due to increased stroke volume and blood pressure`,`Keeps it constant regardless of activity`]),
+M(`PH21`,`Physiology`,PCC,`Which phase of the cardiac cycle is entered when the semilunar valves close, preventing backflow into the ventricles?`,`Isovolumetric relaxation`,`Semilunar closure starts early diastole.`,[`Ventricular systole`,`Atrial systole`,`Isovolumetric contraction`,`Atrial relaxation`],`FLAG: source answer was isovolumetric contraction, but the semilunar valves close at the start of isovolumetric relaxation. I used the standard answer.`),
+M(`PH22`,`Physiology`,PCC,`During which phase do the atria contract, pushing blood into the ventricles?`,`Atrial systole`,`It tops up ventricular filling.`,[`Ventricular diastole`,`Atrial relaxation`,`Ventricular systole`,`Isovolumetric relaxation`]),
+M(`PH23`,`Physiology`,PCM,`In the cardiac action potential, which ion influx is primarily responsible for the plateau phase?`,`Calcium through L-type channels`,`Ca²⁺ influx sustains the plateau.`,[`Sodium`,`Potassium`,`Chloride`,`Magnesium`]),
+M(`PH24`,`Physiology`,PCM,`Which property of cardiac muscle prevents tetanus under normal conditions?`,`Long absolute refractory period`,`The plateau keeps the cell refractory.`,[`Short refractory period`,`Slow conduction through Purkinje fibers`,`High threshold potential`,`Rapid repolarization`]),
+M(`PH25`,`Physiology`,PCM,`During sympathetic stimulation, which mechanism mainly accounts for the positive inotropic effect?`,`Enhanced calcium influx and calcium-induced calcium release`,`More Ca²⁺ raises contractile force.`,[`Increased myosin ATPase activity only`,`Decreased T-tubule density`,`Prolonged refractory period`,`Reduced sarcoplasmic reticulum calcium content`]),
+M(`PH26`,`Physiology`,PCO,`What principle underlies the Frank–Starling mechanism?`,`Increased sarcomere length enhances force of contraction`,`Stretch increases force.`,[`Increased heart rate reduces contraction`,`Calcium influx decreases with stretch`,`ATP consumption is independent of sarcomere length`,`Stroke volume decreases with increased preload`]),
+M(`PH27`,`Physiology`,PCS,`A healthy 25-year-old’s ECG shows a P wave before each QRS, a constant PR interval and a normal QRS. What does this indicate?`,`Normal sinus rhythm`,`Regular P-QRS with normal intervals.`,[`First-degree AV block`,`Atrial fibrillation`,`Ventricular tachycardia`,`Junctional rhythm`]),
+M(`PH28`,`Physiology`,PCS,`Which ECG wave corresponds to ventricular repolarization?`,`T wave`,`The T wave is ventricular repolarization.`,[`P wave`,`QRS complex`,`PR segment`,`ST segment`]),
+M(`PH29`,`Physiology`,PCS,`A prolonged PR interval suggests slow conduction in which part of the conduction system?`,`Atrioventricular node`,`It is the slowest conducting tissue.`,[`Bundle of His`,`Purkinje fibers`,`Sinoatrial node`,`Ventricular myocardium`]),
+M(`PH30`,`Physiology`,PCS,`Palpitations with absent P waves and an irregularly irregular rhythm suggest:`,`Atrial fibrillation`,`Classic ECG of AF.`,[`Ventricular fibrillation`,`First-degree AV block`,`Normal sinus rhythm`,`Atrial flutter`]),
+M(`PH31`,`Physiology`,PCS,`Sudden chest pain with ST elevation in leads II, III and aVF most likely represents:`,`Acute inferior myocardial infarction`,`These leads face the inferior wall.`,[`Atrial fibrillation`,`Ventricular tachycardia`,`Left bundle branch block`,`Normal variant`]),
+M(`PH32`,`Physiology`,PCS,`An ECG shows a narrow QRS with a sawtooth pattern of P waves at 250–350/min. What is the rhythm?`,`Atrial flutter`,`Sawtooth flutter waves.`,[`Ventricular fibrillation`,`Sinus rhythm`,`Third-degree AV block`,`Supraventricular tachycardia`],`Source said “widened QRS”, but atrial flutter has a narrow QRS. I corrected it.`),
+M(`PH33`,`Physiology`,PCO,`During exercise, cardiac output rises. Which factor primarily contributes?`,`Increased heart rate and stroke volume`,`Both rise.`,[`Decreased heart rate`,`Decreased stroke volume`,`Vasoconstriction in skeletal muscle`,`Decreased venous return`]),
+M(`PH34`,`Physiology`,PCO,`Which change would decrease cardiac output?`,`Severe bradycardia`,`Output = rate × stroke volume.`,[`Increased venous return`,`Increased contractility`,`Sympathetic stimulation`,`Exercise`]),
+M(`PH35`,`Physiology`,PCO,`After sudden hemorrhage, which mechanism rapidly restores arterial pressure?`,`Baroreceptor reflex causing increased sympathetic activity`,`It acts within seconds.`,[`Activation of the renin–angiotensin–aldosterone system only`,`Increased atrial natriuretic peptide secretion`,`Delayed kidney-mediated fluid retention`,`Vasodilation of arterioles`]),
+M(`PH36`,`Physiology`,PCO,`Which organ primarily senses long-term blood pressure changes and regulates blood volume?`,`Kidneys`,`They control volume over days.`,[`Heart`,`Lungs`,`Adrenal medulla`,`Liver`]),
+M(`PH37`,`Physiology`,PCO,`Which hormone increases sodium and water reabsorption to maintain blood pressure?`,`Aldosterone`,`It acts on the collecting duct.`,[`Atrial natriuretic peptide`,`Brain natriuretic peptide`,`Renin`,`Epinephrine`]),
+M(`PH38`,`Physiology`,PCO,`Which organ receives the highest blood flow per gram at rest?`,`Kidney`,`High flow supports filtration.`,[`Liver`,`Heart`,`Brain`,`Skeletal muscle`]),
+M(`PH39`,`Physiology`,PCO,`During exercise, blood flow shifts from the GI tract to skeletal muscle. What mainly causes this?`,`Sympathetic-mediated vasoconstriction in the splanchnic circulation`,`The gut vessels constrict.`,[`Parasympathetic vasodilation in muscles`,`Increased oxygen extraction in the gut`,`Activation of local nitric oxide only`,`Passive diffusion`]),
+/*E3*/
+];
+const HY=new Set([25,22,39,46,18,45,`M24`,`M26`,`M37`,`M41`,`M46`,`M48`,`M38`,`M39`,`M42`,`M10`,`P5`,`P7`,`P12`,`P13`,`P16`,`P18`,`P24`,`P27`,`P33`,`P36`,`P39`,`P40`,`P53`,`P56`,`P59`,`P63`,`P64`,`P66`,`P75`,`P78`,`P83`,`M43`,`EM2`,`EM3`,`EM4`,`EM5`,`EM6`,`EM7`,`EM8`,`EM12`,`EM13`,`EM14`,`B2`,`B4`,`B11`,`B13`,`B15`,`B22`,`B26`,`B29`,`B32`]);
+const $=s=>document.querySelector(s);
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+const qs=$("#qs"),sc=$("#sc"),ans=new Array(QS.length).fill(null);
+QS.forEach((q,i)=>{
+ const a=el("article","q");a.id="q"+q.n;
+ const h=el("div","qh");h.append(el("span","qn",typeof q.n==="number"?"Q"+q.n:q.n),el("span","chip",q.s),el("span","chip",q.l),...(HY.has(q.n)?[el("span","chip hy","HIGH YIELD")]:[]));
+ a.append(h,el("p","stem",q.q));
+ if(q.img){const m=el("img","qi");m.src=q.img;m.alt=q.alt;a.append(m)}
+ q.o.forEach((o,k)=>{
+  const b=el("button","opt");b.type="button";
+  const r=el("span","row");r.append(el("span","L","ABCDE"[k]),el("span","t",o[0]),el("span","mk"));
+  b.append(r,el("span","ex",o[1]));b.onclick=()=>pick(i,k);a.append(b)});
+ if(q.note)a.append(el("div","note","⚑ "+q.note));
+ qs.append(a)});
+function pick(i,k){
+ if(ans[i]!==null)return;ans[i]=k;
+ const a=qs.children[i],q=QS[i],bs=a.querySelectorAll(".opt");
+ a.classList.add("done");
+ bs[q.a].classList.add("ok");bs[q.a].querySelector(".mk").textContent=k===q.a?"✓ Correct":"✓ Correct answer";
+ if(k!==q.a){bs[k].classList.add("bad");bs[k].querySelector(".mk").textContent="✗ Your pick"}
+ jump=true;update()}
+function update(){
+ const vis=visIdx(),d=vis.filter(i=>ans[i]!==null).length,n=vis.length;
+ $("#cnt").textContent=d+" / "+n+" answered";$("#pg").style.width=(n?d/n*100:0)+"%";
+ if(n&&d===n)score();else sc.hidden=true}
+function rows(title,m){
+ const w=el("div","bk");w.append(el("h3",null,title));
+ Object.entries(m).sort((a,b)=>a[1].r/a[1].t-b[1].r/b[1].t||b[1].t-a[1].t).forEach(([k,v])=>{
+  const p=Math.round(v.r/v.t*100),row=el("div","br"),top=el("div","bt");
+  top.append(el("span",null,k),el("span","mu",v.r+" / "+v.t));
+  const bar=el("div","bb"),g=el("i","g"),rd=el("i","rd");g.style.width=p+"%";rd.style.width=(100-p)+"%";bar.append(g,rd);
+  row.append(top,bar,el("div","mu",p+"% right · "+(100-p)+"% wrong"));w.append(row)});
+ return w}
+function score(){
+ const vis=visIdx(),n=vis.length,S={},Lc={};let r=0;
+ vis.forEach(i=>{const q=QS[i],ok=ans[i]===q.a;if(ok)r++;[[S,q.s],[Lc,q.l]].forEach(([m,k])=>{m[k]=m[k]||{r:0,t:0};m[k].t++;if(ok)m[k].r++})});
+ const p=Math.round(r/n*100);
+ const v=p>=90?"Excellent. You are exam-ready on this set.":p>=75?"Solid. Patch the weak spots below.":p>=60?"Borderline. Review the weakest lectures first.":"Needs work. Revisit the lectures below before the exam.";
+ const c=el("div","card");
+ c.append(el("div","big",r+" / "+n+" · "+p+"%"),el("p","vd",v),rows("By subject (weakest first)",S),rows("By lecture (weakest first)",Lc));
+ sc.replaceChildren(c);sc.hidden=false;if(jump){sc.scrollIntoView({behavior:"smooth"});jump=false}}
+$("#rs").onclick=()=>{
+ visIdx().forEach(i=>{ans[i]=null;const a=qs.children[i];a.classList.remove("done");a.querySelectorAll(".opt").forEach(b=>{b.classList.remove("ok","bad");b.querySelector(".mk").textContent=""})});
+
+ sc.hidden=true;update();scrollTo({top:0,behavior:"smooth"})};
+let jump=false;const flt=$("#flt"),sel={s:new Set(),l:new Set()};
+const show=q=>(!sel.s.size||sel.s.has(q.s))&&(!sel.l.size||sel.l.has(q.l));
+function visIdx(){return QS.map((q,i)=>i).filter(i=>show(QS[i]))}
+function chip(t,on,fn){const b=el("button","fchip"+(on?" on":""),t);b.type="button";b.setAttribute("aria-pressed",on);b.onclick=fn;return b}
+function applyF(){qs.querySelectorAll(".q").forEach((a,i)=>{a.hidden=!show(QS[i])});$("#sub").textContent="Showing "+visIdx().length+" of "+QS.length+" questions";update()}
+function drawF(){
+ flt.replaceChildren();
+ const cnt=(k,v)=>QS.filter(q=>q[k]===v).length,bar=el("div","fr");
+ [...new Set(QS.map(q=>q.s))].forEach(s=>bar.append(chip(s+" ("+cnt("s",s)+")",sel.s.has(s),()=>{if(sel.s.has(s)){sel.s.delete(s);QS.forEach(q=>{if(q.s===s)sel.l.delete(q.l)})}else sel.s.add(s);drawF();applyF()})));
+ bar.append(chip("Show all",!sel.s.size&&!sel.l.size,()=>{sel.s.clear();sel.l.clear();drawF();applyF()}));
+ flt.append(el("div","fh","Choose topics (one or several)"),bar);
+ if(sel.s.size){const lb=el("div","fr");[...new Set(QS.filter(q=>sel.s.has(q.s)).map(q=>q.l))].forEach(l=>lb.append(chip(l+" ("+cnt("l",l)+")",sel.l.has(l),()=>{sel.l.has(l)?sel.l.delete(l):sel.l.add(l);drawF();applyF()})));flt.append(el("div","fh","Lectures (optional)"),lb)}}
+drawF();applyF();
+</script></body></html>
