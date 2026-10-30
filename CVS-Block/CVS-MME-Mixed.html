@@ -222,12 +222,12 @@ Q(`M44`,`Embryology`,E2,`A patient with tetralogy of Fallot is cyanotic. What is
 [`Pulmonary edema from left heart failure`,`No: this is not part of tetralogy.`],
 [`Low hemoglobin`,`No: cyanosis needs deoxygenated hemoglobin; anemia does not cause it.`],
 [`Impaired diffusion across the alveolar membrane`,`No: lung diffusion is normal in tetralogy.`]],1,`Source had no options; I wrote five.`),
-Q(`M45`,`Embryology`,E2,`A chest X-ray shows a boot-shaped heart. What causes the abnormal shape?`,[
-[`Left ventricular hypertrophy`,`No: it enlarges the left border but does not give a boot shape.`],
-[`Dilated pulmonary trunk`,`No: in the boot-shaped heart the pulmonary segment is concave because the trunk is small.`],
-[`Right ventricular hypertrophy`,`Yes: it lifts the cardiac apex upward, producing the boot (coeur en sabot) shape seen in tetralogy of Fallot.`],
-[`Left atrial enlargement`,`No: it straightens the left border, as in mitral stenosis.`],
-[`Right atrial enlargement`,`No: it enlarges the right heart border.`]],2,`Source had no options; I wrote five.`),
+Q(`M45`,`Embryology`,E2,`A child with tetralogy of Fallot develops right ventricular hypertrophy. What is the underlying cause?`,[
+[`Left-to-right shunt through the VSD`,`No: the shunt in tetralogy is right-to-left and does not cause RV pressure overload.`],
+[`Right ventricular outflow tract obstruction`,`Yes: pulmonary infundibular stenosis raises RV pressure, causing compensatory hypertrophy.`],
+[`Aortic valve regurgitation`,`No: this is not part of tetralogy.`],
+[`Left atrial enlargement`,`No: this is unrelated to RV hypertrophy.`],
+[`Increased pulmonary blood flow`,`No: pulmonary flow is reduced in tetralogy.`]],1,`Rewritten to match the lecture: RVOTO causes RV hypertrophy; the radiographic "boot-shaped heart" is not taught.`),
 Q(`M46`,`Anatomy`,VES,`Which of the following is a branch of the third part of the subclavian artery?`,[
 [`Thyrocervical trunk`,`No: it arises from the first part.`],
 [`Costocervical trunk`,`No: it arises from the second part on the right and the first part on the left.`],
@@ -870,12 +870,12 @@ Q(`EM11`,`Embryology`,E2,`A 2-year-old has a systolic murmur and “blue spells�
 [`Patent ductus arteriosus (PDA)`,`No: continuous murmur.`],
 [`Pulmonary stenosis (PS)`,`Yes: a narrowed pulmonary valve is pulmonary stenosis.`],
 [`Coarctation of the aorta`,`No: aortic narrowing.`]],3,`Source had no answer marked. Blue spells are more typical of tetralogy of Fallot, but only pulmonary stenosis is offered.`),
-Q(`EM12`,`Embryology`,E2,`Which congenital anomaly can cause notching of the ribs?`,[
-[`Atrial septal defect`,`No: no rib changes.`],
-[`Ventricular septal defect`,`No: no rib changes.`],
-[`Patent ductus arteriosus`,`No: no rib changes.`],
-[`Pulmonary stenosis`,`No: no rib changes.`],
-[`Coarctation of the aorta`,`Yes: dilated intercostal collaterals erode the lower rib margins.`]],4,`Source had no answer marked; I used the standard answer. Repeats EM13, so HIGH YIELD.`),
+Q(`EM12`,`Embryology`,E2,`In coarctation of the aorta, which vessels enlarge to provide collateral blood flow around the narrowing?`,[
+[`Coronary arteries`,`No: they supply the myocardium, not aortic collaterals.`],
+[`Intercostal and internal thoracic arteries`,`Yes: the lecture notes collateral flow via intercostal and scapular vessels.`],
+[`Pulmonary veins`,`No: they carry oxygenated blood to the left atrium.`],
+[`Hepatic veins`,`No: they drain the liver into the IVC.`],
+[`Renal arteries`,`No: they supply the kidneys.`]],1,`Rewritten to match the lecture (coarctation + collateral intercostal/scapular flow); "rib notching" is not taught.`),
 Q(`EM13`,`Embryology`,E2,`A 10-year-old has leg pain on exercise, upper-limb hypertension and weak lower-limb pulses. Imaging shows narrowing of the aortic arch beyond the left subclavian artery. What is the anomaly?`,[
 [`Atrial septal defect`,`No: does not cause this picture.`],
 [`Coarctation of the aorta`,`Yes: postductal coarctation causes upper-limb hypertension and weak femoral pulses.`],
@@ -1216,13 +1216,11 @@ M(`D20`,`Anatomy`,PER,`The best initial imaging modality for evaluating cardiac 
 M(`D21`,`Anatomy`,PER,`The gold standard imaging modality for coronary artery anatomy is:`,`Coronary angiography`,`It directly shows coronary stenoses.`,[`Ultrasonography`,`Cardiac MRI`,`Chest X-ray`,`Echocardiography`]),
 M(`D22`,`Anatomy`,PER,`A 55-year-old hypertensive man has an enlarged left ventricular silhouette on chest X-ray. Which condition is most likely?`,`Left ventricular hypertrophy`,`Chronic hypertension thickens the left ventricle.`,[`Mitral regurgitation`,`Pulmonary hypertension`,`Aortic stenosis`,`Tricuspid regurgitation`]),
 M(`D23`,`Anatomy`,PER,`An ice-bag (globular) heart on chest X-ray is seen in which complication?`,`Pericardial effusion`,`Fluid expands the pericardial sac symmetrically.`,[`Pleural effusion`,`Consolidation of the lung`,`Dextrocardia`,`Situs inversus`],`Source had no answer marked; I used the standard answer.`),
-M(`D24`,`Embryology`,E2,`A 5-day-old newborn has cyanosis and a narrow mediastinum with an egg-shaped cardiac silhouette on chest X-ray. What is the most likely diagnosis?`,`Transposition of the Great Arteries`,`Egg-on-a-string heart is classic for TGA.`,[`Tetralogy of Fallot`,`Ventricular Septal Defect`,`Coarctation of the Aorta`,`Patent Ductus Arteriosus`],`Source had no answer marked; I used the standard answer.`),
-M(`D25`,`Embryology`,E2,`A newborn with a vascular ring and a double aortic arch has abnormal persistence of which structure?`,`Fourth aortic arch`,`The right dorsal aorta and fourth arch persist.`,[`First aortic arch`,`Second aortic arch`,`Third aortic arch`,`Sixth aortic arch`]),
+M(`D24`,`Embryology`,E2,`A newborn has transposition of the great arteries. Why does survival after birth depend on a shunt?`,`Because the pulmonary and systemic circuits are isolated, so blood must mix through a PDA or PFO`,`Yes: without mixing, oxygenated blood cannot reach the systemic circulation.`,[`Because the aorta arises from the left ventricle`,`Because the pulmonary valve is stenosed`,`Because the tricuspid valve is displaced`,`Because the aortic arch is narrowed`],`Rewritten to match the lecture (TGA requires mixing via PDA/PFO); "egg-on-a-string" is not taught.`),
 M(`D26`,`Embryology`,E2,`A 2-week-old infant has a harsh systolic murmur and echocardiography shows a VSD. Failure of which structure is most likely responsible?`,`Endocardial cushions`,`Cushion tissue helps close the membranous septum.`,[`Bulbus cordis`,`Sinus venosus`,`Primitive atrium`,`Truncus arteriosus`],`Source stem said “cyanosis”, but a VSD is acyanotic. I removed it.`),
 M(`D27`,`Embryology`,E2,`Which cell population is primarily responsible for forming the aorticopulmonary septum?`,`Neural crest cells`,`They form the truncal and bulbar ridges.`,[`Endoderm`,`Somites`,`Splanchnic mesoderm`,`Intermediate mesoderm`]),
 M(`D28`,`Embryology`,E2,`A newborn has persistent truncus arteriosus. Failure of which process caused it?`,`Division of the truncus arteriosus by the aorticopulmonary septum`,`The truncus fails to divide into aorta and pulmonary trunk.`,[`Formation of the endocardial cushions`,`Fusion of the atrial septum`,`Regression of the left sinus horn`,`Formation of the interventricular septum`]),
 M(`D29`,`Embryology`,E2,`What is the normal fate of the ductus arteriosus after birth?`,`Becomes the ligamentum arteriosum`,`It closes and becomes a fibrous cord.`,[`Becomes the ligamentum venosum`,`Becomes the round ligament of the liver`,`Becomes the fossa ovalis`,`Becomes the median umbilical ligament`]),
-M(`D30`,`Embryology`,E1,`A 6-month-old has an interrupted IVC on imaging. This is due to abnormal development of which embryonic vein system?`,`Cardinal vein system`,`The IVC forms partly from the subcardinal and supracardinal veins.`,[`Vitelline vein`,`Umbilical vein`,`Hepatic vein`,`Ductus venosus`],`Source also offered “subcardinal vein”, part of the cardinal system, so I replaced it.`),
 M(`D31`,`Embryology`,E2,`A neonate with transposition of the great arteries needs prostaglandin E1. Which structure is it used to keep open to allow mixing?`,`Ductus arteriosus`,`PGE1 keeps the ductus open for survival.`,[`Foramen ovale`,`Umbilical vein`,`Sinus venosus`,`Ductus venosus`],`Source asked which adaptation is critical, but the foramen ovale also allows mixing. I reworded so only the ductus fits.`),
 M(`D32`,`Embryology`,E2,`A surgeon plans a truncus arteriosus repair. Which embryological event explains the defect?`,`Incomplete neural crest cell migration`,`Neural crest cells form the outflow septum.`,[`Failure of endocardial cushion fusion`,`Abnormal regression of the left sinus horn`,`Persistence of the vitelline vein`,`Failure of atrial septum formation`]),
 M(`D33`,`Anatomy`,VES,`Which artery arises posterior to the manubrium, anterior to the trachea, and divides at the right sternoclavicular joint?`,`Brachiocephalic artery`,`It divides into the right common carotid and subclavian arteries.`,[`Left common carotid artery`,`Left subclavian artery`,`Ascending aorta`,`Thyroid ima artery`]),
@@ -1240,11 +1238,6 @@ M(`MD2`,`Microbiology`,MIC,`Gut dysbiosis can contribute to cardiovascular disea
 M(`MD3`,`Microbiology`,IE,`Which bacterium is often linked with infective endocarditis?`,`Streptococcus viridans`,`Viridans streptococci are a leading cause.`,[`Escherichia coli`,`Mycobacterium tuberculosis`,`Clostridium difficile`,`Vibrio cholerae`],`Source option “S. epidermidis” also causes endocarditis, so I replaced it.`),
 M(`MD4`,`Microbiology`,MIC,`Which mechanism best explains how gut dysbiosis contributes to atherosclerosis?`,`Production of TMAO, promoting cholesterol accumulation and arterial inflammation`,`TMAO drives foam cell formation.`,[`Direct invasion of arterial walls by gut bacteria`,`Increased bile acids that reduce LDL cholesterol`,`Gut bacteria produce antibiotics that reduce vascular inflammation`,`Increased vitamin K causing thrombosis`]),
 M(`MD5`,`Microbiology`,MIC,`Regarding the oral microbiome and cardiovascular disease, which is true?`,`Periodontal pathogens like Porphyromonas gingivalis can induce systemic inflammation contributing to atherosclerosis`,`Oral pathogens add to systemic inflammation.`,[`Oral microbiome changes do not influence heart disease risk`,`Oral bacteria only cause local dental infections`,`Vaccination against oral bacteria prevents cardiovascular disease`,`The oral microbiome is unrelated to immune modulation`]),
-M(`MD6`,`Microbiology`,RHD,`Which bacterium primarily triggers rheumatic heart disease?`,`Streptococcus pyogenes (Group A Streptococcus)`,`GAS pharyngitis precedes rheumatic fever.`,[`Staphylococcus aureus`,`Streptococcus pneumoniae`,`Neisseria meningitidis`,`Mycobacterium tuberculosis`]),
-M(`MD7`,`Microbiology`,RHD,`Rheumatic heart disease is a complication of:`,`Untreated streptococcal pharyngitis`,`It follows untreated GAS throat infection.`,[`Viral myocarditis`,`Tuberculous pericarditis`,`Infective endocarditis`,`Viral endocarditis`]),
-M(`MD8`,`Microbiology`,RHD,`What is the main immunological mechanism in rheumatic heart disease?`,`Autoimmune cross-reactivity between streptococcal antigens and heart tissue`,`Molecular mimicry with M protein.`,[`Direct bacterial invasion of heart valves`,`Immune complex deposition in coronary arteries`,`Viral cytopathic effects on myocardium`,`Hypersensitivity to fungal antigens`]),
-M(`MD9`,`Microbiology`,RHD,`Which finding is most characteristic of rheumatic fever?`,`Aschoff bodies in cardiac tissue, indicating immune-mediated damage`,`Aschoff bodies are the hallmark.`,[`Direct colonization of heart valves by Group A Streptococcus`,`Positive blood cultures in the chronic phase`,`Viral particles in myocardium`,`Caseating granulomas in cardiac tissue`]),
-M(`MD10`,`Microbiology`,RHD,`Which statement about preventing and diagnosing rheumatic heart disease is correct?`,`Early antibiotic treatment of streptococcal pharyngitis reduces the risk of rheumatic fever and RHD`,`Primary prevention treats the throat infection.`,[`RHD can be diagnosed by blood culture in latent phases`,`A GAS vaccine is widely used routinely`,`Rheumatic fever has no immunological basis`,`Echocardiography cannot detect RHD valve damage`]),
 M(`MD11`,`Microbiology`,IE,`Which bacterium is the most common cause of infective endocarditis?`,`Staphylococcus aureus`,`S. aureus is the leading cause overall.`,[`Streptococcus viridans`,`Enterococcus faecalis`,`Pseudomonas aeruginosa`,`Haemophilus influenzae`]),
 M(`MD12`,`Microbiology`,IE,`The main pathological feature of infective endocarditis is:`,`Vegetations on heart valves composed of bacteria and fibrin`,`Vegetations are the lesion.`,[`Myocardial necrosis`,`Pericardial effusion`,`Coronary artery thrombosis`,`Myocarditis`]),
 M(`MD13`,`Microbiology`,IE,`What is the usual route of infection in infective endocarditis?`,`Hematogenous spread of bacteria to the heart valves`,`Bacteremia seeds damaged valves.`,[`Direct invasion from lung infection`,`Lymphatic spread from skin infections`,`Congenital heart defects alone cause infection`,`Autoimmune response`]),
@@ -1336,7 +1329,7 @@ M(`PH38`,`Physiology`,PCO,`Which organ receives the highest blood flow per gram 
 M(`PH39`,`Physiology`,PCO,`During exercise, blood flow shifts from the GI tract to skeletal muscle. What mainly causes this?`,`Sympathetic-mediated vasoconstriction in the splanchnic circulation`,`The gut vessels constrict.`,[`Parasympathetic vasodilation in muscles`,`Increased oxygen extraction in the gut`,`Activation of local nitric oxide only`,`Passive diffusion`]),
 /*E3*/
 ];
-const HY=new Set([25,22,39,46,18,45,`M24`,`M26`,`M37`,`M41`,`M46`,`M48`,`M38`,`M39`,`M42`,`M10`,`P5`,`P7`,`P12`,`P13`,`P16`,`P18`,`P24`,`P27`,`P33`,`P36`,`P39`,`P40`,`P53`,`P56`,`P59`,`P63`,`P64`,`P66`,`P75`,`P78`,`P83`,`M43`,`EM2`,`EM3`,`EM4`,`EM5`,`EM6`,`EM7`,`EM8`,`EM12`,`EM13`,`EM14`,`B2`,`B4`,`B11`,`B13`,`B15`,`B22`,`B26`,`B29`,`B32`]);
+const HY=new Set([25,22,39,46,18,45,`M9`,`M10`,`M12`,`M22`,`M24`,`M26`,`M29`,`M37`,`M38`,`M39`,`M41`,`M42`,`M43`,`M46`,`M48`,`P5`,`P7`,`P12`,`P13`,`P16`,`P18`,`P21`,`P24`,`P27`,`P32`,`P33`,`P36`,`P39`,`P40`,`P53`,`P56`,`P59`,`P63`,`P64`,`P66`,`P75`,`P77`,`P78`,`P83`,`P8`,`P62`,`P70`,`EM2`,`EM3`,`EM4`,`EM5`,`EM6`,`EM7`,`EM8`,`EM12`,`EM13`,`EM14`,`B2`,`B11`,`B13`,`B15`,`B22`,`B26`,`B29`,`B32`,`MD11`]);
 const $=s=>document.querySelector(s);
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 const qs=$("#qs"),sc=$("#sc"),ans=new Array(QS.length).fill(null);
@@ -1396,4 +1389,3 @@ function drawF(){
  if(sel.s.size){const lb=el("div","fr");[...new Set(QS.filter(q=>sel.s.has(q.s)).map(q=>q.l))].forEach(l=>lb.append(chip(l+" ("+cnt("l",l)+")",sel.l.has(l),()=>{sel.l.has(l)?sel.l.delete(l):sel.l.add(l);drawF();applyF()})));flt.append(el("div","fh","Lectures (optional)"),lb)}}
 drawF();applyF();
 </script></body></html>
-
