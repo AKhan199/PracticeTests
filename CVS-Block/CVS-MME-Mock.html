@@ -395,7 +395,7 @@ Q(50,"Anatomy",PER,"During heart surgery the anterior surface is exposed. Which 
 ["Left atrium and oblique sinus","No: the left atrium forms the base (posterior surface)."]],2,
 "Source had no options; I wrote five.")
 ];
-const HY=new Set([25,22,39,46,18,45,`M24`,`M26`,`M37`,`M41`,`M46`,`M48`]);
+const HY=new Set([1,5,6,8,10,12,13,18,21,22,25,28,37,39,45,46,`M24`,`M26`,`M37`,`M41`,`M46`,`M48`]);
 const $=s=>document.querySelector(s);
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 const qs=$("#qs"),sc=$("#sc"),ans=new Array(QS.length).fill(null);
@@ -455,3 +455,4 @@ function drawF(){
  if(sel.s.size){const lb=el("div","fr");[...new Set(QS.filter(q=>sel.s.has(q.s)).map(q=>q.l))].forEach(l=>lb.append(chip(l+" ("+cnt("l",l)+")",sel.l.has(l),()=>{sel.l.has(l)?sel.l.delete(l):sel.l.add(l);drawF();applyF()})));flt.append(el("div","fh","Lectures (optional)"),lb)}}
 drawF();applyF();
 </script></body></html>
+
