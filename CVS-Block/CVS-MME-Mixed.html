@@ -50,7 +50,7 @@ main,#sc{max-width:720px;margin:0 auto;padding:16px}
 .fchip{font:inherit;font-size:13px;padding:5px 11px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}.fchip.on{background:var(--acc);border-color:var(--acc);color:var(--card)}
 .chip.hy{border-color:var(--bad);color:var(--bad);font-weight:700}.q[hidden]{display:none}
 </style></head><body>
-<header><div class="bar"><div class="ttl"><b>CVS Mixed Question Bank MME · (Bichem has topics outside syllabus)</b><span id="sub"></span></div><div class="ctl"><span id="cnt" aria-live="polite"></span><button id="rs" type="button">Reset</button></div></div><div class="trk"><i id="pg"></i></div></header>
+<header><div class="bar"><div class="ttl"><b>CVS Mixed Question Bank MME </b><span id="sub"></span></div><div class="ctl"><span id="cnt" aria-live="polite"></span><button id="rs" type="button">Reset</button></div></div><div class="trk"><i id="pg"></i></div></header>
 <section id="flt" class="flt"></section><main id="qs"></main><section id="sc" hidden></section>
 <script>
 const Q=(n,s,l,q,o,a,note,img,alt)=>({n,s,l,q,o,a,note,img,alt});
@@ -118,18 +118,8 @@ Q(`M18`,`Physiology`,PCO,`A patient with heart failure has reduced myocardial co
 [`Cardiac output`,`No: it falls, or is maintained only by compensation.`],
 [`End-systolic volume`,`Yes: weaker contraction leaves more blood in the ventricle after ejection.`],
 [`Maximum rate of pressure rise (dP/dt)`,`No: dP/dt reflects contractility and falls.`]],3,`Source had no options; I wrote five.`),
-Q(`M19`,`Physiology`,PCS,`Which statement about the ECG is correct?`,[
-[`The QRS complex represents ventricular repolarization`,`No: the QRS is ventricular depolarization.`],
-[`The T wave represents ventricular depolarization`,`No: the T wave is ventricular repolarization.`],
-[`The PR interval represents ventricular depolarization`,`No: the PR interval is atrial depolarization plus the AV nodal delay.`],
-[`The PR interval is shortened in first-degree heart block`,`No: it is prolonged.`],
-[`The P wave is absent in atrial fibrillation`,`Yes: disorganized atrial activity replaces P waves with fibrillatory waves.`]],4,`Source had no options; I wrote five.`),
-Q(`M20`,`Physiology`,PCS,`An ECG shows a PR interval of 0.24 seconds. What does this describe?`,[
-[`Mobitz type I (Wenckebach) block`,`No: the PR interval lengthens progressively until a beat is dropped.`],
-[`Mobitz type II block`,`No: beats are dropped with a constant PR interval.`],
-[`First-degree heart block`,`Yes: a PR interval above 0.20 s with every P wave conducted.`],
-[`Third-degree heart block`,`No: this is complete AV dissociation.`],
-[`Sinus bradycardia`,`No: it is defined by rate, not PR interval.`]],2,`Source had no options; I wrote five.`),
+
+
 Q(`M21`,`Physiology`,PCS,`What is the function of the AV nodal delay?`,[
 [`Simultaneous atrial and ventricular contraction`,`No: the delay separates the two contractions.`],
 [`Increased ventricular contractility`,`No: the delay does not change contractility.`],
@@ -916,30 +906,15 @@ Q(`B2`,`Biochemistry`,ENR,`A child has vomiting, lethargy and hypoglycemia after
 [`Carnitine palmitoyltransferase I`,`No: free carnitine would be high with low acylcarnitines.`],
 [`Glucose-6-phosphatase`,`No: ketogenesis is intact.`],
 [`Ornithine transcarbamylase`,`No: a urea cycle defect.`]],1,`Source had 4 options; I added a fifth. Repeats B4, so HIGH YIELD.`),
-Q(`B3`,`Biochemistry`,ENR,`A 4-year-old with MCAD deficiency has hypoglycemia, hyperammonemia and elevated medium-chain fatty acids. Why does hyperammonemia occur?`,[
-[`Toxic fatty acid metabolites impair the urea cycle in the liver`,`Yes: they damage hepatocytes and the mitochondrial urea cycle.`],
-[`Increased ammonia production by intestinal bacteria`,`No: not the cause.`],
-[`Enhanced conversion of ammonia to urea`,`No: that would lower ammonia.`],
-[`Excess glucose production overwhelms the urea cycle`,`No: the patient is hypoglycemic.`],
-[`Decreased ketone production causes ammonia build-up`,`No: not the mechanism.`]],0),
-Q(`B4`,`Biochemistry`,ENR,`Which metabolic finding is expected in MCAD deficiency?`,[
-[`Hyperketonemia`,`No: ketone production is low.`],
-[`Hypoglycemia with hypoketosis`,`Yes: fatty acids cannot be oxidized to make ketones.`],
-[`Lactic acidosis with hyperketonemia`,`No: wrong pattern.`],
-[`Hyperglycemia with hyperketosis`,`No: wrong pattern.`],
-[`Hypoglycemia with hyperketosis`,`No: ketones are low.`]],1,`Source had 4 options; I added a fifth. Repeats B2, so HIGH YIELD.`),
+
+
 Q(`B5`,`Biochemistry`,ENR,`Carnitine palmitoyltransferase I (CPT-I) deficiency primarily affects:`,[
 [`Transport of fatty acids into mitochondria`,`Yes: CPT-I starts the carnitine shuttle for long-chain fatty acids.`],
 [`Activation of fatty acids in the cytoplasm`,`No: this is acyl-CoA synthetase.`],
 [`Degradation of fatty acids in peroxisomes`,`No: not CPT-I.`],
 [`Oxidation of fatty acids in mitochondria`,`No: CPT-I acts before oxidation.`],
 [`Utilization of ketone bodies`,`No: not affected.`]],0,`Source had 4 options; I added a fifth.`),
-Q(`B6`,`Biochemistry`,ENR,`Which clinical sign is least likely in long-chain fatty acid oxidation defects?`,[
-[`Cardiomyopathy`,`No: the heart relies on fatty acid oxidation.`],
-[`Hypoketotic hypoglycemia`,`No: a typical finding.`],
-[`Hepatomegaly`,`No: a typical finding.`],
-[`Polyuria`,`Yes: it is not part of the picture; it points to diabetes mellitus or insipidus.`],
-[`Muscle weakness`,`No: a typical finding.`]],3,`Source had 4 options; I added a fifth.`),
+
 Q(`B7`,`Biochemistry`,ENR,`What is the common diagnostic finding in MCAD deficiency?`,[
 [`Elevated blood glucose and lactate`,`No: hypoglycemia is typical.`],
 [`Increased urine dicarboxylic acids and medium-chain acylcarnitines`,`Yes: accumulating fatty acids undergo ω-oxidation.`],
@@ -1042,12 +1017,7 @@ Q(`B23`,`Biochemistry`,ENR,`In heart failure, ketone bodies become a critical en
 [`Replace fatty acids to prevent lipotoxicity`,`No: not the reason.`],
 [`Bypass the Krebs cycle`,`No: they enter it as acetyl-CoA.`],
 [`Inhibit glycolysis, sparing glucose`,`No: not the reason.`]],0),
-Q(`B24`,`Biochemistry`,ENR,`Why does stress increase ketone body production in a patient with heart failure?`,[
-[`β-adrenergic stimulation activates hormone-sensitive lipase, releasing fatty acids`,`Yes: more fatty acids go to the liver for ketogenesis.`],
-[`Stress promotes glycolysis, causing acetyl-CoA accumulation`,`No: it is driven by fatty acid supply.`],
-[`β-adrenergic stimulation inhibits fatty acid oxidation`,`No: it increases it.`],
-[`Insulin activation stimulates ketone synthesis`,`No: insulin suppresses ketogenesis.`],
-[`Stress reduces oxygen consumption in skeletal muscle`,`No: not the mechanism.`]],0),
+
 Q(`B25`,`Biochemistry`,ENR,`Under which condition does the heart increase its use of lactic acid as a fuel?`,[
 [`Resting state`,`No: fatty acids dominate.`],
 [`Intense exercise`,`Yes: muscle lactate is oxidized by the heart.`],
@@ -1066,12 +1036,7 @@ Q(`B27`,`Biochemistry`,ENR,`A triathlete completes a strenuous race and the hear
 [`Increasing reliance on ketone bodies`,`No: not the key fuel here.`],
 [`Consuming stored cardiac glycogen`,`No: stores are small.`],
 [`Reducing oxygen demand`,`No: demand rises.`]],0),
-Q(`B28`,`Biochemistry`,ENR,`Why does myocardial glucose use increase after dobutamine in heart failure?`,[
-[`Inotropic agents stimulate GLUT4 translocation via β-adrenergic receptors`,`Yes: raised cAMP signaling and workload increase glucose uptake.`],
-[`They inhibit fatty acid oxidation`,`No: not the mechanism.`],
-[`They reduce oxygen availability`,`No: they raise demand.`],
-[`They activate insulin secretion`,`No: not the mechanism.`],
-[`They trigger gluconeogenesis for the heart`,`No: the heart does not rely on this.`]],0,`Source answer kept.`),
+
 Q(`B29`,`Biochemistry`,ENR,`In chronic ischemic heart disease with hypoxia, which metabolic process becomes predominant in the heart?`,[
 [`Fatty acid oxidation`,`No: needs oxygen.`],
 [`Glycogenolysis`,`No: not the main process.`],
@@ -1287,11 +1252,11 @@ M(`MD14`,`Microbiology`,IE,`Which is true about the microbiological diagnosis of
 M(`MD15`,`Microbiology`,IE,`Which statement about the causes and clinical features of infective endocarditis is correct?`,`Staphylococcus aureus commonly causes acute endocarditis with rapid progression`,`S. aureus gives acute, destructive disease.`,[`Streptococcus viridans causes infection only in prosthetic valves`,`Enterococcus faecalis is an uncommon cause`,`Fungal endocarditis is the most common type`,`Infective endocarditis does not involve systemic embolization`]),
 M(`RV1`,`Biochemistry`,CHO,`All of the following are true about cholesterol EXCEPT:`,`Normal plasma cholesterol is 400–500 mg%`,`Normal total plasma cholesterol is about 150–200 mg%.`,[`It is a sterol and an essential component of cell membranes`,`It is present only in foods of animal origin`,`It is transported in blood as part of lipoproteins`,`Acetyl-CoA is the primary substrate for its synthesis`]),
 M(`RV2`,`Biochemistry`,CHO,`Which is the rate-limiting enzyme of cholesterol synthesis, competitively inhibited by statins?`,`HMG-CoA reductase`,`Statins block this step.`,[`HMG-CoA synthase`,`HMG-CoA lyase`,`Squalene synthase`,`Mevalonate kinase`]),
-M(`RV3`,`Biochemistry`,CHO,`After weeks of high-dose statin, hepatic cholesterol is low. What cellular response occurs?`,`SREBP is cleaved and raises transcription of the HMG-CoA reductase and LDL receptor genes`,`SCAP–SREBP moves to the Golgi, so more LDL is taken up.`,[`SCAP–SREBP stays in the ER and represses the LDL receptor`,`INSIG binds SREBP and blocks its release`,`LDL receptor expression falls`,`Bile acid synthesis rises sharply`]),
+
 M(`RV4`,`Biochemistry`,CHO,`Which pair inhibits HMG-CoA reductase?`,`Glucagon and glucocorticoids`,`Cholesterol, steroid hormones, glucagon and glucocorticoids inhibit it.`,[`Insulin and estrogen`,`Insulin and thyroxine`,`Estrogen and thyroxine`,`Insulin and glucagon`]),
 M(`RV5`,`Biochemistry`,CHO,`Which group lists compounds all made from cholesterol?`,`Vitamin D, bile acids and steroid hormones`,`All three derive from cholesterol.`,[`Vitamin K, bile acids and steroid hormones`,`Bilirubin, bile acids and steroid hormones`,`Vitamin D, prostaglandins and steroid hormones`,`Vitamin A, vitamin E and bile acids`]),
-M(`RV6`,`Biochemistry`,CHO,`SREBPs are activated when:`,`The SCAP–SREBP complex moves from the ER to the Golgi and is cleaved, in response to low cholesterol`,`Low cholesterol releases SREBP for cleavage.`,[`Cholesterol in the ER membrane is high`,`The SCAP–SREBP complex stays in the ER`,`INSIG binds SREBP and sends it to the nucleus`,`LDL receptor levels are very high`]),
-M(`RV7`,`Biochemistry`,CHO,`How does SREBP respond to low cholesterol levels?`,`Its N-terminal domain enters the nucleus and raises HMG-CoA reductase and LDL receptor transcription`,`This restores cholesterol supply.`,[`It stays in the ER and reduces transcription`,`It is degraded in lysosomes`,`It lowers LDL receptor expression`,`It inhibits HMG-CoA reductase`]),
+
+
 M(`RV8`,`Biochemistry`,CHO,`Why does cholesterol rise in diabetes mellitus?`,`More free fatty acids give more acetyl-CoA, raising hepatic cholesterol synthesis`,`Added to reduced VLDL breakdown from low lipoprotein lipase.`,[`Acetyl-CoA availability falls`,`Lipoprotein lipase activity rises and clears VLDL`,`NADPH availability falls`,`More cholesterol is converted to bile acids`]),
 M(`RV9`,`Biochemistry`,CHO,`Why is hypercholesterolemia seen in hypothyroidism?`,`Decreased LDL receptor expression and reduced conversion to bile acids`,`Both slow LDL clearance and cholesterol removal.`,[`Increased LDL receptor expression`,`Increased conversion to bile acids`,`Reduced hepatic cholesterol synthesis`,`Increased lipoprotein lipase activity`]),
 M(`RV10`,`Biochemistry`,CHO,`Why does serum cholesterol rise in obstructive jaundice?`,`Reduced conversion of cholesterol to bile acids due to reduced bile flow`,`Cholesterol cannot leave via bile.`,[`Increased LDL receptor expression`,`Increased intestinal bile acid absorption`,`Reduced hepatic cholesterol synthesis`,`Increased lipoprotein lipase activity`]),
@@ -1318,18 +1283,18 @@ M(`RV30`,`Biochemistry`,ENR,`Which fuel yields the most ATP per molecule when co
 M(`PA1`,`Pathology`,ATH,`Which is the initial event in the pathogenesis of atherosclerosis?`,`Endothelial injury`,`Response to injury begins with endothelial dysfunction.`,[`Smooth muscle cell proliferation`,`Foam cell formation`,`Platelet aggregation`,`Fibrous cap formation`]),
 M(`PA2`,`Pathology`,VAS,`Which mechanism is most commonly involved in non-infectious vasculitis?`,`Immune complex-mediated inflammation`,`Immune mechanisms drive most vasculitis.`,[`Direct bacterial invasion of vessel walls`,`Deposition of uric acid crystals`,`Mechanical trauma to vessels`,`Vitamin deficiency`]),
 M(`PA3`,`Pathology`,TUM,`A 62-year-old male smoker has a pulsatile abdominal mass below the renal arteries. What is the most likely underlying cause?`,`Atherosclerosis`,`Infrarenal aortic aneurysms are atherosclerotic.`,[`Hypertension`,`Syphilitic aortitis`,`Marfan syndrome`,`Trauma`],`Source filed this under the vascular tumors lecture heading; tag kept as given: confirm.`),
-M(`PA4`,`Pathology`,VAL,`Which best defines valvular stenosis?`,`Failure of a valve to open completely, obstructing forward flow`,`Stenosis obstructs forward flow.`,[`Failure of a valve to close completely, causing backflow`,`Dilatation of the valve annulus causing leakage`,`Inflammation of the valve leaflets`,`Prolapse of the valve into the atrium`]),
+
 M(`PA5`,`Pathology`,HTN,`A 60-year-old with long-standing benign hypertension and diabetes has renal insufficiency. Biopsy shows thickened arteriolar walls with homogeneous pink hyaline material. What is the lesion?`,`Hyaline arteriolosclerosis`,`Typical of benign hypertension and diabetes.`,[`Hyperplastic arteriolosclerosis`,`Fibrinoid necrosis`,`Atherosclerosis`,`Necrotizing vasculitis`]),
-M(`PA6`,`Pathology`,IHD,`A 68-year-old develops severe mitral regurgitation three days after an acute MI. Which mechanism best explains it?`,`Papillary muscle rupture due to coagulative necrosis`,`Rupture occurs days 2–7 after infarction.`,[`Pericardial inflammation (Dressler syndrome)`,`Mural thrombus formation`,`Left ventricular aneurysm`,`Fibrosis of the mitral valve`]),
-M(`PA7`,`Pathology`,RHD,`A 16-year-old girl dies with a pansystolic murmur and cardiomegaly. Autopsy shows mononuclear cells around deposits of eosinophilic collagen and fibrinoid material in the myocardium. What is the diagnosis?`,`Rheumatic heart disease`,`These are Aschoff bodies.`,[`Acute bacterial endocarditis`,`Subacute bacterial endocarditis`,`Systemic lupus erythematosus`,`Viral myocarditis`]),
-M(`PA8`,`Pathology`,MYO,`A 50-year-old man has a heart transplant for refractory heart failure. The heart weighs 950 g with no coronary atherosclerosis. Histology shows hypertrophic myocytes and fibrosis without inflammation or myofiber disarray. What is the diagnosis?`,`Dilated cardiomyopathy`,`A heavy dilated heart with fibrosis and no disarray.`,[`Cardiac amyloidosis`,`Hypertrophic cardiomyopathy`,`Restrictive cardiomyopathy`,`Ventricular aneurysm`],`Source referred to an image of the heart; I rewrote it as text.`),
-M(`PA9`,`Pathology`,HF,`At autopsy, a 73-year-old has an enlarged liver and spleen with chronic congestion and pitting leg edema but no pleural fluid. Which is the most likely underlying source?`,`Pulmonary fibrosis`,`Lung disease causes right-sided failure.`,[`Coronary artery atherosclerosis`,`Systemic hypertension`,`A calcified bicuspid aortic valve`,`Hypertrophic cardiomyopathy`]),
-M(`PA10`,`Pathology`,PERI,`Which fluid is most characteristic of pericardial effusion due to congestive heart failure?`,`Serous`,`Transudate in heart failure.`,[`Serofibrinous`,`Fibrinous`,`Purulent`,`Hemorrhagic`]),
-M(`PA11`,`Pathology`,RBC,`A 25-year-old woman has fatigue, pallor, pagophagia, low hemoglobin, microcytic hypochromic RBCs, low ferritin and high TIBC. What is the most likely cause?`,`Chronic blood loss and poor dietary iron intake`,`This is iron deficiency anemia.`,[`Decreased erythropoietin production`,`Vitamin B12 deficiency`,`Bone marrow failure`,`Hemolytic anemia`]),
-M(`PA12`,`Pathology`,RBC,`A 35-year-old man has dark morning urine, intravascular hemolysis, pancytopenia and CD59 loss on RBCs. What is the underlying abnormality?`,`Mutation in the PIGA gene causing GPI-anchored protein deficiency`,`This is PNH.`,[`Mutation in the spectrin gene`,`Mutation in the β-globin gene`,`Defective NADPH synthesis`,`IgM autoantibodies active at low temperatures`]),
-M(`PA13`,`Pathology`,BLD,`A 9-year-old has widespread petechiae a week after a flu-like illness, platelets 20,000/mL and more megakaryocytes, normal after 2 months. What is the diagnosis?`,`Idiopathic thrombocytopenic purpura`,`Acute post-viral ITP resolves on its own.`,[`Antiphospholipid antibody syndrome`,`Disseminated intravascular coagulation`,`Hemolytic-uremic syndrome`,`Thrombotic thrombocytopenic purpura`]),
-M(`PA14`,`Pathology`,WBC,`Auer rods are cytoplasmic structures seen in:`,`Myeloblast`,`Auer rods mark myeloid blasts.`,[`Lymphoblast`,`Red blood cells`,`Reed–Sternberg cells`,`Megakaryocytes`]),
-M(`PA15`,`Pathology`,WBC,`A lymph node biopsy shows effaced architecture with sheets of small round lymphocytes; blood shows lymphocytosis and smudge cells. What is the diagnosis?`,`Chronic lymphocytic leukemia/small lymphocytic lymphoma`,`Smudge cells are typical of CLL.`,[`Burkitt’s lymphoma`,`Follicular lymphoma`,`Acute myeloid leukemia`,`Diffuse large B-cell lymphoma`]),
+
+
+
+
+
+
+
+
+
+
 M(`PH1`,`Physiology`,PCS,`Which neurotransmitter is primarily released by postganglionic sympathetic neurons innervating the heart?`,`Norepinephrine`,`It acts on cardiac β1 receptors.`,[`Acetylcholine`,`Dopamine`,`Serotonin`,`GABA`]),
 M(`PH2`,`Physiology`,PCS,`Which structure is the primary pacemaker of the heart?`,`Sinoatrial (SA) node`,`It has the fastest intrinsic rate.`,[`Atrioventricular node`,`Bundle of His`,`Purkinje fibers`,`Right atrial appendage`]),
 M(`PH3`,`Physiology`,PCO,`Which factor is the most important determinant of stroke volume at rest?`,`Preload (end-diastolic volume)`,`Greater filling gives greater stroke volume.`,[`Heart rate`,`Afterload`,`Myocardial contractility`,`Systemic vascular resistance`]),
@@ -1356,12 +1321,12 @@ M(`PH23`,`Physiology`,PCM,`In the cardiac action potential, which ion influx is 
 M(`PH24`,`Physiology`,PCM,`Which property of cardiac muscle prevents tetanus under normal conditions?`,`Long absolute refractory period`,`The plateau keeps the cell refractory.`,[`Short refractory period`,`Slow conduction through Purkinje fibers`,`High threshold potential`,`Rapid repolarization`]),
 M(`PH25`,`Physiology`,PCM,`During sympathetic stimulation, which mechanism mainly accounts for the positive inotropic effect?`,`Enhanced calcium influx and calcium-induced calcium release`,`More Ca²⁺ raises contractile force.`,[`Increased myosin ATPase activity only`,`Decreased T-tubule density`,`Prolonged refractory period`,`Reduced sarcoplasmic reticulum calcium content`]),
 M(`PH26`,`Physiology`,PCO,`What principle underlies the Frank–Starling mechanism?`,`Increased sarcomere length enhances force of contraction`,`Stretch increases force.`,[`Increased heart rate reduces contraction`,`Calcium influx decreases with stretch`,`ATP consumption is independent of sarcomere length`,`Stroke volume decreases with increased preload`]),
-M(`PH27`,`Physiology`,PCS,`A healthy 25-year-old’s ECG shows a P wave before each QRS, a constant PR interval and a normal QRS. What does this indicate?`,`Normal sinus rhythm`,`Regular P-QRS with normal intervals.`,[`First-degree AV block`,`Atrial fibrillation`,`Ventricular tachycardia`,`Junctional rhythm`]),
-M(`PH28`,`Physiology`,PCS,`Which ECG wave corresponds to ventricular repolarization?`,`T wave`,`The T wave is ventricular repolarization.`,[`P wave`,`QRS complex`,`PR segment`,`ST segment`]),
-M(`PH29`,`Physiology`,PCS,`A prolonged PR interval suggests slow conduction in which part of the conduction system?`,`Atrioventricular node`,`It is the slowest conducting tissue.`,[`Bundle of His`,`Purkinje fibers`,`Sinoatrial node`,`Ventricular myocardium`]),
-M(`PH30`,`Physiology`,PCS,`Palpitations with absent P waves and an irregularly irregular rhythm suggest:`,`Atrial fibrillation`,`Classic ECG of AF.`,[`Ventricular fibrillation`,`First-degree AV block`,`Normal sinus rhythm`,`Atrial flutter`]),
-M(`PH31`,`Physiology`,PCS,`Sudden chest pain with ST elevation in leads II, III and aVF most likely represents:`,`Acute inferior myocardial infarction`,`These leads face the inferior wall.`,[`Atrial fibrillation`,`Ventricular tachycardia`,`Left bundle branch block`,`Normal variant`]),
-M(`PH32`,`Physiology`,PCS,`An ECG shows a narrow QRS with a sawtooth pattern of P waves at 250–350/min. What is the rhythm?`,`Atrial flutter`,`Sawtooth flutter waves.`,[`Ventricular fibrillation`,`Sinus rhythm`,`Third-degree AV block`,`Supraventricular tachycardia`],`Source said “widened QRS”, but atrial flutter has a narrow QRS. I corrected it.`),
+
+
+
+
+
+
 M(`PH33`,`Physiology`,PCO,`During exercise, cardiac output rises. Which factor primarily contributes?`,`Increased heart rate and stroke volume`,`Both rise.`,[`Decreased heart rate`,`Decreased stroke volume`,`Vasoconstriction in skeletal muscle`,`Decreased venous return`]),
 M(`PH34`,`Physiology`,PCO,`Which change would decrease cardiac output?`,`Severe bradycardia`,`Output = rate × stroke volume.`,[`Increased venous return`,`Increased contractility`,`Sympathetic stimulation`,`Exercise`]),
 M(`PH35`,`Physiology`,PCO,`After sudden hemorrhage, which mechanism rapidly restores arterial pressure?`,`Baroreceptor reflex causing increased sympathetic activity`,`It acts within seconds.`,[`Activation of the renin–angiotensin–aldosterone system only`,`Increased atrial natriuretic peptide secretion`,`Delayed kidney-mediated fluid retention`,`Vasodilation of arterioles`]),
@@ -1431,3 +1396,4 @@ function drawF(){
  if(sel.s.size){const lb=el("div","fr");[...new Set(QS.filter(q=>sel.s.has(q.s)).map(q=>q.l))].forEach(l=>lb.append(chip(l+" ("+cnt("l",l)+")",sel.l.has(l),()=>{sel.l.has(l)?sel.l.delete(l):sel.l.add(l);drawF();applyF()})));flt.append(el("div","fh","Lectures (optional)"),lb)}}
 drawF();applyF();
 </script></body></html>
+
