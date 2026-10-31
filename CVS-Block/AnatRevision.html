@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thorax Anatomy Question Bank</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--ink:#171a1f;--mute:#5a6371;--line:#d6dbe3;--acc:#2a56c6;--ok:#14784a;--okbg:#e2f4ea;--bad:#b3261e;--badbg:#fce8e6;--trk:#e3e7ee;--note:#fff4d6;--noteink:#6b4e00;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1318;--card:#171c23;--ink:#e8ebf0;--mute:#9aa4b2;--line:#2b333e;--acc:#7da2ff;--ok:#5fd394;--okbg:#10301f;--bad:#ff8a80;--badbg:#3a1714;--trk:#27303b;--note:#352b0c;--noteink:#f0d58a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1318;--card:#171c23;--ink:#e8ebf0;--mute:#9aa4b2;--line:#2b333e;--acc:#7da2ff;--ok:#5fd394;--okbg:#10301f;--bad:#ff8a80;--badbg:#3a1714;--trk:#27303b;--note:#352b0c;--noteink:#f0d58a;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 90px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--card);border-bottom:1px solid var(--line);padding:10px 16px 0}
+.bar{max-width:720px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.ttl b{display:block;font-size:16px}.ttl span{font-size:12.5px;color:var(--mute)}
+.ctl{display:flex;align-items:center;gap:10px}
+#cnt{font-size:14px;font-variant-numeric:tabular-nums}
+#rs{font:inherit;font-size:14px;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.trk{height:5px;background:var(--trk);margin:10px -16px 0}
+.trk i{display:block;height:100%;width:0;background:var(--acc);transition:width .25s}
+main,#sc{max-width:720px;margin:0 auto;padding:16px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+.qh{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.qn{font-weight:700;color:var(--acc);margin-right:4px}
+.chip{font-size:12px;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--mute)}
+.stem{margin:0 0 12px;font-weight:500}
+.qi{display:block;max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);margin:0 0 12px}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;margin:8px 0;cursor:pointer}
+.opt:focus-visible,#rs:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.row{display:flex;gap:10px;align-items:flex-start}
+.L{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:600}
+.t{flex:1}
+.mk{flex:none;font-size:12.5px;font-weight:700}
+.ex{display:none;margin:6px 0 0 36px;font-size:13.5px;color:var(--mute)}
+.done .opt{cursor:default}.done .ex{display:block}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}.opt.ok .L{background:var(--ok);border-color:var(--ok);color:var(--card)}.opt.ok .mk{color:var(--ok)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}.opt.bad .L{background:var(--bad);border-color:var(--bad);color:var(--card)}.opt.bad .mk{color:var(--bad)}
+.note{display:none;margin-top:10px;padding:9px 12px;border-radius:10px;background:var(--note);color:var(--noteink);font-size:13.5px}
+.done .note{display:block}
+#sc{padding-bottom:40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.big{font-size:44px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.vd{margin:6px 0 0;color:var(--mute)}
+.bk h3{margin:22px 0 8px;font-size:15px}
+.br{margin:10px 0}.bt{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.mu{color:var(--mute);font-size:12.5px}
+.bb{display:flex;height:8px;border-radius:99px;overflow:hidden;background:var(--trk);margin:4px 0 2px}
+.bb .g{background:var(--ok)}.bb .rd{background:var(--bad)}
+.flt{max-width:720px;margin:0 auto;padding:12px 16px 0}.fh{font-size:13px;color:var(--mute);margin-top:6px}.fr{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.fchip{font:inherit;font-size:13px;padding:5px 11px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}.fchip.on{background:var(--acc);border-color:var(--acc);color:var(--card)}
+.chip.ai{border-color:var(--acc);color:var(--acc);font-weight:700}.chip.pp{border-color:var(--ok);color:var(--ok);font-weight:700}.chip.hy{border-color:var(--bad);color:var(--bad);font-weight:700}.q[hidden]{display:none}
+</style></head><body>
+<header><div class="bar"><div class="ttl"><b>Thorax Anatomy Question Bank</b><span id="sub"></span></div><div class="ctl"><span id="cnt" aria-live="polite"></span><button id="rs" type="button">Reset</button></div></div><div class="trk"><i id="pg"></i></div></header>
+<section id="flt" class="flt"></section><main id="qs"></main><section id="sc" hidden></section>
+<!--
+QUIZ TEMPLATE. How to use (for Claude):
+1. Replace Thorax Anatomy (title + header) and the LECTURES list below with this block's lecture names.
+2. Add questions with edits only: replace the /*NEXT*/ marker with new entries followed by ,\n/*NEXT*/ . Never rebuild the file.
+3. Q(id, subject, lecture, stem, [[text, explanation] x5], correctIndex, note, img, alt)
+   M(id, subject, lecture, stem, rightText, explanation, [4 wrong texts], note)  -> shorter; correct option position is auto-spread; wrong options get no explanation.
+4. Always exactly 5 options. Explain the correct answer only. note = real corrections/rewordings only (shown after answering).
+5. HY badge: add ids to the HY set only if wanted. Subjects/lectures appear in the filter automatically.
+6. Images: pass a data: URI as img and alt text (self-contained page, no external images).
+-->
+<script>
+const Q=(n,s,l,q,o,a,note,img,alt)=>({n,s,l,q,o,a,note,img,alt});
+const M=(n,s,l,q,r,e,w,note)=>{const o=w.map(x=>[x,``]),h=[...String(n)].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7),k=h%5;o.splice(k,0,[r,e]);return Q(n,s,l,q,o,k,note)};
+// LECTURES: define short names here and use them in Q/M calls
+const L1=`Anatomy of Mediastinal Structures`,L2=`Anatomy of Major Vessels`;
+const QS=[
+Q(1,"Anatomy","Anatomy of Mediastinal Structures","A patient has a tumor in the superior mediastinum. Which structure lies immediately anterior to the esophagus at this level?",[
+["Thoracic duct","No: The thoracic duct lies posterior and slightly to the left of the esophagus."],
+["Trachea","Yes: In the superior mediastinum, the trachea lies directly anterior to the esophagus."],
+["Left recurrent laryngeal nerve","No: It runs in the tracheoesophageal groove, lateral to the esophagus."],
+["Descending thoracic aorta","No: The aorta lies posterior and to the left of the esophagus."],
+["Azygos vein","No: The azygos vein runs on the right side of the esophagus."]],1,"Focus: Relation of esophagus in sup mediastinum (trachea)."),
+Q(2,"Anatomy","Anatomy of Mediastinal Structures","Which of the following events occurs at the plane of Ludwig (transverse thoracic plane, T4/T5)?",[
+["The esophagus passes through the diaphragm","No: This occurs at T10 (esophageal hiatus)."],
+["The inferior vena cava passes through the diaphragm","No: This occurs at T8 (caval hiatus)."],
+["The trachea bifurcates into left and right primary bronchi","Yes: The plane of Ludwig marks the bifurcation of the trachea (carina)."],
+["The aorta passes through the diaphragm","No: This occurs at T12 (aortic hiatus)."],
+["The azygos vein begins","No: It begins in the abdomen and enters the thorax via the aortic hiatus."]],2,"Focus: Events happening in Ludwig plane."),
+Q(3,"Anatomy","Anatomy of Major Vessels","Which artery passes through the transverse foramina of the upper 6 cervical vertebrae and enters the cranial cavity via the foramen magnum to supply the brain?",[
+["Internal carotid artery","No: It enters the skull via the carotid canal."],
+["Vertebral artery","Yes: It arises from the 1st part of the subclavian, ascends through C1-C6 foramina, and enters via the foramen magnum."],
+["Deep cervical artery","No: It anastomoses with the occipital artery in the neck."],
+["Ascending cervical artery","No: It supplies the deep muscles of the neck."],
+["Superior intercostal artery","No: It supplies the upper intercostal spaces."]],1,"Focus: Vertebral artery (the only A. mentioned that supplies the brain)."),
+Q(4,"Anatomy","Anatomy of Major Vessels","Which of the following is a direct branch of the third part of the subclavian artery?",[
+["Thyrocervical trunk","No: It arises from the first part of the subclavian artery."],
+["Costocervical trunk","No: It arises from the second part of the subclavian artery."],
+["Vertebral artery","No: It arises from the first part of the subclavian artery."],
+["Dorsal scapular artery","Yes: The dorsal scapular (descending scapular) artery is the usual branch of the third part of the subclavian."],
+["Internal thoracic artery","No: It arises from the first part of the subclavian artery."]],3,"Focus: Branches of 3rd subclavian / Dorsal descending scapular A."),
+Q(5,"Anatomy","Anatomy of Major Vessels","Which of the following veins drains directly into the superior vena cava (SVC)?",[
+["Hemiazygos vein","No: It drains into the azygos vein."],
+["Accessory hemiazygos vein","No: It drains into the azygos vein."],
+["Azygos vein","Yes: The azygos vein arches over the right lung root and empties directly into the SVC."],
+["Left superior intercostal vein","No: It drains into the left brachiocephalic vein."],
+["Right internal thoracic vein","No: It drains into the right brachiocephalic vein."]],2,"Focus: Tributaries of azygous vein / What drains to SVC."),
+Q(6,"Anatomy","Anatomy of Major Vessels","Which of the following is NOT a tributary of the azygos vein?",[
+["Right superior intercostal vein","No: It is a tributary of the azygos vein."],
+["Hemiazygos vein","No: It is a tributary of the azygos vein."],
+["Accessory hemiazygos vein","No: It is a tributary of the azygos vein."],
+["Right ascending lumbar vein","No: It helps form the azygos vein."],
+["Left superior intercostal vein","Yes: The left superior intercostal vein drains into the left brachiocephalic vein, not the azygos."]],4,"Focus: Tributaries of azygous vein."),
+Q(7,"Anatomy","Anatomy of Major Vessels","The thoracic duct usually drains into the venous system at the junction of which two veins?",[
+["Left internal jugular and left subclavian veins","Yes: The thoracic duct empties into the junction of the left internal jugular and left subclavian veins (left venous angle)."],
+["Right internal jugular and right subclavian veins","No: This is the site for the right lymphatic duct."],
+["Left external jugular and left subclavian veins","No: The thoracic duct drains at the internal jugular junction."],
+["Left internal jugular and left brachiocephalic veins","No: The junction is specifically with the subclavian vein."],
+["Right subclavian and right brachiocephalic veins","No: The thoracic duct drains on the left side."]],0,"Focus: Thoracic duct in post. mediastinum / must mention lt. jugular."),
+Q(8,"Anatomy","Anatomy of Major Vessels","A patient has a laceration to the third part of the subclavian artery. Which artery is most likely to be affected?",[
+["Thyrocervical trunk","No: This arises from the first part."],
+["Dorsal scapular artery","Yes: The third part of the subclavian artery is located lateral to the scalenus anterior and gives rise to the dorsal scapular artery."],
+["Costocervical trunk","No: This arises from the second part."],
+["Vertebral artery","No: This arises from the first part."],
+["Internal thoracic artery","No: This arises from the first part."]],1,"Focus: Branches of 3rd subclavian."),
+Q(9,"Anatomy","Anatomy of Major Vessels","Which of the following structures is NOT located in the posterior mediastinum?",[
+["Descending thoracic aorta","No: It is a posterior mediastinal structure."],
+["Esophagus","No: It is a posterior mediastinal structure."],
+["Azygos vein","No: It is a posterior mediastinal structure."],
+["Thoracic duct","No: It is a posterior mediastinal structure."],
+["Heart","Yes: The heart is located in the middle mediastinum, enclosed by the pericardium."]],4,"Focus: Mediastinum contents."),
+Q(10,"Anatomy","Anatomy of Major Vessels","Which of the following veins is formed by the union of the right ascending lumbar vein and the right subcostal vein?",[
+["Hemiazygos vein","No: This is on the left side."],
+["Accessory hemiazygos vein","No: This is on the left side."],
+["Azygos vein","Yes: The azygos vein is formed by the union of the right ascending lumbar and right subcostal veins."],
+["Superior vena cava","No: This is formed by the union of the brachiocephalic veins."],
+["Internal thoracic vein","No: This drains the anterior chest wall."]],2,"Focus: Azygous system."),
+Q(11,"Anatomy","Anatomy of Major Vessels","Which of the following arteries is a branch of the costocervical trunk?",[
+["Vertebral artery","No: It is a branch of the first part of the subclavian."],
+["Deep cervical artery","Yes: The costocervical trunk (from the second part of the subclavian) divides into the deep cervical and superior intercostal arteries."],
+["Dorsal scapular artery","No: It is a branch of the third part of the subclavian."],
+["Thyrocervical trunk","No: It is a branch of the first part of the subclavian."],
+["Internal thoracic artery","No: It is a branch of the first part of the subclavian."]],1,"Focus: Subclavian and branches."),
+Q(12,"Anatomy","Anatomy of Major Vessels","Which of the following structures drains into the right lymphatic duct?",[
+["Thoracic duct","No: This drains the lower body and left upper body."],
+["Right internal jugular, right subclavian, and right bronchomediastinal trunks","Yes: The right lymphatic duct drains the right upper quadrant of the body and empties into the right venous angle."],
+["Left internal jugular and left subclavian trunks","No: These drain into the thoracic duct."],
+["Azygos vein","No: This drains into the superior vena cava."],
+["Hemiazygos vein","No: This drains into the azygos vein."]],1,"Focus: What drains to SVC / right lymphatic duct."),
+Q(13,"Anatomy","Anatomy of Major Vessels","During a thoracic surgery, the surgeon needs to access the posterior mediastinum. Which of the following structures is found in this region?",[
+["Thymus","No: The thymus is in the anterior/superior mediastinum."],
+["Phrenic nerve","No: The phrenic nerve runs on the side of the pericardium in the middle mediastinum."],
+["Thoracic splanchnic nerves","Yes: The thoracic splanchnic nerves are located in the posterior mediastinum, passing through it to the abdomen."],
+["Left brachiocephalic vein","No: This is in the superior mediastinum."],
+["Pulmonary trunk","No: This is in the middle mediastinum."]],2,"Focus: Mediastinum contents (posterior)."),
+Q(14,"Anatomy","Anatomy of Major Vessels","Which of the following is true regarding the azygos vein?",[
+["It drains into the left brachiocephalic vein","No: It drains into the superior vena cava."],
+["It enters the thorax through the caval hiatus","No: It enters through the aortic hiatus."],
+["It arches over the right lung root","Yes: It ascends on the right side and arches anteriorly over the right lung root to drain into the SVC."],
+["It is formed by the union of the left ascending lumbar and left subcostal veins","No: These form the hemiazygos vein."],
+["It is a tributary of the internal thoracic vein","No: It drains into the SVC."]],2,"Focus: Azygous system."),
+Q(15,"Anatomy","Anatomy of Major Vessels","Which of the following arteries passes through the upper 6 transverse foramina and enters the brain through the foramen magnum?",[
+["Vertebral artery","Yes: This is the only artery listed that passes through the transverse foramina and enters the foramen magnum."],
+["Internal carotid artery","No: It enters through the carotid canal."],
+["Deep cervical artery","No: It does not enter the skull."],
+["Ascending cervical artery","No: It supplies the neck muscles."],
+["Superior intercostal artery","No: It supplies the intercostal spaces."]],0,"Focus: Vertebral artery / Subclavian branches."),
+Q(16,"Anatomy","Anatomy of Major Vessels","Which of the following arteries is a direct branch of the thoracic (descending) aorta?",[
+["Brachiocephalic trunk","No: It is a branch of the aortic arch."],
+["Left common carotid artery","No: It is a branch of the aortic arch."],
+["Posterior intercostal arteries","Yes: The thoracic aorta gives off nine pairs of posterior intercostal arteries (spaces 3–11) plus a pair of subcostal arteries."],
+["Left subclavian artery","No: It is a branch of the aortic arch."],
+["Internal thoracic artery","No: It arises from the first part of the subclavian artery."]],2,"Focus: Thoracic aorta branches."),
+Q(17,"Anatomy","Anatomy of Major Vessels","The thoracic aorta terminates at which vertebral level, and by passing through which structure does it enter the abdomen?",[
+["T8; caval hiatus","No: T8 is the caval hiatus for the IVC."],
+["T10; esophageal hiatus","No: T10 is the esophageal hiatus for the esophagus."],
+["T12; aortic hiatus","Yes: The thoracic aorta ends at T12 and enters the abdomen through the aortic hiatus."],
+["L1; aortic hiatus","No: It ends at T12, not L1."],
+["L4; aortic bifurcation","No: The abdominal aorta bifurcates at L4; the thoracic aorta ends at T12."]],2,"Focus: Thoracic aorta termination."),
+Q(18,"Anatomy","Anatomy of Major Vessels","Which of the following is true of the thoracic duct's course through the posterior mediastinum?",[
+["It begins in the thorax at the cisterna chyli","No: The cisterna chyli lies in the abdomen (around L1), and the duct enters the thorax through the aortic hiatus."],
+["It ascends on the left of the esophagus throughout the thorax","No: It begins on the right of the esophagus and crosses to the left at about T4/T5."],
+["It begins in the abdomen, enters the thorax via the aortic hiatus, and ascends between the aorta and azygos vein","Yes: The thoracic duct starts at the cisterna chyli, enters through the aortic hiatus, and ascends in the posterior mediastinum."],
+["It lies anterior to the pericardium in the middle mediastinum","No: It lies in the posterior mediastinum."],
+["It drains into the right venous angle","No: It drains into the left venous angle (left internal jugular + left subclavian)."]],2,"Focus: Thoracic duct in posterior mediastinum (course)."),
+Q(19,"Anatomy","Anatomy of Major Vessels","A patient has a penetrating wound to the posterior mediastinum. Which vessel is most at risk of injury in this region?",[
+["Ascending aorta","No: It lies in the middle mediastinum, within the pericardium."],
+["Descending thoracic aorta","Yes: The descending thoracic aorta lies in the posterior mediastinum, on the left of the vertebral column."],
+["Superior vena cava","No: It is in the middle mediastinum."],
+["Pulmonary trunk","No: It is in the middle mediastinum."],
+["Arch of the aorta","No: It is in the superior mediastinum."]],1,"Focus: Thoracic aorta location."),
+Q(20,"Anatomy","Anatomy of Major Vessels","Which structures accompany the thoracic duct through the aortic hiatus into the abdomen?",[
+["The esophagus and vagus nerves","No: These pass through the esophageal hiatus at T10."],
+["The inferior vena cava and right phrenic nerve","No: The IVC passes through the caval hiatus at T8."],
+["The azygos vein and thoracic duct","Yes: The thoracic duct and azygos vein ascend on the right and accompany the aorta through the aortic hiatus."],
+["The sympathetic trunks and splanchnic nerves","No: The sympathetic trunks run alongside the vertebral column but do not pass through the aortic hiatus with the aorta."],
+["The hemiazygos vein and left phrenic nerve","No: The hemiazygos crosses to the right side to join the azygos; the phrenic nerve does not pass through the aortic hiatus."]],2,"Focus: Thoracic aorta / posterior mediastinum relations."),
+{"n": 21, "s": "Anatomy", "l": "Anatomy of Mediastinal Structures", "q": "Which structure lies immediately anterior to the esophagus in the superior mediastinum?", "o": [["Thoracic duct", "No: the thoracic duct lies behind and to the left of the esophagus."], ["Brachiocephalic vein", "No: the left brachiocephalic vein crosses higher and further anterior."], ["Superior vena cava", "No: the SVC lies to the right, not directly in front of the esophagus."], ["Brachiocephalic artery", "No: it lies anterior to the trachea, which separates it from the esophagus."], ["Trachea", "Yes: the trachea lies directly anterior to the esophagus."]], "a": 4},
+{"n": 22, "s": "Anatomy", "l": "Anatomy of Mediastinal Structures", "q": "Which of the following begins at the level of the sternal angle?", "o": [["Azygos vein", "No: it begins in the posterior abdominal wall and only arches over the right hilum to reach the SVC at T4."], ["Thoracic duct", "No: it begins at the cisterna chyli (L1) and merely crosses from right to left near this level."], ["Arch of the aorta", "Yes: the aortic arch begins (and ends) at the level of the sternal angle, T4/T5."], ["Superior vena cava", "No: it forms higher, behind the right first costal cartilage."], ["Left brachiocephalic vein", "No: it begins behind the sternoclavicular joint, well above the sternal angle."]], "a": 2, "note": "Source options 1 (arch of aorta) and 3 (thoracic duct crossing right to left) are both true at the sternal angle, and “azygos forms” is inaccurate. I reworded the stem to “begins” and rewrote the options so only the aortic arch fits."},
+{"n": 23, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which vein drains into the superior vena cava?", "o": [["Hemiazygos vein", "No: the hemiazygos drains into the azygos vein, not directly into the SVC."], ["Great cardiac vein", "No: it drains into the coronary sinus."], ["Azygos vein", "Yes: the azygos vein arches over the right main bronchus to enter the SVC."], ["Right gonadal vein", "No: it drains into the IVC."], ["Left renal vein", "No: it drains into the IVC."]], "a": 2, "note": "Source had no options; I wrote five. Tagged Major Vessels (the SVC and its tributaries)."},
+{"n": 24, "s": "Anatomy", "l": "Anatomy of Mediastinal Structures", "q": "A tumor in the posterior mediastinum is most likely to compress which structure?", "o": [["Trachea", "No: the trachea lies in the superior mediastinum."], ["Thymus", "No: the thymus lies in the anterior and superior mediastinum."], ["Superior vena cava", "No: the SVC lies in the superior and middle mediastinum."], ["Ascending aorta", "No: it lies in the middle mediastinum, within the pericardium."], ["Esophagus", "Yes: the esophagus lies in the posterior mediastinum, with the descending aorta, azygos veins and thoracic duct."]], "a": 4, "note": "Source had no options; I wrote five, none of which is a posterior mediastinal structure except the esophagus."},
+{"n": 25, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which of the following is a branch of the third part of the subclavian artery?", "o": [["Internal thoracic artery", "No: it arises from the first part."], ["Vertebral artery", "No: it arises from the first part."], ["Inferior thyroid artery", "No: it arises from the thyrocervical trunk (first part)."], ["Suprascapular artery", "No: it arises from the thyrocervical trunk (first part)."], ["Dorsal scapular artery", "Yes: it is the usual branch of the third part (it can arise from the transverse cervical artery instead)."]], "a": 4, "note": "Source had no options; I wrote five. The dorsal scapular artery is variable but is the standard third-part branch."},
+{"n": 26, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which artery gives rise to the posterior intercostal arteries of spaces 3–11?", "o": [["Thoracic aorta", "Yes: the descending thoracic aorta gives off the posterior intercostal arteries 3–11."], ["Superior intercostal artery", "No: it supplies spaces 1–2."], ["Subclavian artery", "No: it reaches the upper thorax through its branches, not spaces 3–11."], ["Thyrocervical trunk", "No: it supplies the neck and shoulder."], ["Internal thoracic artery", "No: it gives the anterior intercostal arteries."]], "a": 0, "note": "Source had 4 options; I added a fifth."},
+{"n": 27, "s": "Anatomy", "l": "Anatomy of Mediastinal Structures", "q": "A tumor in the posterior mediastinum is likely to compress which structure?", "o": [["Ascending aorta", "No: it lies in the middle mediastinum."], ["Superior vena cava", "No: it lies in the superior and middle mediastinum."], ["Trachea", "No: it lies in the superior mediastinum."], ["Thymus", "No: it lies in the anterior and superior mediastinum."], ["Descending aorta", "Yes: the descending thoracic aorta lies in the posterior mediastinum."]], "a": 4, "note": "Source answer kept. An earlier question has the same stem with the esophagus as the answer; both lie in the posterior mediastinum, so I left the esophagus out of the options here."},
+{"n": 28, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which of the following is a branch of the third part of the subclavian artery?", "o": [["Thyrocervical trunk", "No: it arises from the first part."], ["Costocervical trunk", "No: it arises from the second part on the right and the first part on the left."], ["Vertebral artery", "No: it arises from the first part."], ["Dorsal scapular artery", "Yes: it is the usual third-part branch (it can arise from the transverse cervical artery instead)."], ["Internal thoracic artery", "No: it arises from the first part."]], "a": 3, "note": "Source had no options; I wrote five. Same question as in Exam 1."},
+{"n": 29, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which of the following veins drains directly into the azygos vein?", "o": [["Right superior intercostal vein", "Yes: it drains into the arch of the azygos vein."], ["Left superior intercostal vein", "No: it drains into the left brachiocephalic vein."], ["Internal thoracic vein", "No: it drains into the brachiocephalic vein."], ["Right brachiocephalic vein", "No: it joins the left brachiocephalic vein to form the SVC."], ["Great cardiac vein", "No: it drains into the coronary sinus."]], "a": 0, "note": "Source had no options; I wrote five."},
+{"n": 30, "s": "Anatomy", "l": "Anatomy of Mediastinal Structures", "q": "Which of the following occurs at the level of the sternal angle?", "o": [["The esophagus passes through the diaphragm", "No: this occurs at T10."], ["The inferior vena cava passes through the diaphragm", "No: this occurs at T8."], ["Bifurcation of the trachea", "Yes: the trachea divides at the carina at T4/T5, level with the sternal angle."], ["The brachiocephalic veins unite to form the SVC", "No: this occurs higher, behind the right first costal cartilage."], ["The aorta passes through the diaphragm", "No: this occurs at T12."]], "a": 2, "note": "Source had no options; I wrote five. Same topic as the sternal angle question in Exam 1. The aortic arch also begins at this level, so I kept it out of the options here."},
+{"n": 31, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which of the following is NOT a branch of the aortic arch?", "o": [["Brachiocephalic trunk", "No: it is the first branch of the arch."], ["Left common carotid artery", "No: it is the second branch."], ["Left subclavian artery", "No: it is the third branch."], ["Pulmonary trunk", "Yes: it arises from the right ventricle, not the aortic arch."], ["Left vertebral artery (variant origin)", "No: this is a recognized variant, arising directly from the arch in a minority."]], "a": 3, "note": "Source option E (descending aorta) is a continuation of the arch rather than a branch, so it was also arguably correct. I replaced it."},
+{"n": 32, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "During cardiac catheterization, the catheter enters a large vein that drains the head, neck and upper limbs directly into the right atrium. Which vessel is it?", "o": [["Inferior vena cava", "No: it drains the lower body."], ["Coronary sinus", "No: it drains the heart itself."], ["Azygos vein", "No: it drains into the SVC."], ["Superior vena cava", "Yes: the SVC returns blood from the head, neck and upper limbs to the right atrium."], ["Pulmonary vein", "No: pulmonary veins enter the left atrium."]], "a": 3, "note": "Source asked for any large vein draining directly into the right atrium, but the SVC, IVC and coronary sinus all do. I added “draining the head, neck and upper limbs” so only the SVC fits."},
+{"n": 33, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "During coronary bypass surgery, the surgeon harvests the internal thoracic artery. Which structure is most at risk of injury?", "o": [["Phrenic nerve", "Yes: the phrenic nerve crosses the internal thoracic artery near its origin and is the classic nerve at risk."], ["Vagus nerve", "No: it lies deeper in the mediastinum."], ["Thoracic duct", "No: injury is possible near the left venous angle but it is not the classic risk."], ["Azygos vein", "No: it lies on the right posteriorly."], ["Subclavian vein", "No: it is close to the origin but not the classic injury."]], "a": 0, "note": "Source answer kept."},
+{"n": 34, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which are the branches of the arch of the aorta?", "o": [["Brachiocephalic, left common carotid and left subclavian arteries", "Yes: these are the three classic branches of the aortic arch."], ["Right common carotid and right subclavian arteries", "No: these arise from the brachiocephalic trunk."], ["Right coronary and left coronary arteries", "No: these arise from the ascending aorta."], ["Esophageal and bronchial arteries", "No: these arise from the descending aorta."], ["Right and left pulmonary arteries", "No: these arise from the pulmonary trunk."]], "a": 0},
+{"n": 35, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which artery arises posterior to the manubrium, anterior to the trachea, and divides at the right sternoclavicular joint?", "o": [["Left common carotid artery", ""], ["Left subclavian artery", ""], ["Brachiocephalic artery", "It divides into the right common carotid and subclavian arteries."], ["Ascending aorta", ""], ["Thyroid ima artery", ""]], "a": 2},
+{"n": 36, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which statement accurately describes the thoracic aorta?", "o": [["Ends at T10 and passes through the aortic hiatus", ""], ["Runs anterior to the thoracic duct and azygos vein", ""], ["Begins at the diaphragm and ends at the aortic arch", ""], ["Lies posterior to the left lung root, pericardium and esophagus", "The descending aorta lies behind these structures."], ["Originates from the right ventricle", ""]], "a": 3},
+{"n": 37, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which artery arises from the first part of the subclavian artery and gives off the inferior thyroid artery?", "o": [["Dorsal scapular artery", ""], ["Vertebral artery", ""], ["Costocervical trunk", ""], ["Internal thoracic artery", ""], ["Thyrocervical trunk", "The inferior thyroid is a branch of the thyrocervical trunk."]], "a": 4},
+{"n": 38, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which vein, formed by the right ascending lumbar and right subcostal veins, arches over the right lung root?", "o": [["Azygos vein", "The azygos arches over the right hilum into the SVC."], ["Hemiazygos vein", ""], ["Accessory hemiazygos vein", ""], ["Left superior intercostal vein", ""], ["Brachiocephalic vein", ""]], "a": 0},
+{"n": 39, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which vein is formed posterior to the sternoclavicular joint and crosses anterior to the origins of the aortic arch branches?", "o": [["Internal jugular vein", ""], ["Brachiocephalic vein", "The left brachiocephalic vein crosses the arch branches."], ["Subclavian vein", ""], ["Thoracic duct", ""], ["Azygos vein", ""]], "a": 1, "note": "Source option “left common carotid vein” does not exist; I replaced it."},
+{"n": 40, "s": "Anatomy", "l": "Anatomy of Mediastinal Structures", "q": "Which nerve in the superior mediastinum loops under the aortic arch and ascends toward the larynx?", "o": [["Phrenic nerve", ""], ["Right vagus nerve", ""], ["Left recurrent laryngeal nerve", "It hooks around the ligamentum arteriosum."], ["Sympathetic trunk", ""], ["Accessory nerve", ""]], "a": 2},
+{"n": 41, "s": "Anatomy", "l": "Anatomy of Mediastinal Structures", "q": "Which nerve gives rise to a branch that loops under the aortic arch and supplies thoracic viscera?", "o": [["Phrenic nerve", ""], ["Sympathetic trunk", ""], ["Right vagus nerve", ""], ["Left vagus nerve", "It gives off the left recurrent laryngeal nerve."], ["Accessory nerve", ""]], "a": 3, "note": "Source also offered the recurrent laryngeal nerve itself; I removed it."},
+{"n": 42, "s": "Anatomy", "l": "Anatomy of Mediastinal Structures", "q": "Which lymphatic duct drains the right upper body into the junction of the right internal jugular and subclavian veins?", "o": [["Right lymphatic duct", "It drains the right upper body."], ["Thoracic duct", ""], ["Left lymphatic duct", ""], ["Cisterna chyli", ""], ["Jugular lymphatic trunk", ""]], "a": 0},
+{"n": 43, "s": "Anatomy", "l": "Anatomy of Mediastinal Structures", "q": "A thoracic tumor near the left pleural apex threatens a lymphatic vessel that starts at the cisterna chyli, passes the aortic hiatus and drains into the left jugulo-subclavian junction. Which structure is at risk?", "o": [["Right lymphatic duct", ""], ["Thoracic duct", "It begins at the cisterna chyli and drains at the left venous angle."], ["Cisterna chyli", ""], ["Accessory thoracic duct", ""], ["Left bronchomediastinal trunk", ""]], "a": 1},
+{"n": 44, "s": "Anatomy", "l": "Anatomy of Mediastinal Structures", "q": "A mass lies between the sternum and pericardium, anterior to the heart. In which mediastinal compartment is it?", "o": [["Middle mediastinum", ""], ["Posterior mediastinum", ""], ["Anterior mediastinum", "It lies in front of the pericardium."], ["Superior mediastinum", ""], ["Pleural cavity", ""]], "a": 2, "note": "Source option “prevascular mediastinum” is a radiological synonym for anterior, so I replaced it."},
+{"n": 45, "s": "Anatomy", "l": "Anatomy of the Major Vessels", "q": "Which artery passes through the upper six cervical transverse foramina and enters the skull through the foramen magnum to supply the brain?", "o": [["Common carotid artery", ""], ["Thyrocervical trunk", ""], ["Vertebral artery", "It is the subclavian branch that supplies the brain through the foramen magnum."], ["Costocervical trunk", ""], ["Internal thoracic artery", ""]], "a": 2, "note": "New question written for this quiz (not in the earlier exams)."},
+/*NEXT*/
+];
+const HY=new Set([]);
+const PP=new Set([21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45]);
+const AI=new Set([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]);
+const $=s=>document.querySelector(s);
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+const qs=$("#qs"),sc=$("#sc"),ans=new Array(QS.length).fill(null);
+QS.forEach((q,i)=>{
+ const a=el("article","q");a.id="q"+q.n;
+ const h=el("div","qh");h.append(el("span","qn",typeof q.n==="number"?"Q"+q.n:q.n),el("span","chip",q.s),el("span","chip",q.l),...(HY.has(q.n)?[el("span","chip hy","HIGH YIELD")]:[]),...(AI.has(q.n)?[el("span","chip ai","AI-Questions")]:[]),...(PP.has(q.n)?[el("span","chip pp","Pastpaper-Questions")]:[]));
+ a.append(h,el("p","stem",q.q));
+ if(q.img){const m=el("img","qi");m.src=q.img;m.alt=q.alt;a.append(m)}
+ q.o.forEach((o,k)=>{
+  const b=el("button","opt");b.type="button";
+  const r=el("span","row");r.append(el("span","L","ABCDE"[k]),el("span","t",o[0]),el("span","mk"));
+  b.append(r,el("span","ex",o[1]));b.onclick=()=>pick(i,k);a.append(b)});
+ if(q.note)a.append(el("div","note","⚑ "+q.note));
+ qs.append(a)});
+function pick(i,k){
+ if(ans[i]!==null)return;ans[i]=k;
+ const a=qs.children[i],q=QS[i],bs=a.querySelectorAll(".opt");
+ a.classList.add("done");
+ bs[q.a].classList.add("ok");bs[q.a].querySelector(".mk").textContent=k===q.a?"✓ Correct":"✓ Correct answer";
+ if(k!==q.a){bs[k].classList.add("bad");bs[k].querySelector(".mk").textContent="✗ Your pick"}
+ jump=true;update()}
+function update(){
+ const vis=visIdx(),d=vis.filter(i=>ans[i]!==null).length,n=vis.length;
+ $("#cnt").textContent=d+" / "+n+" answered";$("#pg").style.width=(n?d/n*100:0)+"%";
+ if(n&&d===n)score();else sc.hidden=true}
+function rows(title,m){
+ const w=el("div","bk");w.append(el("h3",null,title));
+ Object.entries(m).sort((a,b)=>a[1].r/a[1].t-b[1].r/b[1].t||b[1].t-a[1].t).forEach(([k,v])=>{
+  const p=Math.round(v.r/v.t*100),row=el("div","br"),top=el("div","bt");
+  top.append(el("span",null,k),el("span","mu",v.r+" / "+v.t));
+  const bar=el("div","bb"),g=el("i","g"),rd=el("i","rd");g.style.width=p+"%";rd.style.width=(100-p)+"%";bar.append(g,rd);
+  row.append(top,bar,el("div","mu",p+"% right · "+(100-p)+"% wrong"));w.append(row)});
+ return w}
+function score(){
+ const vis=visIdx(),n=vis.length,S={},Lc={};let r=0;
+ vis.forEach(i=>{const q=QS[i],ok=ans[i]===q.a;if(ok)r++;[[S,q.s],[Lc,q.l]].forEach(([m,k])=>{m[k]=m[k]||{r:0,t:0};m[k].t++;if(ok)m[k].r++})});
+ const p=Math.round(r/n*100);
+ const v=p>=90?"Excellent. You are exam-ready on this set.":p>=75?"Solid. Patch the weak spots below.":p>=60?"Borderline. Review the weakest lectures first.":"Needs work. Revisit the lectures below before the exam.";
+ const c=el("div","card");
+ c.append(el("div","big",r+" / "+n+" · "+p+"%"),el("p","vd",v),rows("By subject (weakest first)",S),rows("By lecture (weakest first)",Lc));
+ const w=vis.filter(i=>ans[i]!==QS[i].a);
+ if(w.length){const b=el("button","fchip on","Retry wrong answers ("+w.length+")");b.type="button";b.style.marginTop="14px";
+  b.onclick=()=>{retry=new Set(w);w.forEach(i=>{ans[i]=null;const a=qs.children[i];a.classList.remove("done");a.querySelectorAll(".opt").forEach(x=>{x.classList.remove("ok","bad");x.querySelector(".mk").textContent=""})});applyF();scrollTo({top:0,behavior:"smooth"})};
+  c.querySelector(".vd").after(b)}
+ sc.replaceChildren(c);sc.hidden=false;if(jump){sc.scrollIntoView({behavior:"smooth"});jump=false}}
+$("#rs").onclick=()=>{
+ retry=null;visIdx().forEach(i=>{ans[i]=null;const a=qs.children[i];a.classList.remove("done");a.querySelectorAll(".opt").forEach(b=>{b.classList.remove("ok","bad");b.querySelector(".mk").textContent=""})});
+
+ sc.hidden=true;applyF();scrollTo({top:0,behavior:"smooth"})};
+let jump=false,retry=null;const flt=$("#flt"),sel={s:new Set(),l:new Set()};
+const show=q=>(!sel.s.size||sel.s.has(q.s))&&(!sel.l.size||sel.l.has(q.l));
+function vis1(i){return show(QS[i])&&(!retry||retry.has(i))}
+function visIdx(){return QS.map((q,i)=>i).filter(vis1)}
+function chip(t,on,fn){const b=el("button","fchip"+(on?" on":""),t);b.type="button";b.setAttribute("aria-pressed",on);b.onclick=fn;return b}
+function applyF(){qs.querySelectorAll(".q").forEach((a,i)=>{a.hidden=!vis1(i)});$("#sub").textContent="Showing "+visIdx().length+" of "+QS.length+" questions"+(retry?" · retrying wrong answers":"");update()}
+function drawF(){
+ retry=null;flt.replaceChildren();
+ const cnt=(k,v)=>QS.filter(q=>q[k]===v).length,bar=el("div","fr");
+ [...new Set(QS.map(q=>q.s))].forEach(s=>bar.append(chip(s+" ("+cnt("s",s)+")",sel.s.has(s),()=>{if(sel.s.has(s)){sel.s.delete(s);QS.forEach(q=>{if(q.s===s)sel.l.delete(q.l)})}else sel.s.add(s);drawF();applyF()})));
+ bar.append(chip("Show all",!sel.s.size&&!sel.l.size,()=>{sel.s.clear();sel.l.clear();drawF();applyF()}));
+ flt.append(el("div","fh","Choose topics (one or several)"),bar);
+ if(sel.s.size){const lb=el("div","fr");[...new Set(QS.filter(q=>sel.s.has(q.s)).map(q=>q.l))].forEach(l=>lb.append(chip(l+" ("+cnt("l",l)+")",sel.l.has(l),()=>{sel.l.has(l)?sel.l.delete(l):sel.l.add(l);drawF();applyF()})));flt.append(el("div","fh","Lectures (optional)"),lb)}}
+drawF();applyF();
+</script></body></html>
